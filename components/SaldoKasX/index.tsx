@@ -58,14 +58,18 @@ export default function SaldoKasX(prop : ActiveStepProps) {
   const load = async () => {
     const arr = items.map(Object.values);
     console.log(items);
-    const response = await addSaldoKasX(arr);
-    if (response.error) {
-      alert("error gais");
-      console.log("erroorrr");
-    } else {
-      alert(response.message);
-      console.log("success");
-    }
+    if(!arr.length){
+      alert("no data!");
+    }else{
+      const response = await addSaldoKasX(arr);
+      if (response.error) {
+        alert("error gais");
+        console.log("erroorrr");
+      } else {
+        alert(response.message);
+        console.log("success");
+      }
+  }
   };
 
   const handleNext = () => {
@@ -86,7 +90,7 @@ export default function SaldoKasX(prop : ActiveStepProps) {
                 <h2>Import Data Saldo Kas X</h2>
                 <h3>Select .xlsx file</h3>
               </div>
-              <div className="mt-3 p-2 d-flex justify-content-center">
+              <div className="mt-3 p-2 d-flex justify-content-center align-items-center">
                 <div className="card-upload">
                   <input
                     className="text-center pt-3 pe-2 pb-3 ps-2"
@@ -102,10 +106,9 @@ export default function SaldoKasX(prop : ActiveStepProps) {
                     }}
                   />
                 </div>
-                {/* <ButtonInsert onclick={() => {load();}} /> */}
-                <Button 
-                  onClick={load}
-                >Insertse</Button>
+                <div className="ms-3">
+                  <ButtonInsert onclick={load} />
+                </div>
               </div>
               <section className="mt-3">
                 <div className="card p-2">

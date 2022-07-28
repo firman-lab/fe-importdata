@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
-import { addData } from "../../services/import";
+import { addAkrualXmin1, addData } from "../../services/import";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,6 +11,7 @@ import Paper from "@mui/material/Paper";
 import { Box, Button } from "@mui/material";
 import { activeStepRec, saldoAkrualXmin1Rec } from "../../store";
 import { useRecoilState } from "recoil";
+import ButtonInsert from "../Atom/ButtonInsert";
 
 interface ActiveStepProps{
   steplength : number;
@@ -53,14 +54,18 @@ export default function SaldoAkrualXmin1(prop : ActiveStepProps) {
   const load = async () => {
     const arr = items.map(Object.values);
     console.log(items);
-    const response = await addData(arr);
-    if (response.error) {
-      alert("error gais");
-      console.log("erroorrr");
-    } else {
-      alert(response.message);
-      console.log("success");
-    }
+    if(!arr.length){
+      alert("no data!");
+    }else{
+      const response = await addAkrualXmin1(arr);
+      if (response.error) {
+        alert("error gais");
+        console.log("erroorrr");
+      } else {
+        alert(response.message);
+        console.log("success");
+      }
+  }
   };
 
   const handleNext = () => {
@@ -78,10 +83,10 @@ export default function SaldoAkrualXmin1(prop : ActiveStepProps) {
           <div className="col-12">
             <div className="card-body">
               <div className="text-center">
-                <h2>Import Data Saldo Akrual X</h2>
+                <h2>Import Data Saldo Akrual X-1</h2>
                 <h3>Select .xlsx file</h3>
               </div>
-              <div className="mt-3 p-2 d-flex justify-content-center">
+              <div className="mt-3 p-2 d-flex justify-content-center align-items-center">
                 <div className="card-upload">
                   <input
                     className="text-center pt-3 pe-2 pb-3 ps-2"
@@ -96,6 +101,9 @@ export default function SaldoAkrualXmin1(prop : ActiveStepProps) {
                       }
                     }}
                   />
+                </div>
+                <div className="ms-3">
+                  <ButtonInsert onclick={load} />
                 </div>
               </div>
               <section className="mt-3">

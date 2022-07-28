@@ -7,5 +7,5 @@ interface ButtonProps {
 
 export default function ButtonInsert(props: ButtonProps) {
   const { onclick } = props;
-  return <Button onClick={onclick}>Insert</Button>;
+  return <Button variant="outlined" onClick={onclick}>Insert to db</Button>;
 }

@@ -15,6 +15,7 @@ import ListTransBulanan from "../../components/ListingTransBulanan";
 import SaldoAkrualX from "../../components/SaldoAkrualX";
 import SaldoAkrualXmin1 from "../../components/SaldoAkrualXmin1";
 import TransInOutBulanan from "../../components/TransInOutBulanan";
+import Link from "next/link";
 
 const steps = [
   "e-Rekon Pendapatan",
@@ -112,7 +113,9 @@ export default function ImportData() {
             </div>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Box sx={{ flex: "1 1 auto" }} />
-              <Button onClick={handleReset}>Reset</Button>
+              <Button onClick={handleReset}>
+                <Link href="/">Go to Dashboard</Link>
+              </Button>
             </Box>
           </React.Fragment>
         ) : (

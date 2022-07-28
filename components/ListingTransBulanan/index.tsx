@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
-import { addData } from "../../services/import";
+import { addData, addListTransBulanan } from "../../services/import";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,15 +11,15 @@ import Paper from "@mui/material/Paper";
 import { Box, Button } from "@mui/material";
 import { activeStepRec, listTransBulananRec } from "../../store";
 import { useRecoilState } from "recoil";
+import ButtonInsert from "../Atom/ButtonInsert";
 
-interface ActiveStepProps{
-  steplength : number;
+interface ActiveStepProps {
+  steplength: number;
 }
-export default function ListTransBulanan(prop : ActiveStepProps) {
+export default function ListTransBulanan(prop: ActiveStepProps) {
   const { steplength } = prop;
   const [items, setItems] = useRecoilState(listTransBulananRec);
   const [activeStep, setActiveStep] = useRecoilState(activeStepRec);
-
 
   const readExcel = (file: any) => {
     const fileReader = new FileReader();
@@ -31,13 +31,13 @@ export default function ListTransBulanan(prop : ActiveStepProps) {
           alert("Type eRROR");
         }
 
-        const wb = XLSX.read(bufferArray, { type: "buffer" });
+        const wb = XLSX.read(bufferArray, { type: "buffer", cellDates: true, dateNF:"mm/dd/yyy"});
 
         const wsname = wb.SheetNames[6];
 
         const ws = wb.Sheets[wsname];
 
-        const data = XLSX.utils.sheet_to_json(ws);
+        const data = XLSX.utils.sheet_to_json(ws, { defval: "", raw: false });
         console.log(data);
         resolve(data);
       };
@@ -53,13 +53,17 @@ export default function ListTransBulanan(prop : ActiveStepProps) {
   const load = async () => {
     const arr = items.map(Object.values);
     console.log(items);
-    const response = await addData(arr);
-    if (response.error) {
-      alert("error gais");
-      console.log("erroorrr");
+    if (!arr.length) {
+      alert("no data!");
     } else {
-      alert(response.message);
-      console.log("success");
+      const response = await addListTransBulanan(arr);
+      if (response.error) {
+        alert("error gais");
+        console.log("erroorrr");
+      } else {
+        alert(response.message);
+        console.log("success");
+      }
     }
   };
 
@@ -81,7 +85,7 @@ export default function ListTransBulanan(prop : ActiveStepProps) {
                 <h2>Import Data Listing Transaksi Bulanan</h2>
                 <h3>Select .xlsx file</h3>
               </div>
-              <div className="mt-3 p-2 d-flex justify-content-center">
+              <div className="mt-3 p-2 d-flex justify-content-center align-items-center">
                 <div className="card-upload">
                   <input
                     className="text-center pt-3 pe-2 pb-3 ps-2"
@@ -96,6 +100,9 @@ export default function ListTransBulanan(prop : ActiveStepProps) {
                       }
                     }}
                   />
+                </div>
+                <div className="ms-3">
+                  <ButtonInsert onclick={load} />
                 </div>
               </div>
               <section className="mt-3">
@@ -136,9 +143,7 @@ export default function ListTransBulanan(prop : ActiveStepProps) {
                             >
                               {row.KDBAES1}
                             </TableCell>
-                            <TableCell align="center">
-                              {row.KDSATKER}
-                            </TableCell>
+                            <TableCell align="center">{row.KDSATKER}</TableCell>
                             <TableCell align="center">{row.KDDEKON}</TableCell>
                             <TableCell align="center">{row.JNSDOK1}</TableCell>
                             <TableCell align="center">{row.TGLDOK1}</TableCell>
@@ -147,10 +152,7 @@ export default function ListTransBulanan(prop : ActiveStepProps) {
                             <TableCell align="left">{row.URAIAN}</TableCell>
                             <TableCell align="center">{row.PERKKOR}</TableCell>
                             <TableCell align="center">{row.PERKKOR1}</TableCell>
-                            <TableCell align="right">
-                              {row.RHPREAL}
-                            </TableCell>
-                            
+                            <TableCell align="right">{row.RHPREAL}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -175,7 +177,7 @@ export default function ListTransBulanan(prop : ActiveStepProps) {
                     </Button>
                   )} */}
                   <Button onClick={handleNext}>
-                    {activeStep === steplength- 1 ? "Finish" : "Next"}
+                    {activeStep === steplength - 1 ? "Finish" : "Next"}
                   </Button>
                 </Box>
               </section>
@@ -186,4 +188,3 @@ export default function ListTransBulanan(prop : ActiveStepProps) {
     </section>
   );
 }
-

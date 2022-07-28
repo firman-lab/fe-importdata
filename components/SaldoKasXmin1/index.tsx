@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
-import { addData } from "../../services/import";
+import { addData, addSaldoKasXmin1 } from "../../services/import";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,6 +11,7 @@ import Paper from "@mui/material/Paper";
 import { Box, Button } from "@mui/material";
 import { activeStepRec, saldoKasXmin1Rec } from "../../store";
 import { useRecoilState } from "recoil";
+import ButtonInsert from "../Atom/ButtonInsert";
 
 interface ActiveStepProps{
   steplength : number;
@@ -37,7 +38,7 @@ export default function SaldoKasX(prop : ActiveStepProps) {
 
         const ws = wb.Sheets[wsname];
 
-        const data = XLSX.utils.sheet_to_json(ws);
+        const data = XLSX.utils.sheet_to_json(ws, {defval: "0"});
         console.log(data);
         resolve(data);
       };
@@ -53,14 +54,18 @@ export default function SaldoKasX(prop : ActiveStepProps) {
   const load = async () => {
     const arr = items.map(Object.values);
     console.log(items);
-    const response = await addData(arr);
-    if (response.error) {
-      alert("error gais");
-      console.log("erroorrr");
-    } else {
-      alert(response.message);
-      console.log("success");
-    }
+    if(!arr.length){
+      alert("no data!");
+    }else{
+      const response = await addSaldoKasXmin1(arr);
+      if (response.error) {
+        alert("error gais");
+        console.log("erroorrr");
+      } else {
+        alert(response.message);
+        console.log("success");
+      }
+  }
   };
 
   const handleNext = () => {
@@ -81,7 +86,7 @@ export default function SaldoKasX(prop : ActiveStepProps) {
                 <h2>Import Data Saldo Kas X-1</h2>
                 <h3>Select .xlsx file</h3>
               </div>
-              <div className="mt-3 p-2 d-flex justify-content-center">
+              <div className="mt-3 p-2 d-flex justify-content-center align-items-center">
                 <div className="card-upload">
                   <input
                     className="text-center pt-3 pe-2 pb-3 ps-2"
@@ -96,6 +101,9 @@ export default function SaldoKasX(prop : ActiveStepProps) {
                       }
                     }}
                   />
+                </div>
+                <div className="ms-3">
+                  <ButtonInsert onclick={load} />
                 </div>
               </div>
               <section className="mt-3">

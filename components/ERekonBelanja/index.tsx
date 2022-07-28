@@ -11,6 +11,7 @@ import Paper from "@mui/material/Paper";
 import { Box, Button } from "@mui/material";
 import { useRecoilState } from "recoil";
 import { activeStepRec, ereconBelanjaRec } from "../../store";
+import ButtonInsert from "../Atom/ButtonInsert";
 
 interface ActiveStepProps {
   steplength: number;
@@ -80,7 +81,7 @@ export default function ERekonBelanja(prop: ActiveStepProps) {
                 <h2>Import Data E-Rekon Belanja</h2>
                 <h3>Select .xlsx file</h3>
               </div>
-              <div className="mt-3 p-2 d-flex justify-content-center">
+              <div className="mt-3 p-2 d-flex justify-content-center align-items-center">
                 <div className="card-upload">
                   <input
                     className="text-center pt-3 pe-2 pb-3 ps-2"
@@ -96,9 +97,9 @@ export default function ERekonBelanja(prop: ActiveStepProps) {
                     }}
                   />
                 </div>
-              <Button
-                onClick={load}
-              >Insert</Button>
+                <div className="ms-3">
+                  <ButtonInsert onclick={load} />
+                </div>
               </div>
               <section className="mt-3">
                 <div className="card p-2">

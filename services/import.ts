@@ -28,3 +28,44 @@ export function addSaldoKasX(data: Array<any>) {
       data,
     });
   }
+
+export function addSaldoKasXmin1(data: Array<any>) {
+    const url = `${ROOT_API}/importdata/saldokasxmin1`;
+    return callAPI({
+      url,
+      method: "POST",
+      data,
+    });
+  }
+export function addAkrualX(data: Array<any>) {
+    const url = `${ROOT_API}/importdata/akrualx`;
+    return callAPI({
+      url,
+      method: "POST",
+      data,
+    });
+  }
+export function addAkrualXmin1(data: Array<any>) {
+    const url = `${ROOT_API}/importdata/akrualxmin1`;
+    return callAPI({
+      url,
+      method: "POST",
+      data,
+    });
+  }
+export function addListTransBulanan(data: Array<any>) {
+    const url = `${ROOT_API}/importdata/listtransbulanan`;
+    return callAPI({
+      url,
+      method: "POST",
+      data,
+    });
+  }
+export function addListInOutBulanan(data: Array<any>) {
+    const url = `${ROOT_API}/importdata/listinoutbulanan`;
+    return callAPI({
+      url,
+      method: "POST",
+      data,
+    });
+  }
