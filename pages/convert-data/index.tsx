@@ -1,14 +1,49 @@
+/* eslint-disable @next/next/no-img-element */
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import * as XLSX from "xlsx";
 import type { NextPage } from "next";
 import Link from "next/link";
-import Sidebar from "../components/Sidebar";
+import { useState } from "react";
+import Sidebar from "../../components/Sidebar";
 
 const Home: NextPage = () => {
+    const [items, setItems] = useState([]);
+    const readExcel = (file: any) => {
+        const fileReader = new FileReader();
+        const promise = new Promise((resolve, reject) => {
+          fileReader.readAsArrayBuffer(file);
+          fileReader.onload = (e) => {
+            const bufferArray = e.target?.result;
+            if (!bufferArray) {
+              alert("Type eRROR");
+            }
+            const wb = XLSX.read(bufferArray, { type: "buffer" });
+    
+            const wsname = wb.SheetNames[0];
+    
+            const ws = wb.Sheets[wsname];
+            ws['!ref'] = "A13:I43"
+            const data = XLSX.utils.sheet_to_json(ws, { header: "A", defval: "0" });
+            // console.log(data);
+            resolve(data);
+          };
+          fileReader.onerror = (e: any) => {
+            reject(e);
+          };
+        });
+        promise.then((d: any) => {
+          // setItems(d);
+          localStorage.setItem('upDataLocal', JSON.stringify(d));
+          setItems(d);
+          console.log(d);
+        });
+      };
   return (
     <>
       <div className="screen-cover d-none d-xl-none" />
       <div className="row">
         <div className="col-12 col-lg-3 col-navbar d-none d-xl-block">
-          <Sidebar activeMenu="dash"/>
+          <Sidebar activeMenu="lo" />
         </div>
         <div className="col-12 col-xl-9">
           <div className="nav">
@@ -21,7 +56,7 @@ const Home: NextPage = () => {
                     alt=""
                   />
                 </button>
-                <h2 className="nav-title">Overview</h2>
+                <h2 className="nav-title">Laporan Operasional</h2>
               </div>
               <button className="btn-notif d-block d-md-none">
                 <img src="../assets/img/global/bell.svg" alt="" />
@@ -46,7 +81,6 @@ const Home: NextPage = () => {
           <div className="content">
             <div className="row">
               <div className="col-12">
-                <Link href="/import-data">
                   <div className="col-12 col-md-12 col-lg-12">
                     <div className="statistics-card import-link">
                       <div className="d-flex justify-content-center align-items-center">
@@ -57,6 +91,20 @@ const Home: NextPage = () => {
                           <h3 className="statistics-value text-white">
                             Start Import
                           </h3>
+                        <input
+                            className="text-center pt-3 pe-2 pb-3 ps-2 bg-white"
+                            type="file"
+                            accept=".xlsx"
+                            onChange={(e: any) => {
+                            if (e.target != null) {
+                                const file = e.target.files[0]!;
+                                readExcel(file);
+                            } else {
+                                // eslint-disable-next-line no-alert
+                                alert("pilih file xlsx duls!");
+                            }
+                            }}
+                        />
                         </div>
                         <button className="ms-3 btn-statistics">
                           <img src="../assets/img/global/times.svg" alt="" />
@@ -91,10 +139,98 @@ const Home: NextPage = () => {
                       </div>
                     </div>
                   </div>
-                </Link>
               </div>
-                <h2 className="content-title">Statistics</h2>
-                <h5 className="content-desc mb-4">Your business growth</h5>
+              <section className="mt-3">
+                <div className="card p-2">
+                  <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell align="center">No.</TableCell>
+                          <TableCell align="center">KDBAES1</TableCell>
+                          <TableCell align="center">KDWILAYAH</TableCell>
+                          <TableCell align="center">KDSATKER</TableCell>
+                          <TableCell align="center">SDCP</TableCell>
+                          <TableCell align="center">KDFUNGSI</TableCell>
+                          <TableCell align="center">KDSFUNGSI</TableCell>
+                          <TableCell align="center">KDPROGRAM</TableCell>
+                          <TableCell align="center">KDKEGIATAN</TableCell>
+                          <TableCell align="center">KDOUTPUT</TableCell>
+                          <TableCell align="center">AKUN</TableCell>
+                          <TableCell align="center">DIPA</TableCell>
+                          <TableCell align="center">REVISI DIPA</TableCell>
+                          <TableCell align="center">BELANJA</TableCell>
+                          <TableCell align="center">PENGEMBALIAN</TableCell>
+                          <TableCell align="center">BELANJA NETTO</TableCell>
+                          <TableCell align="center">PERSENTASE</TableCell>
+                          <TableCell align="center">SISA</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {items.map((row: any, index: any) => (
+                          <TableRow
+                            key={index}
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                            }}
+                          >
+                            <TableCell align="center">
+                              {(index + 1).toString()}
+                            </TableCell>
+                            <TableCell
+                              component="th"
+                              scope="row"
+                              align="center"
+                            >
+                              {row.KDBAES1}
+                            </TableCell>
+                            <TableCell align="center">
+                              {row.KDWILAYAH}
+                            </TableCell>
+                            <TableCell align="center">{row.KDSATKER}</TableCell>
+                            <TableCell align="center">{row.SDCP}</TableCell>
+                            <TableCell align="center">{row.KDFUNGSI}</TableCell>
+                            <TableCell align="center">
+                              {row.KDSFUNGSI}
+                            </TableCell>
+                            <TableCell align="center">
+                              {row.KDPROGRAM}
+                            </TableCell>
+                            <TableCell align="center">
+                              {row.KDKEGIATAN}
+                            </TableCell>
+                            <TableCell align="center">{row.KDOUTPUT}</TableCell>
+                            <TableCell align="center">{row.AKUN}</TableCell>
+                            <TableCell align="right">
+                              {row.DIPA}
+                            </TableCell>
+                            <TableCell align="right">
+                              {row["REVISI DIPA"]}
+                            </TableCell>
+                            <TableCell align="right">
+                              {row.BELANJA}
+                            </TableCell>
+                            <TableCell align="right">
+                              {row.PENGEMBALIAN}
+                            </TableCell>
+                            <TableCell align="center">
+                              {row["BELANJA NETTO"]}
+                            </TableCell>
+                            <TableCell align="right">
+                              {row.PERSENTASE}
+                            </TableCell>
+                            <TableCell align="right">
+                              {row.SISA}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </div>
+              </section>
+              <h2 className="content-title">Statistics</h2>
+              <h5 className="content-desc mb-4">Your business growth</h5>
               <div className="col-12 col-md-6 col-lg-4">
                 <div className="statistics-card">
                   <div className="d-flex justify-content-between align-items-center">

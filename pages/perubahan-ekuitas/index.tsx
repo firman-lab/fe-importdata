@@ -1,14 +1,53 @@
+/* eslint-disable @next/next/no-img-element */
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import * as XLSX from "xlsx";
 import type { NextPage } from "next";
 import Link from "next/link";
-import Sidebar from "../components/Sidebar";
+import { useState } from "react";
+import Sidebar from "../../components/Sidebar";
 
-const Home: NextPage = () => {
+export default function PerubahanEkuitas() {
+    const [items, setItems] = useState([]);
+    const [tahun, setTahun] = useState("0");
+
+    const readExcel = (file: any) => {
+        const fileReader = new FileReader();
+        const promise = new Promise((resolve, reject) => {
+          fileReader.readAsArrayBuffer(file);
+          fileReader.onload = (e) => {
+            const bufferArray = e.target?.result;
+            if (!bufferArray) {
+              alert("Type eRROR");
+            }
+            const wb = XLSX.read(bufferArray, { type: "buffer" });
+    
+            const wsname = wb.SheetNames[0];
+    
+            const ws = wb.Sheets[wsname];
+            // ws['!ref'] = "A15:"
+            const data = XLSX.utils.sheet_to_json(ws, { header: "A", blankrows: true, range: 14 });
+            // console.log(data);
+            resolve(data);
+          };
+          fileReader.onerror = (e: any) => {
+            reject(e);
+          };
+        });
+        promise.then((d: any) => {
+          // setItems(d);
+          localStorage.setItem('upDataLocal', JSON.stringify(d));
+          setItems(d);
+          console.log(d);
+        });
+      };
+
+
   return (
     <>
       <div className="screen-cover d-none d-xl-none" />
       <div className="row">
         <div className="col-12 col-lg-3 col-navbar d-none d-xl-block">
-          <Sidebar activeMenu="dash"/>
+          <Sidebar activeMenu="lpe" />
         </div>
         <div className="col-12 col-xl-9">
           <div className="nav">
@@ -21,7 +60,7 @@ const Home: NextPage = () => {
                     alt=""
                   />
                 </button>
-                <h2 className="nav-title">Overview</h2>
+                <h2 className="nav-title">Laporan Perubahan Ekuitas</h2>
               </div>
               <button className="btn-notif d-block d-md-none">
                 <img src="../assets/img/global/bell.svg" alt="" />
@@ -46,19 +85,39 @@ const Home: NextPage = () => {
           <div className="content">
             <div className="row">
               <div className="col-12">
-                <Link href="/import-data">
                   <div className="col-12 col-md-12 col-lg-12">
                     <div className="statistics-card import-link">
                       <div className="d-flex justify-content-center align-items-center">
                         <div className="d-flex flex-column justify-content-between align-items-center">
                           <h5 className="content-desc text-secondary">
-                            Import data excel
+                            Import data Excel.xlsx
                           </h5>
                           <h3 className="statistics-value text-white">
-                            Start Import
+                            Laporan Perubahan Ekuitas
                           </h3>
+                          <button className="" type="button" onClick={()=>{}}>
+                            Tambah Data
+                          </button>
+                          { tahun != "" ?
+                            <input
+                              className="text-center mt-3 pt-3 pe-2 pb-3 ps-2 bg-white"
+                              type="file"
+                              accept=".xlsx"
+                              onChange={(e: any) => {
+                              if (e.target != null) {
+                                  const file = e.target.files[0]!;
+                                  readExcel(file);
+                              } else {
+                                  // eslint-disable-next-line no-alert
+                                  alert("pilih file xlsx duls!");
+                              }
+                              }}
+                            />
+                          :
+                          <div/>
+                        }
                         </div>
-                        <button className="ms-3 btn-statistics">
+                        <button className="ms-3 btn-statistics ">
                           <img src="../assets/img/global/times.svg" alt="" />
                         </button>
                       </div>
@@ -91,10 +150,57 @@ const Home: NextPage = () => {
                       </div>
                     </div>
                   </div>
-                </Link>
               </div>
-                <h2 className="content-title">Statistics</h2>
-                <h5 className="content-desc mb-4">Your business growth</h5>
+              <section className="mt-3">
+                <div className="card p-2">
+                  <div className="d-flex justify-content-end p-2">
+                    <a type="button" href="/print-lpe" target="_blank" className="btn btn-primary">Print</a>
+                  </div>
+                  <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell align="center">Uraian</TableCell>
+                          <TableCell align="center">Catatan</TableCell>
+                          <TableCell align="center">Th1</TableCell>
+                          <TableCell align="center">Th2</TableCell>
+                          <TableCell align="center">Kenaikan/Penurunan</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {items.map((row: any, index: any) => (
+                          <TableRow
+                            key={index}
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                            }}
+                          >
+                            <TableCell
+                              component="th"
+                              scope="row"
+                              align="left"
+                            >
+                              {row.A.replace(/\s/g, "&nbsp;")}
+                            </TableCell>
+                            <TableCell align="center" width={2}>
+                              {row.KDWILAYAH}
+                            </TableCell>
+                            <TableCell align="right">{row.E}</TableCell>
+                            <TableCell align="right">
+                              {row.G}
+                            </TableCell>
+                            <TableCell align="right">
+                              {row.I}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </div>
+              </section>
+              <h2 className="content-title">Statistics</h2>
+              <h5 className="content-desc mb-4">Your business growth</h5>
               <div className="col-12 col-md-6 col-lg-4">
                 <div className="statistics-card">
                   <div className="d-flex justify-content-between align-items-center">
@@ -342,5 +448,3 @@ const Home: NextPage = () => {
     </>
   );
 };
-
-export default Home;

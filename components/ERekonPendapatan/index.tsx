@@ -38,7 +38,8 @@ export default function ERekonPendapatan(prop : ActiveStepProps) {
 
         const ws = wb.Sheets[wsname];
 
-        const data = XLSX.utils.sheet_to_json(ws, { header: 3, defval: "0" });
+        ws['!ref'] = "A13:I90"
+        const data = XLSX.utils.sheet_to_json(ws, { header: 13, blankrows:true });
         console.log(data);
         resolve(data);
       };
