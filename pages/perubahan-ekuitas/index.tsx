@@ -5,6 +5,7 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import { useState } from "react";
 import Sidebar from "../../components/Sidebar";
+import Swal from "sweetalert2";
 
 export default function PerubahanEkuitas() {
     const [items, setItems] = useState([]);
@@ -40,7 +41,6 @@ export default function PerubahanEkuitas() {
           console.log(d);
         });
       };
-
 
   return (
     <>
@@ -95,7 +95,7 @@ export default function PerubahanEkuitas() {
                           <h3 className="statistics-value text-white">
                             Laporan Perubahan Ekuitas
                           </h3>
-                          <button className="" type="button" onClick={()=>{}}>
+                          <button className="" type="button" onClick={() => {}}>
                             Tambah Data
                           </button>
                           { tahun != "" ?
