@@ -3,9 +3,10 @@ import React from "react";
 
 interface ButtonProps {
   onclick: () => void;
+  title: string;
 }
 
 export default function ButtonInsert(props: ButtonProps) {
-  const { onclick } = props;
-  return <Button variant="outlined" onClick={onclick}>Insert to db</Button>;
+  const { onclick, title } = props;
+  return <Button variant="outlined" onClick={onclick}>{title}</Button>;
 }

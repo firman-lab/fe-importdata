@@ -6,10 +6,16 @@ import Link from "next/link";
 import { useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import Swal from "sweetalert2";
+import { Modal } from "react-bootstrap";
 
 export default function PerubahanEkuitas() {
     const [items, setItems] = useState([]);
-    const [tahun, setTahun] = useState("0");
+    const [tahun, setTahun] = useState("");
+    
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const readExcel = (file: any) => {
         const fileReader = new FileReader();
@@ -95,9 +101,23 @@ export default function PerubahanEkuitas() {
                           <h3 className="statistics-value text-white">
                             Laporan Perubahan Ekuitas
                           </h3>
-                          <button className="" type="button" onClick={() => {}}>
+                          <button className="" type="button" onClick= {handleShow}>
                             Tambah Data
                           </button>
+                          <Modal
+                              show={show}
+                              onHide={handleClose}
+                              backdrop="static"
+                              size="lg"
+                              aria-labelledby="detail-modal"
+                            >
+                              <Modal.Header closeButton>
+                                <Modal.Title>Tambah Akun</Modal.Title>
+                              </Modal.Header>
+                              <Modal.Body>
+                                makan
+                              </Modal.Body>
+                            </Modal>
                           { tahun != "" ?
                             <input
                               className="text-center mt-3 pt-3 pe-2 pb-3 ps-2 bg-white"
