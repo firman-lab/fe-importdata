@@ -7,6 +7,7 @@ import { useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import Swal from "sweetalert2";
 import { Modal } from "react-bootstrap";
+import ModalPeriode from "../../components/Atom/ModalPeriode";
 
 export default function PerubahanEkuitas() {
     const [items, setItems] = useState([]);
@@ -108,14 +109,14 @@ export default function PerubahanEkuitas() {
                               show={show}
                               onHide={handleClose}
                               backdrop="static"
-                              size="lg"
+                              size="sm"
                               aria-labelledby="detail-modal"
                             >
                               <Modal.Header closeButton>
-                                <Modal.Title>Tambah Akun</Modal.Title>
+                                <Modal.Title>Pilih Periode</Modal.Title>
                               </Modal.Header>
                               <Modal.Body>
-                                makan
+                                <ModalPeriode/>
                               </Modal.Body>
                             </Modal>
                           { tahun != "" ?

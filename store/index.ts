@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import { PeriodeLpeType } from "./types";
 
 const activeStepRec = atom({
   key: "active-step",
@@ -38,6 +39,10 @@ const TransInOutBulananRec = atom({
   key: "trans-input-bulanan",
   default: [],
 });
+const periodLPE = atom({
+  key: "periodeLPE",
+  default: {},
+});
 
 export {
   activeStepRec,
@@ -49,4 +54,5 @@ export {
   saldoAkrualXRec,
   saldoAkrualXmin1Rec,
   TransInOutBulananRec,
+  periodLPE
 };

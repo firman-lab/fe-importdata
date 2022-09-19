@@ -98,7 +98,7 @@ export default function ERekonBelanja(prop: ActiveStepProps) {
                   />
                 </div>
                 <div className="ms-3">
-                  <ButtonInsert onclick={load} />
+                  <ButtonInsert onclick={load} title="Upload DB" />
                 </div>
               </div>
               <section className="mt-3">
