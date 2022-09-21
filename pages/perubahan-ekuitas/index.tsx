@@ -7,7 +7,10 @@ import { useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import Swal from "sweetalert2";
 import { Modal } from "react-bootstrap";
-import ModalPeriode from "../../components/Atom/ModalPeriode";
+import ModalPeriode from "../../components/ModalPeriode";
+import { useRecoilState } from "recoil";
+import { periodLPE } from "../../store";
+
 
 export default function PerubahanEkuitas() {
     const [items, setItems] = useState([]);
@@ -17,6 +20,8 @@ export default function PerubahanEkuitas() {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const [lpe, setLpe] = useRecoilState(periodLPE);
 
     const readExcel = (file: any) => {
         const fileReader = new FileReader();
@@ -109,17 +114,19 @@ export default function PerubahanEkuitas() {
                               show={show}
                               onHide={handleClose}
                               backdrop="static"
-                              size="sm"
+                              size="lg"
                               aria-labelledby="detail-modal"
                             >
                               <Modal.Header closeButton>
                                 <Modal.Title>Pilih Periode</Modal.Title>
                               </Modal.Header>
                               <Modal.Body>
-                                <ModalPeriode/>
+                                <ModalPeriode 
+                                  handleclose={() => {handleClose();}}
+                                />
                               </Modal.Body>
                             </Modal>
-                          { tahun != "" ?
+                          { lpe.dariTh != null ?
                             <input
                               className="text-center mt-3 pt-3 pe-2 pb-3 ps-2 bg-white"
                               type="file"
@@ -183,8 +190,8 @@ export default function PerubahanEkuitas() {
                         <TableRow>
                           <TableCell align="center">Uraian</TableCell>
                           <TableCell align="center">Catatan</TableCell>
-                          <TableCell align="center">Th1</TableCell>
-                          <TableCell align="center">Th2</TableCell>
+                          <TableCell align="center">{lpe.dariTh}</TableCell>
+                          <TableCell align="center">{lpe.sampaiTh}</TableCell>
                           <TableCell align="center">Kenaikan/Penurunan</TableCell>
                         </TableRow>
                       </TableHead>
@@ -229,7 +236,7 @@ export default function PerubahanEkuitas() {
                       <h5 className="content-desc">Data Uploaded</h5>
                       <h3 className="statistics-value">18,500,000</h3>
                     </div>
-                    <button className="btn-statistics">
+                    <button className="btn-statistics" onClick={() => {console.log(lpe.toString());}}>
                       <img src="../assets/img/global/times.svg" alt="" />
                     </button>
                   </div>

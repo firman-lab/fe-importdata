@@ -39,9 +39,13 @@ const TransInOutBulananRec = atom({
   key: "trans-input-bulanan",
   default: [],
 });
-const periodLPE = atom({
+const periodLPE = atom<PeriodeLpeType>({
   key: "periodeLPE",
-  default: {},
+  default: {
+    bulan: null,
+    dariTh: null,
+    sampaiTh: null,
+  },
 });
 
 export {
