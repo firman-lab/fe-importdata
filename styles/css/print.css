@@ -4,3 +4,6 @@
 .text-bold{
     font-weight: 600;
 }
+pre{
+    font-family: 'Quicksand', sans-serif;
+}

@@ -59,19 +59,19 @@ const bulanse = [
 const tahunse = [
   {
     tahun: "2021",
-    value: "2021",
+    value: 2021,
   },
   {
     tahun: "2022",
-    value: "2022",
+    value: 2022,
   },
   {
     tahun: "2023",
-    value: "2023",
+    value: 2023,
   },
   {
     tahun: "2024",
-    value: "2024",
+    value: 2024,
   },
 ];
 
@@ -83,9 +83,9 @@ export default function ModalPeriode(props: ModalProps) {
   const { handleclose } = props;
 
   const [lpe, setlpe] = useRecoilState(periodLPE);
-  const [bulan, setBulan] = useState(bulanse[11].value);
-  const [dari, setDari] = useState(tahunse[1].value);
-  const [sampai, setSampai] = useState(tahunse[0].value);
+  const [bulan, setBulan] = useState(lpe.bulan != null ? lpe.bulan : bulanse[11].value);
+  const [dari, setDari] = useState(lpe.dariTh!= null ? lpe.dariTh : tahunse[1].value.toString());
+  const [sampai, setSampai] = useState("");
 
   const handleBulan = (e: any) => {
     const bulan = e.target.value;
@@ -94,6 +94,7 @@ export default function ModalPeriode(props: ModalProps) {
   const handleDari = (e: any) => {
     const dari = e.target.value;
     setDari(dari);
+    setSampai((dari - 1).toString());
   };
   const handleSampai = (e: any) => {
     const sampai = e.target.value;
@@ -112,59 +113,64 @@ export default function ModalPeriode(props: ModalProps) {
   };
 
   return (
-    <div className="d-flex justify-content-center">
-      <form> Berakhir pada
-        <select
-          id="bulan"
-          name="bulan"
-          value={bulan}
-          onChange={(e) => {
-            handleBulan(e);
-          }}
-          placeholder="pilih Bulan"
-        >
-          {bulanse.map((buls, index) => (
-            <option key={index} value={buls.value}>
-              {buls.bulan}
-            </option>
-          ))}
-        </select>
-        <select
-          id="dari"
-          name="dari"
-          value={dari}
-          onChange={(e) => {
-            handleDari(e);
-          }}
-          placeholder="pilih tahun"
-          className="ms-2"
-        >
-          {tahunse.map((buls, index) => (
-            <option key={index} value={buls.value}>
-              {buls.tahun}
-            </option>
-          ))}
-        </select>
-        <select
-          id="sampai"
-          name="sampai"
-          value={sampai}
-          onChange={(e) => {
-            handleSampai(e);
-          }}
-          placeholder="pilih tahun"
-          className="ms-2"
-        >
-          {tahunse.map((buls, index) => (
-            <option key={index} value={buls.value}>
-              {buls.tahun}
-            </option>
-          ))}
-        </select>
-        <div className="p-3 text-center">
-          <ButtonInsert title="Set Periode" onclick={setPeriode} />
-        </div>
-      </form>
-    </div>
+    <>
+      <div className="d-flex justify-content-center mt-3">
+        <form>
+          <label className="me-2">Berakhir pada 31</label>
+          <select
+            id="bulan"
+            name="bulan"
+            value={bulan}
+            onChange={(e) => {
+              handleBulan(e);
+            }}
+            placeholder="pilih Bulan"
+          >
+            {bulanse.map((buls, index) => (
+              <option key={index} value={buls.value}>
+                {buls.bulan}
+              </option>
+            ))}
+          </select>
+          <select
+            id="dari"
+            name="dari"
+            value={dari}
+            onChange={(e) => {
+              handleDari(e);
+            }}
+            placeholder="pilih tahun"
+            className="ms-2"
+          >
+            {tahunse.map((buls, index) => (
+              <option key={index} value={buls.value}>
+                {buls.tahun}
+              </option>
+            ))}
+          </select>
+          <label className="ms-2">Sampai</label>
+          {/* <select
+            id="sampai"
+            name="sampai"
+            disabled
+            value={sampai}
+            onChange={(e) => {
+              handleSampai(e);
+            }}
+            placeholder="pilih tahun"
+            className="ms-2"
+          >
+            {tahunse.map((buls, index) => (
+              <option key={index} value={buls.value}>
+                {buls.tahun}
+              </option>
+            ))}
+          </select> */}
+        </form>
+      </div>
+      <div className="mt-3 p-3 text-end">
+        <ButtonInsert title="Set Periode" onclick={setPeriode} />
+      </div>
+    </>
   );
 }

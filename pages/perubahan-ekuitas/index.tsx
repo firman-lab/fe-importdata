@@ -1,5 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import * as XLSX from "xlsx";
 import type { NextPage } from "next";
 import Link from "next/link";
@@ -11,48 +19,51 @@ import ModalPeriode from "../../components/ModalPeriode";
 import { useRecoilState } from "recoil";
 import { periodLPE } from "../../store";
 
-
 export default function PerubahanEkuitas() {
-    const [items, setItems] = useState([]);
-    const [tahun, setTahun] = useState("");
-    
-    const [show, setShow] = useState(false);
+  const [items, setItems] = useState([]);
+  const [tahun, setTahun] = useState("");
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+  const [show, setShow] = useState(false);
 
-    const [lpe, setLpe] = useRecoilState(periodLPE);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-    const readExcel = (file: any) => {
-        const fileReader = new FileReader();
-        const promise = new Promise((resolve, reject) => {
-          fileReader.readAsArrayBuffer(file);
-          fileReader.onload = (e) => {
-            const bufferArray = e.target?.result;
-            if (!bufferArray) {
-              alert("Type eRROR");
-            }
-            const wb = XLSX.read(bufferArray, { type: "buffer" });
-    
-            const wsname = wb.SheetNames[0];
-    
-            const ws = wb.Sheets[wsname];
-            // ws['!ref'] = "A15:"
-            const data = XLSX.utils.sheet_to_json(ws, { header: "A", blankrows: true, range: 14 });
-            // console.log(data);
-            resolve(data);
-          };
-          fileReader.onerror = (e: any) => {
-            reject(e);
-          };
+  const [lpe, setLpe] = useRecoilState(periodLPE);
+
+  const readExcel = (file: any) => {
+    const fileReader = new FileReader();
+    const promise = new Promise((resolve, reject) => {
+      fileReader.readAsArrayBuffer(file);
+      fileReader.onload = (e) => {
+        const bufferArray = e.target?.result;
+        if (!bufferArray) {
+          alert("Type eRROR");
+        }
+        const wb = XLSX.read(bufferArray, { type: "buffer" });
+
+        const wsname = wb.SheetNames[0];
+
+        const ws = wb.Sheets[wsname];
+        // ws['!ref'] = "A15:"
+        const data = XLSX.utils.sheet_to_json(ws, {
+          header: "A",
+          blankrows: true,
+          range: 14,
         });
-        promise.then((d: any) => {
-          // setItems(d);
-          localStorage.setItem('upDataLocal', JSON.stringify(d));
-          setItems(d);
-          console.log(d);
-        });
+        // console.log(data);
+        resolve(data);
       };
+      fileReader.onerror = (e: any) => {
+        reject(e);
+      };
+    });
+    promise.then((d: any) => {
+      // setItems(d);
+      localStorage.setItem("upDataLocal", JSON.stringify(d));
+      setItems(d);
+      console.log(d);
+    });
+  };
 
   return (
     <>
@@ -97,92 +108,101 @@ export default function PerubahanEkuitas() {
           <div className="content">
             <div className="row">
               <div className="col-12">
-                  <div className="col-12 col-md-12 col-lg-12">
-                    <div className="statistics-card import-link">
-                      <div className="d-flex justify-content-center align-items-center">
-                        <div className="d-flex flex-column justify-content-between align-items-center">
-                          <h5 className="content-desc text-secondary">
-                            Import data Excel.xlsx
-                          </h5>
-                          <h3 className="statistics-value text-white">
-                            Laporan Perubahan Ekuitas
-                          </h3>
-                          <button className="" type="button" onClick= {handleShow}>
-                            Tambah Data
-                          </button>
-                          <Modal
-                              show={show}
-                              onHide={handleClose}
-                              backdrop="static"
-                              size="lg"
-                              aria-labelledby="detail-modal"
-                            >
-                              <Modal.Header closeButton>
-                                <Modal.Title>Pilih Periode</Modal.Title>
-                              </Modal.Header>
-                              <Modal.Body>
-                                <ModalPeriode 
-                                  handleclose={() => {handleClose();}}
-                                />
-                              </Modal.Body>
-                            </Modal>
-                          { lpe.dariTh != null ?
-                            <input
-                              className="text-center mt-3 pt-3 pe-2 pb-3 ps-2 bg-white"
-                              type="file"
-                              accept=".xlsx"
-                              onChange={(e: any) => {
-                              if (e.target != null) {
-                                  const file = e.target.files[0]!;
-                                  readExcel(file);
-                              } else {
-                                  // eslint-disable-next-line no-alert
-                                  alert("pilih file xlsx duls!");
-                              }
+                <div className="col-12 col-md-12 col-lg-12">
+                  <div className="statistics-card import-link">
+                    <div className="d-flex justify-content-center align-items-center">
+                      <div className="d-flex flex-column justify-content-between align-items-center">
+                        <h5 className="content-desc text-secondary">
+                          Import data Excel.xlsx
+                        </h5>
+                        <h3 className="statistics-value text-white">
+                          Laporan Perubahan Ekuitas
+                        </h3>
+                        <button className="" type="button" onClick={handleShow}>
+                          Tambah Data
+                        </button>
+                        <Modal
+                          show={show}
+                          onHide={handleClose}
+                          backdrop="static"
+                          size="lg"
+                          aria-labelledby="detail-modal"
+                        >
+                          <Modal.Header closeButton>
+                            <Modal.Title>Pilih Periode</Modal.Title>
+                          </Modal.Header>
+                          <Modal.Body>
+                            <ModalPeriode
+                              handleclose={() => {
+                                handleClose();
                               }}
                             />
-                          :
-                          <div/>
-                        }
-                        </div>
-                        <button className="ms-3 btn-statistics ">
-                          <img src="../assets/img/global/times.svg" alt="" />
-                        </button>
+                          </Modal.Body>
+                        </Modal>
+                        {lpe.dariTh != null ? (
+                          <input
+                            className="text-center mt-3 pt-3 pe-2 pb-3 ps-2 bg-white"
+                            type="file"
+                            accept=".xlsx"
+                            onChange={(e: any) => {
+                              if (e.target != null) {
+                                const file = e.target.files[0]!;
+                                readExcel(file);
+                              } else {
+                                // eslint-disable-next-line no-alert
+                                alert("pilih file xlsx duls!");
+                              }
+                            }}
+                          />
+                        ) : (
+                          <div />
+                        )}
                       </div>
-                      <div className="statistics-list">
-                        <img
-                          className="statistics-image"
-                          src="../assets/img/home/history/photo-4.png"
-                          alt=""
-                        />
-                        <img
-                          className="statistics-image"
-                          src="../assets/img/home/history/photo-3.png"
-                          alt=""
-                        />
-                        <img
-                          className="statistics-image"
-                          src="../assets/img/home/history/photo.png"
-                          alt=""
-                        />
-                        <img
-                          className="statistics-image"
-                          src="../assets/img/home/history/photo-1.png"
-                          alt=""
-                        />
-                        <img
-                          className="statistics-image"
-                          src="../assets/img/home/history/photo-2.png"
-                          alt=""
-                        />
-                      </div>
+                      <button className="ms-3 btn-statistics ">
+                        <img src="../assets/img/global/times.svg" alt="" />
+                      </button>
+                    </div>
+                    <div className="statistics-list">
+                      <img
+                        className="statistics-image"
+                        src="../assets/img/home/history/photo-4.png"
+                        alt=""
+                      />
+                      <img
+                        className="statistics-image"
+                        src="../assets/img/home/history/photo-3.png"
+                        alt=""
+                      />
+                      <img
+                        className="statistics-image"
+                        src="../assets/img/home/history/photo.png"
+                        alt=""
+                      />
+                      <img
+                        className="statistics-image"
+                        src="../assets/img/home/history/photo-1.png"
+                        alt=""
+                      />
+                      <img
+                        className="statistics-image"
+                        src="../assets/img/home/history/photo-2.png"
+                        alt=""
+                      />
                     </div>
                   </div>
+                </div>
               </div>
               <section className="mt-3">
                 <div className="card p-2">
                   <div className="d-flex justify-content-end p-2">
-                    <a type="button" href="/print-lpe" target="_blank" className="btn btn-primary">Print</a>
+                    <a
+                      type="button"
+                      href="/print-lpe"
+                      target="_blank"
+                      className="btn btn-primary"
+                    >
+                      Print
+                    </a>
                   </div>
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -192,7 +212,9 @@ export default function PerubahanEkuitas() {
                           <TableCell align="center">Catatan</TableCell>
                           <TableCell align="center">{lpe.dariTh}</TableCell>
                           <TableCell align="center">{lpe.sampaiTh}</TableCell>
-                          <TableCell align="center">Kenaikan/Penurunan</TableCell>
+                          <TableCell align="center">
+                            Kenaikan/Penurunan
+                          </TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -203,23 +225,16 @@ export default function PerubahanEkuitas() {
                               "&:last-child td, &:last-child th": { border: 0 },
                             }}
                           >
-                            <TableCell
-                              component="th"
-                              scope="row"
-                              align="left"
-                            >
-                              {row.A.replace(/\s/g, "&nbsp;")}
+                            <TableCell component="th" scope="row" align="left">
+                              {/* {row.A.replace(/\s/g, "&nbsp;")} */}
+                              <pre>{row.A}</pre>
                             </TableCell>
                             <TableCell align="center" width={2}>
                               {row.KDWILAYAH}
                             </TableCell>
                             <TableCell align="right">{row.E}</TableCell>
-                            <TableCell align="right">
-                              {row.G}
-                            </TableCell>
-                            <TableCell align="right">
-                              {row.I}
-                            </TableCell>
+                            <TableCell align="right">{row.G}</TableCell>
+                            <TableCell align="right">{row.I}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -236,7 +251,12 @@ export default function PerubahanEkuitas() {
                       <h5 className="content-desc">Data Uploaded</h5>
                       <h3 className="statistics-value">18,500,000</h3>
                     </div>
-                    <button className="btn-statistics" onClick={() => {console.log(lpe.toString());}}>
+                    <button
+                      className="btn-statistics"
+                      onClick={() => {
+                        console.log(lpe.toString());
+                      }}
+                    >
                       <img src="../assets/img/global/times.svg" alt="" />
                     </button>
                   </div>
@@ -475,4 +495,4 @@ export default function PerubahanEkuitas() {
       </div>
     </>
   );
-};
+}
