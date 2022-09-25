@@ -75,17 +75,28 @@ const tahunse = [
 interface ModalProps {
   handleclose: () => void;
   handleReload: () => void;
+  dataPeriode: any;
 }
 
-export default function ModalPeriode(props: ModalProps) {
-  const { handleclose, handleReload } = props;
+export default function ModalOperasional(props: ModalProps) {
+  const { handleclose, handleReload, dataPeriode } = props;
 
   // const [lpe, setlpe] = useRecoilState(periodLPE);
-  const [lpe, setLpe] = useState<PeriodeLpeType>({ bulan: "", dariTh: "", sampaiTh: ""});
+  const [lpe, setLpe] = useState<PeriodeLpeType>({
+    bulan: "",
+    dariTh: "",
+    sampaiTh: "",
+  });
 
-  const [bulan, setBulan] = useState(lpe.bulan != "" ? lpe.bulan : bulanse[11].value);
-  const [dari, setDari] = useState(lpe.dariTh != "" ? lpe.dariTh : tahunse[1].value.toString());
-  const [sampai, setSampai] = useState(lpe.dariTh != "" ? lpe.dariTh : tahunse[0].value.toString());
+  const [bulan, setBulan] = useState(
+    lpe.bulan != "" ? lpe.bulan : bulanse[11].value
+  );
+  const [dari, setDari] = useState(
+    lpe.dariTh != "" ? lpe.dariTh : tahunse[1].value.toString()
+  );
+  const [sampai, setSampai] = useState(
+    lpe.dariTh != "" ? lpe.dariTh : tahunse[0].value.toString()
+  );
 
   const handleBulan = (e: any) => {
     const bulan = e.target.value;
@@ -102,14 +113,14 @@ export default function ModalPeriode(props: ModalProps) {
   };
 
   const setPeriode = () => {
-    const rec : PeriodeLpeType = {
+    const rec: PeriodeLpeType = {
       bulan: bulan,
       dariTh: dari,
       sampaiTh: sampai,
     };
     console.log("rec : ", rec);
     // setlpe(rec);
-    localStorage.setItem("periodeLPE", JSON.stringify(rec));
+    // localStorage.setItem("periodeLPE", JSON.stringify(rec));
     handleclose();
     handleReload();
   };
@@ -124,7 +135,7 @@ export default function ModalPeriode(props: ModalProps) {
   //     setSampai(periode.sampaiTh);
   //   }
   // }, [])
-  
+
   return (
     <>
       <div className="d-flex justify-content-center mt-3">
@@ -182,7 +193,13 @@ export default function ModalPeriode(props: ModalProps) {
         </form>
       </div>
       <div className="mt-3 p-3 text-end">
-        <ButtonInsert title="Set Periode" onclick={setPeriode} />
+        <ButtonInsert
+          title="Set Periode"
+          onclick={() => {
+            dataPeriode({ bulan: bulan, dariTh: dari, sampaiTh: sampai });
+            setPeriode();
+          }}
+        />
       </div>
     </>
   );

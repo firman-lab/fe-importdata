@@ -1,5 +1,5 @@
 export interface PeriodeLpeType {
-    bulan: string|null;
-    dariTh: string|null;
-    sampaiTh: string|null;
+    bulan: string;
+    dariTh: string;
+    sampaiTh: string;
 }

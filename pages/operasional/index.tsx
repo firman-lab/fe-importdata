@@ -1,13 +1,31 @@
 /* eslint-disable @next/next/no-img-element */
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import * as XLSX from "xlsx";
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useState } from "react";
 import Sidebar from "../../components/Sidebar";
+import { useRecoilState } from "recoil";
+import { periodLPE } from "../../store";
+import SaldoText from "../../components/Atom/SaldoText";
+import { PeriodeLpeType } from "../../store/types";
+import { Modal } from "react-bootstrap";
+import ModalOperasional from "../../components/ModalOperasional";
 
-const Home: NextPage = () => {
+export default function Operasional() {
     const [items, setItems] = useState([]);
+
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    
+    // const [lp, setlpe] = useRecoilState(periodLPE);
+    const [periodeLpe, setperiodeLpe] = useState<PeriodeLpeType>({
+      bulan: "",
+      dariTh: "",
+      sampaiTh: "",
+    });
+
     const readExcel = (file: any) => {
         const fileReader = new FileReader();
         const promise = new Promise((resolve, reject) => {
@@ -22,8 +40,8 @@ const Home: NextPage = () => {
             const wsname = wb.SheetNames[0];
     
             const ws = wb.Sheets[wsname];
-            ws['!ref'] = "A13:I43"
-            const data = XLSX.utils.sheet_to_json(ws, { header: "A", defval: "0" });
+            // ws['!ref'] = "A14:I80"
+            const data = XLSX.utils.sheet_to_json(ws, { header: "A", blankrows: true, range: 14 });
             // console.log(data);
             resolve(data);
           };
@@ -91,20 +109,58 @@ const Home: NextPage = () => {
                           <h3 className="statistics-value text-white">
                             Start Import
                           </h3>
-                        <input
-                            className="text-center pt-3 pe-2 pb-3 ps-2 bg-white"
-                            type="file"
-                            accept=".xlsx"
-                            onChange={(e: any) => {
-                            if (e.target != null) {
-                                const file = e.target.files[0]!;
-                                readExcel(file);
-                            } else {
-                                // eslint-disable-next-line no-alert
-                                alert("pilih file xlsx duls!");
-                            }
-                            }}
-                        />
+                          <Button
+                          onClick={handleShow}
+                          variant="contained"
+                          sx={{
+                            backgroundColor: "#4640DE",
+                            textTransform: "capitalize",
+                            "&:hover": {
+                              backgroundColor: " #2721c4",
+                            },
+                          }}
+                          >
+                            Set Periode
+                          </Button>
+                          <Modal
+                          show={show}
+                          onHide={handleClose}
+                          backdrop="static"
+                          size="lg"
+                          aria-labelledby="detail-modal"
+                        >
+                          <Modal.Header closeButton>
+                            <Modal.Title>Pilih Periode</Modal.Title>
+                          </Modal.Header>
+                          <Modal.Body>
+                            <ModalOperasional
+                              handleclose={() => {
+                                handleClose();
+                              }}
+                              handleReload={() => {}}
+                              dataPeriode = {(periodeLpe : any) => {setperiodeLpe(periodeLpe)}}
+                            />
+                          </Modal.Body>
+                        </Modal>
+                        { periodeLpe.dariTh !== '' ? (
+                          <input
+                              className="text-center mt-3 pt-3 pe-2 pb-3 ps-2 bg-white"
+                              type="file"
+                              accept=".xlsx"
+                              onChange={(e: any) => {
+                              if (e.target != null) {
+                                  const file = e.target.files[0]!;
+                                  readExcel(file);
+                              } else {
+                                  // eslint-disable-next-line no-alert
+                                  alert("pilih file xlsx duls!");
+                              }
+                              }}
+                          />
+                        ) : (
+                          <div/>
+                        )
+                        }
                         </div>
                         <button className="ms-3 btn-statistics">
                           <img src="../assets/img/global/times.svg" alt="" />
@@ -142,86 +198,82 @@ const Home: NextPage = () => {
               </div>
               <section className="mt-3">
                 <div className="card p-2">
+                <div className="d-flex justify-content-between p-2">
+                    <h4></h4>
+                    <div className="p-2">
+                      {/* <button
+                        className="btn btn-danger me-2"
+                        onClick={removeData}
+                      >
+                        Reset Data
+                      </button> */}
+                      <Button
+                        variant="contained"
+                        onClick={() => {console.log(periodeLpe)}}
+                        sx={{
+                          backgroundColor: "#303f9f",
+                          textTransform: "capitalize",
+                          "&:hover": {
+                            backgroundColor: "#3f51b5",
+                          },
+                        }}
+                      >
+                        Reset Data
+                      </Button>
+                      { <Link href="/print-lpe">
+                        <a
+                          type="button"
+                          className="btn btn-primary ms-3"
+                          onClick={() => {}}
+                          target="_blank"
+                        >
+                          Print
+                        </a>
+                      </Link>}
+                    </div>
+                  </div>
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                       <TableHead>
                         <TableRow>
-                          <TableCell align="center">No.</TableCell>
-                          <TableCell align="center">KDBAES1</TableCell>
-                          <TableCell align="center">KDWILAYAH</TableCell>
-                          <TableCell align="center">KDSATKER</TableCell>
-                          <TableCell align="center">SDCP</TableCell>
-                          <TableCell align="center">KDFUNGSI</TableCell>
-                          <TableCell align="center">KDSFUNGSI</TableCell>
-                          <TableCell align="center">KDPROGRAM</TableCell>
-                          <TableCell align="center">KDKEGIATAN</TableCell>
-                          <TableCell align="center">KDOUTPUT</TableCell>
-                          <TableCell align="center">AKUN</TableCell>
-                          <TableCell align="center">DIPA</TableCell>
-                          <TableCell align="center">REVISI DIPA</TableCell>
-                          <TableCell align="center">BELANJA</TableCell>
-                          <TableCell align="center">PENGEMBALIAN</TableCell>
-                          <TableCell align="center">BELANJA NETTO</TableCell>
-                          <TableCell align="center">PERSENTASE</TableCell>
-                          <TableCell align="center">SISA</TableCell>
+                          {/* <TableCell align="center">No.</TableCell> */}
+                          <TableCell align="center">Uraian</TableCell>
+                          <TableCell align="center">{periodeLpe.dariTh}</TableCell>
+                          <TableCell align="center">{periodeLpe.sampaiTh}</TableCell>
+                          <TableCell align="center">Kenaikan/Penurunan</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {items.map((row: any, index: any) => (
+                        {items
+                        .filter((row:any) => {
+                          if (row.E !== '' && row.I !== "KENAIKAN/ PENURUNAN" ){
+                            return row;
+                          }
+                        })
+                        .map((row: any, index: any) => (
                           <TableRow
                             key={index}
                             sx={{
                               "&:last-child td, &:last-child th": { border: 0 },
                             }}
                           >
-                            <TableCell align="center">
+                            {/* <TableCell align="center">
                               {(index + 1).toString()}
-                            </TableCell>
+                            </TableCell> */}
                             <TableCell
                               component="th"
                               scope="row"
-                              align="center"
+                              align="left"
                             >
-                              {row.KDBAES1}
-                            </TableCell>
-                            <TableCell align="center">
-                              {row.KDWILAYAH}
-                            </TableCell>
-                            <TableCell align="center">{row.KDSATKER}</TableCell>
-                            <TableCell align="center">{row.SDCP}</TableCell>
-                            <TableCell align="center">{row.KDFUNGSI}</TableCell>
-                            <TableCell align="center">
-                              {row.KDSFUNGSI}
-                            </TableCell>
-                            <TableCell align="center">
-                              {row.KDPROGRAM}
-                            </TableCell>
-                            <TableCell align="center">
-                              {row.KDKEGIATAN}
-                            </TableCell>
-                            <TableCell align="center">{row.KDOUTPUT}</TableCell>
-                            <TableCell align="center">{row.AKUN}</TableCell>
-                            <TableCell align="right">
-                              {row.DIPA}
+                              <pre>
+                                {row.A}
+                              </pre>
                             </TableCell>
                             <TableCell align="right">
-                              {row["REVISI DIPA"]}
+                              <SaldoText value={row.E}/>
                             </TableCell>
-                            <TableCell align="right">
-                              {row.BELANJA}
-                            </TableCell>
-                            <TableCell align="right">
-                              {row.PENGEMBALIAN}
-                            </TableCell>
-                            <TableCell align="center">
-                              {row["BELANJA NETTO"]}
-                            </TableCell>
-                            <TableCell align="right">
-                              {row.PERSENTASE}
-                            </TableCell>
-                            <TableCell align="right">
-                              {row.SISA}
-                            </TableCell>
+                            <TableCell align="right"><SaldoText value={row.G}/></TableCell>
+                            <TableCell align="right"><SaldoText value={row.I}/></TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -479,4 +531,3 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;

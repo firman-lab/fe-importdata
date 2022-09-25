@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import React from "react";
 import {
   Button,
   Paper,
@@ -19,93 +20,13 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import Link from "next/link";
 import { PeriodeLpeType } from "../../store/types";
 
-export default function PerubahanEkuitas() {
+export default function RealisasiAnggaran() {
   const [items, setItems] = useState([]);
 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  const [name, setName] = useState("");
-  const [periodeLpe, setperiodeLpe] = useState<PeriodeLpeType>({
-    bulan: "",
-    dariTh: "",
-    sampaiTh: "",
-  });
-  // const [dataLpe, setDataLpe] = useRecoilState(lpeData);
-
-  const getReloadData = () => {
-    const item: any = JSON.parse(localStorage.getItem("upDataLocal") || "[]");
-    setItems(item);
-    const named: string = localStorage.getItem("namaFileLpe") || "";
-    setName(named);
-    const periode: any = JSON.parse(localStorage.getItem("periodeLPE") || "{}");
-    setperiodeLpe(periode);
-  };
-
-  useEffect(() => {
-    getReloadData();
-    console.log("periode", periodeLpe);
-  }, []);
-
-  const readExcel = (file: any) => {
-    const fileReader = new FileReader();
-    const promise = new Promise((resolve, reject) => {
-      fileReader.readAsArrayBuffer(file);
-      fileReader.onload = (e) => {
-        const bufferArray = e.target?.result;
-        if (!bufferArray) {
-          alert("Type eRROR");
-        }
-        const wb = XLSX.read(bufferArray, { type: "buffer" });
-
-        const wsname = wb.SheetNames[0];
-
-        const ws = wb.Sheets[wsname];
-        // ws['!ref'] = "A15:"
-        const data = XLSX.utils.sheet_to_json(ws, {
-          header: "A",
-          blankrows: true,
-          range: 14,
-        });
-        // console.log(data);
-        resolve(data);
-      };
-      fileReader.onerror = (e: any) => {
-        reject(e);
-      };
-    });
-    promise.then((d: any) => {
-      setItems(d);
-      localStorage.setItem("upDataLocal", JSON.stringify(d));
-      // console.log(d);
-    });
-  };
-
-  const sendPeriode = () => {
-    // const periode = {
-    //   bulan: periodeLpe.bulan,
-    //   dari: periodeLpe.dariTh,
-    //   sampai: periodeLpe.sampaiTh,
-    // };
-    // localStorage.setItem("periodeLPE", JSON.stringify(periode));
-    // localStorage.setItem("upDataLocal", JSON.stringify(items));
-    // localStorage.setItem("namaFileLpe", JSON.stringify(name));
-  };
-
-  const removeData = () => {
-    localStorage.removeItem("upDataLocal");
-    setItems([]);
-    localStorage.removeItem("namaFileLpe");
-    setName("");
-    localStorage.removeItem("periodeLPE");
-    setperiodeLpe({
-      bulan: "",
-      dariTh: "",
-      sampaiTh: "",
-    });
-  };
 
   return (
     <>
@@ -280,16 +201,18 @@ export default function PerubahanEkuitas() {
                       >
                         Reset Data
                       </Button>
-                      { <Link href="/print-lpe">
-                        <a
-                          type="button"
-                          className="btn btn-primary ms-3"
-                          onClick={sendPeriode}
-                          target="_blank"
-                        >
-                          Print
-                        </a>
-                      </Link>}
+                      {
+                        <Link href="/print-lpe">
+                          <a
+                            type="button"
+                            className="btn btn-primary ms-3"
+                            onClick={sendPeriode}
+                            target="_blank"
+                          >
+                            Print
+                          </a>
+                        </Link>
+                      }
                     </div>
                   </div>
                   <TableContainer component={Paper}>

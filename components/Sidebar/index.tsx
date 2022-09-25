@@ -5,7 +5,7 @@ interface SidebarProps{
   | "dash"
   | "lo"
   | "lpe"
-  | "result"
+  | "lra"
   | "setting";
 }
 
@@ -31,7 +31,7 @@ export default function Sidebar(props:SidebarProps) {
       <MenuItem
         title="Lap. Operasional"
         active={activeMenu === "lo"}
-        href="/convert-data"
+        href="/operasional"
         icon="bxs-cube-alt"
       />
       <MenuItem
@@ -41,8 +41,8 @@ export default function Sidebar(props:SidebarProps) {
         icon="bxs-cube-alt"
       />
       <MenuItem
-        title="Result"
-        active={activeMenu === "result"}
+        title="Lap. Realisasi Anggaran"
+        active={activeMenu === "lra"}
         href="/classified"
         icon="bxs-cube-alt"
       />

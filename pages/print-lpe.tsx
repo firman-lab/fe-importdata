@@ -1,17 +1,27 @@
-import { ListItem } from "@mui/material";
+import { Button, ListItem } from "@mui/material";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
-import { useRecoilState } from "recoil";
-import { periodLPE } from "../store";
+import { useRecoilState, useRecoilValue } from "recoil";
+import SaldoText from "../components/Atom/SaldoText";
+import { PeriodeLpeType } from "../store/types";
 
 export default function PrintLpe() {
   const [data, setData] = useState([]);
-  const [lpe, setLpe] = useRecoilState(periodLPE);
+  const [periode, setPeriode] = useState<PeriodeLpeType>({
+    bulan: "",
+    dariTh: "",
+    sampaiTh: "",
+  });
+
+  // const periode = useRecoilValue(periodLPE);
 
   useEffect(() => {
-    const item = JSON.parse(localStorage.getItem("upDataLocal"));
+    const item: any = JSON.parse(localStorage.getItem("upDataLocal") || "[]");
     setData(item);
+    const period = JSON.parse(localStorage.getItem("periodeLPE") || "{}");
+    setPeriode(period);
+    console.log(period);
   }, []);
 
   return (
@@ -27,7 +37,7 @@ export default function PrintLpe() {
         <div className="content-wrapper">
           <div className="text-center">
             <h4 className="text-bold">LAPORAN PERUBAHAN EKUITAS</h4>
-            <h5 className="text-bold">UNTUK PERIODE YANG BERAKHIR</h5>
+            <h5 className="text-bold">{`Untuk Periode Yang Berakhir Pada 31 ${periode.bulan} ${periode.dariTh} Hingga ${periode.sampaiTh}`}</h5>
             <p className="text-italic">(dalam rupiah)</p>
           </div>
           <div className="mt-5">
@@ -50,8 +60,8 @@ export default function PrintLpe() {
                 <tr>
                   <th scope="col">Uraian</th>
                   <th scope="col">Cttn</th>
-                  <th scope="col">{lpe.dariTh?.toString()}</th>
-                  <th scope="col">{lpe.sampaiTh?.toString()}</th>
+                  <th scope="col">{periode.dariTh}</th>
+                  <th scope="col">{periode.sampaiTh}</th>
                   <th scope="col">Kenaikan/Penurunan</th>
                 </tr>
               </thead>
@@ -59,31 +69,44 @@ export default function PrintLpe() {
                 {data.map((item: any, index: any) => (
                   <tr key={index}>
                     {/* <pre> */}
-                      <td className="text-start">
-                        {/* {item.A.replace(/\s/g, "&nbsp;")} */}
-                        <pre>
-                        {item.A}
-                        </pre>
-                      </td>
+                    <td className="text-start">
+                      {/* {item.A.replace(/\s/g, "&nbsp;")} */}
+                      <pre>{item.A}</pre>
+                    </td>
                     {/* </pre> */}
                     <td className="text-center">-</td>
-                    <td className="text-end">{item.E}</td>
-                    <td className="text-end">{item.G}</td>
-                    <td className="text-end">{item.I}</td>
+                    <td className="text-end">
+                      <SaldoText value={item.E} />
+                    </td>
+                    <td className="text-end">
+                      <SaldoText value={item.G} />
+                    </td>
+                    <td className="text-end">
+                      <SaldoText value={item.I} />
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <button
-            type="button"
-            className="d-print-none"
-            onClick={() => {
-              window.print();
-            }}
-          >
-            Print Now!
-          </button>
+          <div className="d-flex justify-content-end">
+            <Button
+              className="d-print-none m-3"
+              variant="contained"
+              onClick={() => {
+                window.print();
+              }}
+              sx={{
+                backgroundColor: "#4640DE",
+                textTransform: "capitalize",
+                "&:hover": {
+                  backgroundColor: " #2721c4",
+                },
+              }}
+            >
+              Print Now!
+            </Button>
+          </div>
         </div>
       </div>
     </>
