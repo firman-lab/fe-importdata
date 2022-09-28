@@ -48,6 +48,14 @@ const periodLPE = atom<PeriodeLpeType>({
     sampaiTh: "",
   },
 });
+const periodeOp = atom<PeriodeLpeType>({
+  key: "periode-op",
+  default: {
+    bulan: "",
+    dariTh: "",
+    sampaiTh: "",
+  },
+});
 
 const fileNameLpe = atom<String>({
   key: "filename-lpe",
@@ -65,5 +73,6 @@ export {
   saldoAkrualXmin1Rec,
   TransInOutBulananRec,
   periodLPE,
+  periodeOp,
   fileNameLpe
 };

@@ -18,6 +18,7 @@ import ModalPeriode from "../../components/ModalPeriode";
 import { useRecoilState, useRecoilValue } from "recoil";
 import Link from "next/link";
 import { PeriodeLpeType } from "../../store/types";
+import SaldoText from "../../components/Atom/SaldoText";
 
 export default function PerubahanEkuitas() {
   const [items, setItems] = useState([]);
@@ -324,9 +325,9 @@ export default function PerubahanEkuitas() {
                             <TableCell align="center" width={2}>
                               {row.KDWILAYAH}
                             </TableCell>
-                            <TableCell align="right">{row.E}</TableCell>
-                            <TableCell align="right">{row.G}</TableCell>
-                            <TableCell align="right">{row.I}</TableCell>
+                            {row.E < 0 ? <TableCell align="right">(<SaldoText value={row.E * -1}/>)</TableCell> : <TableCell align="right"><SaldoText value={row.E}/></TableCell>}
+                            {row.G < 0 ? <TableCell align="right">(<SaldoText value={row.G * -1}/>)</TableCell> : <TableCell align="right"><SaldoText value={row.G}/></TableCell>}
+                            {row.I < 0 ? <TableCell align="right">(<SaldoText value={row.I * -1}/>)</TableCell> : <TableCell align="right"><SaldoText value={row.I}/></TableCell>}
                           </TableRow>
                         ))}
                       </TableBody>

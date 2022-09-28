@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 import MenuItem from './MenuItem';
 interface SidebarProps{
@@ -16,32 +17,32 @@ export default function Sidebar(props:SidebarProps) {
     <aside className="sidebar">
       <a href="#" className="sidebar-logo">
         <div className="d-flex justify-content-start align-items-center">
-          <img src="../assets/img/global/logo.svg" alt="" />
-          <span>FIST</span>
+          <Image src="/assets/icon/kemenhan.png" alt="logo" width={100} height={100} />
+          <span>FAST</span>
         </div>
       </a>
-      <h5 className="sidebar-title">Import Data</h5>
+      <h5 className="sidebar-title">Dashboard</h5>
       <MenuItem
         title="Main"
         active={activeMenu === "dash"}
         href="/"
         icon="bxs-dashboard"
       />
-      <h5 className="sidebar-title">Scope Data</h5>
+      <h5 className="sidebar-title">Convert Data Laporan</h5>
       <MenuItem
-        title="Lap. Operasional"
+        title="Operasional"
         active={activeMenu === "lo"}
         href="/operasional"
         icon="bxs-cube-alt"
       />
       <MenuItem
-        title="Lap. Perubahan Ekuitas"
+        title="Perubahan Ekuitas"
         active={activeMenu === "lpe"}
         href="/perubahan-ekuitas"
         icon="bxs-cube-alt"
       />
       <MenuItem
-        title="Lap. Realisasi Anggaran"
+        title="Realisasi Anggaran"
         active={activeMenu === "lra"}
         href="/classified"
         icon="bxs-cube-alt"

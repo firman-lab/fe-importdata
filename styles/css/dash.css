@@ -34,14 +34,16 @@ html, body {
 
 aside {
   background-color: #fff;
-  padding: 50px 24px;
+  padding: 30px 24px;
   padding-bottom: 250px;
   height: 100vh;
   /* overflow-y: scroll; */
+  overflow-y: auto;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 2;
+  width: 270px;
 }
 aside #toggle-navbar {
   margin-left: 20px;
@@ -59,11 +61,11 @@ aside #toggle-navbar {
   }
 }
 .sidebar-logo span {
-  font-weight: 800;
+  font-weight: 700;
   font-size: 20px;
   line-height: 30px;
-  color: #121F3E;
-  margin-left: 16px;
+  color: #0b1f50;
+  /* margin-left: 16px; */
 }
 .sidebar-title {
   font-weight: 400;
@@ -79,7 +81,7 @@ aside #toggle-navbar {
   background: transparent;
   height: 46px;
   border-radius: 16px;
-  padding: 0 11px;
+  padding: 24px 11px;
   margin-bottom: 8px;
   display: flex;
   justify-content: flex-start;
