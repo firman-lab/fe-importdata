@@ -18,18 +18,18 @@ import { PeriodeLpeType } from "../../store/types";
 import { Modal } from "react-bootstrap";
 import ModalOperasional from "../../components/ModalOperasional";
 import { useRecoilState } from "recoil";
-import { dataOp, fileNameOp, periodeOp } from "../../store";
+import { dataNeraca, fileNameNeraca, periodeNeraca } from "../../store";
 
-export default function Operasional() {
+export default function Neraca() {
   // const [items, setItems] = useState([]);
-  
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  
-  const [items, setItems] = useRecoilState(dataOp);
-  const [periode, setPeriode] = useRecoilState<PeriodeLpeType>(periodeOp);
-  const [fileName, setFileName] = useRecoilState(fileNameOp);
+
+  const [items, setItems] = useRecoilState(dataNeraca);
+  const [periode, setPeriode] = useRecoilState<PeriodeLpeType>(periodeNeraca);
+  const [fileName, setFileName] = useRecoilState(fileNameNeraca);
   // const [periodeLpe, setperiodeLpe] = useState<PeriodeLpeType>({
   //   bulan: "",
   //   dariTh: "",
@@ -76,7 +76,7 @@ export default function Operasional() {
       <div className="screen-cover d-none d-xl-none" />
       <div className="row">
         <div className="col-12 col-lg-3 col-navbar d-none d-xl-block">
-          <Sidebar activeMenu="lo" />
+          <Sidebar activeMenu="ln" />
         </div>
         <div className="col-12 col-xl-9">
           <div className="nav">
@@ -89,7 +89,7 @@ export default function Operasional() {
                     alt=""
                   />
                 </button>
-                <h2 className="nav-title">Laporan Operasional</h2>
+                <h2 className="nav-title">Laporan Neraca</h2>
               </div>
               <button className="btn-notif d-block d-md-none">
                 <img src="../assets/img/global/bell.svg" alt="" />
@@ -180,8 +180,8 @@ export default function Operasional() {
                         )}
                       </div>
                       {/* <button className="ms-3 btn-statistics">
-                          <img src="../assets/img/global/times.svg" alt="" />
-                        </button>  */}
+                            <img src="../assets/img/global/times.svg" alt="" />
+                          </button>  */}
                     </div>
                     <div className="statistics-list">
                       <img
@@ -219,15 +219,15 @@ export default function Operasional() {
                     <h4>{fileName}</h4>
                     <div className="p-2">
                       {/* <button
-                        className="btn btn-danger me-2"
-                        onClick={removeData}
-                      >
-                        Reset Data
-                      </button> */}
+                          className="btn btn-danger me-2"
+                          onClick={removeData}
+                        >
+                          Reset Data
+                        </button> */}
                       <Button
                         variant="contained"
                         onClick={() => {
-                          console.log(periodeOp);
+                          console.log(periodeNeraca);
                         }}
                         sx={{
                           backgroundColor: "#303f9f",
@@ -241,14 +241,18 @@ export default function Operasional() {
                       </Button>
                       {
                         <Link href="/operasional/print-operasional">
-                          <a
-                            type="button"
-                            className="btn btn-primary ms-3"
-                            onClick={() => {}}
-                            // target="_blank"
-                          >
-                            Print
-                          </a>
+                          <Button
+                            className="d-print-none m-3"
+                            variant="contained"
+                            sx={{
+                              backgroundColor: "#4640DE",
+                              textTransform: "capitalize",
+                              "&:hover": {
+                                backgroundColor: " #2721c4",
+                                color: "#fff",
+                              },
+                            }}
+                          >Print!</Button>
                         </Link>
                       }
                     </div>
@@ -259,9 +263,7 @@ export default function Operasional() {
                         <TableRow>
                           {/* <TableCell align="center">No.</TableCell> */}
                           <TableCell align="center">Uraian</TableCell>
-                          <TableCell align="center">
-                            {periode.dariTh}
-                          </TableCell>
+                          <TableCell align="center">{periode.dariTh}</TableCell>
                           <TableCell align="center">
                             {periode.sampaiTh}
                           </TableCell>
@@ -290,8 +292,8 @@ export default function Operasional() {
                               }}
                             >
                               {/* <TableCell align="center">
-                              {(index + 1).toString()}
-                            </TableCell> */}
+                                {(index + 1).toString()}
+                              </TableCell> */}
                               <TableCell
                                 component="th"
                                 scope="row"

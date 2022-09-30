@@ -19,21 +19,61 @@ import ModalPeriode from "../../components/ModalPeriode";
 import { useRecoilState, useRecoilValue } from "recoil";
 import Link from "next/link";
 import { PeriodeLpeType } from "../../store/types";
+import { dataNeraca, fileNameNeraca, periodeNeraca } from "../../store";
+import ModalOperasional from "../../components/ModalOperasional";
 
 export default function RealisasiAnggaran() {
-  const [items, setItems] = useState([]);
 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const [items, setItems] = useRecoilState(dataNeraca);
+  const [periode, setPeriode] = useRecoilState<PeriodeLpeType>(periodeNeraca);
+  const [fileName, setFileName] = useRecoilState(fileNameNeraca);
+
+  const readExcel = (file: any) => {
+    const fileReader = new FileReader();
+    const promise = new Promise((resolve, reject) => {
+      fileReader.readAsArrayBuffer(file);
+      fileReader.onload = (e) => {
+        const bufferArray = e.target?.result;
+        if (!bufferArray) {
+          alert("Type eRROR");
+        }
+        const wb = XLSX.read(bufferArray, { type: "buffer" });
+
+        const wsname = wb.SheetNames[0];
+
+        const ws = wb.Sheets[wsname];
+        // ws['!ref'] = "A14:I80"
+        const data = XLSX.utils.sheet_to_json(ws, {
+          header: "A",
+          blankrows: true,
+          range: 14,
+        });
+        // console.log(data);
+        resolve(data);
+      };
+      fileReader.onerror = (e: any) => {
+        reject(e);
+      };
+    });
+    promise.then((d: any) => {
+      // setItems(d);
+      // localStorage.setItem("upDataOperasional", JSON.stringify(d));
+      setItems(d);
+      console.log(d);
+    });
+  };
+
   return (
     <>
       <div className="screen-cover d-none d-xl-none" />
       <div className="row">
         <div className="col-12 col-lg-3 col-navbar d-none d-xl-block">
-          <Sidebar activeMenu="lpe" />
+          <Sidebar activeMenu="lra" />
         </div>
         <div className="col-12 col-xl-9">
           <div className="nav">
@@ -46,7 +86,7 @@ export default function RealisasiAnggaran() {
                     alt=""
                   />
                 </button>
-                <h2 className="nav-title">Laporan Perubahan Ekuitas</h2>
+                <h2 className="nav-title">Laporan Realisasi Anggaran</h2>
               </div>
               <button className="btn-notif d-block d-md-none">
                 <img src="../assets/img/global/bell.svg" alt="" />
@@ -79,7 +119,7 @@ export default function RealisasiAnggaran() {
                           Import data Excel.xlsx
                         </h5>
                         <h3 className="statistics-value text-white">
-                          Laporan Perubahan Ekuitas
+                          Laporan Realisasi Anggaran
                         </h3>
                         <Button
                           onClick={handleShow}
@@ -108,17 +148,18 @@ export default function RealisasiAnggaran() {
                             <Modal.Title>Pilih Periode</Modal.Title>
                           </Modal.Header>
                           <Modal.Body>
-                            <ModalPeriode
+                            <ModalOperasional
                               handleclose={() => {
                                 handleClose();
                               }}
-                              handleReload={() => {
-                                getReloadData();
+                              handleReload={() => {}}
+                              dataPeriode={(periodeNer : PeriodeLpeType) => {
+                                setPeriode(periodeNer)
                               }}
                             />
                           </Modal.Body>
                         </Modal>
-                        {periodeLpe.dariTh === "" || items.length > 0 ? (
+                        {periode.dariTh === "" || items.length > 0 ? (
                           <div />
                         ) : (
                           <input
@@ -129,7 +170,7 @@ export default function RealisasiAnggaran() {
                               if (e.target != null) {
                                 const file = e.target.files[0]!;
                                 readExcel(file);
-                                setName(e.target.files[0].name);
+                                setFileName(e.target.files[0].name);
                                 // const namaFile = e.target.files[0].name;
                                 localStorage.setItem(
                                   "namaFileLpe",
@@ -180,7 +221,7 @@ export default function RealisasiAnggaran() {
               <section className="mt-3">
                 <div className="card p-2">
                   <div className="d-flex justify-content-between p-2">
-                    <h4>{name}</h4>
+                    <h4>{fileName}</h4>
                     <div className="p-2">
                       {/* <button
                         className="btn btn-danger me-2"
@@ -190,7 +231,7 @@ export default function RealisasiAnggaran() {
                       </button> */}
                       <Button
                         variant="contained"
-                        onClick={removeData}
+                        onClick={() => {}}
                         sx={{
                           backgroundColor: "#303f9f",
                           textTransform: "capitalize",
@@ -206,7 +247,6 @@ export default function RealisasiAnggaran() {
                           <a
                             type="button"
                             className="btn btn-primary ms-3"
-                            onClick={sendPeriode}
                             target="_blank"
                           >
                             Print
@@ -219,16 +259,23 @@ export default function RealisasiAnggaran() {
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                       <TableHead>
                         <TableRow>
-                          <TableCell align="center">Uraian</TableCell>
-                          <TableCell align="center">Catatan</TableCell>
-                          <TableCell align="center">
-                            {periodeLpe.dariTh}
-                          </TableCell>
-                          <TableCell align="center">
-                            {periodeLpe.sampaiTh}
-                          </TableCell>
-                          <TableCell align="center">
+                          <TableCell align="center" rowSpan={2}>Nama Perkiraan</TableCell>
+                          <TableCell align="center" colSpan={2}>Jumlah</TableCell>
+                          <TableCell align="center"></TableCell>
+                          <TableCell align="center" colSpan={2}>
                             Kenaikan/Penurunan
+                          </TableCell>
+                          <TableCell align="center"></TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell align="center"></TableCell>
+                          <TableCell align="center">2022</TableCell>
+                          <TableCell align="center">2021</TableCell>
+                          <TableCell align="center">
+                            Jumlah
+                          </TableCell>
+                          <TableCell align="center">
+                            %
                           </TableCell>
                         </TableRow>
                       </TableHead>
@@ -269,7 +316,7 @@ export default function RealisasiAnggaran() {
                     <button
                       className="btn-statistics"
                       onClick={() => {
-                        console.log(periodeLpe.toString());
+                        console.log(periode.toString());
                       }}
                     >
                       <img src="../assets/img/global/times.svg" alt="" />

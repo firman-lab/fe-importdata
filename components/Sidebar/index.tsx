@@ -6,6 +6,7 @@ interface SidebarProps{
   | "dash"
   | "lo"
   | "lpe"
+  | "ln"
   | "lra"
   | "setting";
 }
@@ -42,9 +43,15 @@ export default function Sidebar(props:SidebarProps) {
         icon="bxs-cube-alt"
       />
       <MenuItem
+        title="Neraca"
+        active={activeMenu === "ln"}
+        href="/neraca"
+        icon="bxs-cube-alt"
+      />
+      <MenuItem
         title="Realisasi Anggaran"
         active={activeMenu === "lra"}
-        href="/classified"
+        href="/realisasi-anggaran"
         icon="bxs-cube-alt"
       />
       <h5 className="sidebar-title">Others</h5>

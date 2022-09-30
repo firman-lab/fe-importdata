@@ -48,6 +48,17 @@ const periodLPE = atom<PeriodeLpeType>({
     sampaiTh: "",
   },
 });
+
+const fileNameLpe = atom<String>({
+  key: "filename-lpe",
+  default: "",
+});
+
+const fileNameOp = atom<String>({
+  key: "filename-op",
+  default: "",
+});
+
 const periodeOp = atom<PeriodeLpeType>({
   key: "periode-op",
   default: {
@@ -57,9 +68,28 @@ const periodeOp = atom<PeriodeLpeType>({
   },
 });
 
-const fileNameLpe = atom<String>({
-  key: "filename-lpe",
-  default: ""
+const dataOp = atom({
+  key: "data-op",
+  default: [],
+});
+
+const fileNameNeraca = atom<string>({
+  key: "filename-ner",
+  default: "",
+});
+
+const periodeNeraca = atom<PeriodeLpeType>({
+  key: "periode-ner",
+  default: {
+    bulan: "",
+    dariTh: "",
+    sampaiTh: "",
+  },
+});
+
+const dataNeraca = atom({
+  key: "data-neraca",
+  default: [],
 });
 
 export {
@@ -73,6 +103,11 @@ export {
   saldoAkrualXmin1Rec,
   TransInOutBulananRec,
   periodLPE,
+  fileNameLpe,
   periodeOp,
-  fileNameLpe
+  dataOp,
+  fileNameOp,
+  fileNameNeraca,
+  periodeNeraca,
+  dataNeraca,
 };
