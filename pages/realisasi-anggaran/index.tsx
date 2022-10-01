@@ -19,7 +19,7 @@ import ModalPeriode from "../../components/ModalPeriode";
 import { useRecoilState, useRecoilValue } from "recoil";
 import Link from "next/link";
 import { PeriodeLpeType } from "../../store/types";
-import { dataNeraca, fileNameNeraca, periodeNeraca } from "../../store";
+import { dataNeraca, fileNameNeraca, periodeNeraca, periodeOp } from "../../store";
 import ModalOperasional from "../../components/ModalOperasional";
 
 export default function RealisasiAnggaran() {
@@ -259,44 +259,57 @@ export default function RealisasiAnggaran() {
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                       <TableHead>
                         <TableRow>
-                          <TableCell align="center" rowSpan={2}>Nama Perkiraan</TableCell>
-                          <TableCell align="center" colSpan={2}>Jumlah</TableCell>
-                          <TableCell align="center"></TableCell>
-                          <TableCell align="center" colSpan={2}>
-                            Kenaikan/Penurunan
+                          <TableCell align="center" rowSpan={2}>NO</TableCell>
+                          <TableCell align="center" rowSpan={2}>URAIAN</TableCell>
+                          <TableCell align="center" colSpan={4}>{periode.dariTh}</TableCell>
+                          <TableCell align="center" colSpan={4}>
+                            {periode.sampaiTh}
                           </TableCell>
-                          <TableCell align="center"></TableCell>
                         </TableRow>
                         <TableRow>
-                          <TableCell align="center"></TableCell>
-                          <TableCell align="center">2022</TableCell>
-                          <TableCell align="center">2021</TableCell>
+                          <TableCell align="center">Anggaran</TableCell>
+                          <TableCell align="center">Realisasi</TableCell>
+                          <TableCell align="center">Realisasi di atas (bawah) Anggaran</TableCell>
                           <TableCell align="center">
-                            Jumlah
+                            %
                           </TableCell>
+                          <TableCell align="center">Anggaran</TableCell>
+                          <TableCell align="center">Realisasi</TableCell>
+                          <TableCell align="center">Realisasi di atas (bawah) Anggaran</TableCell>
                           <TableCell align="center">
                             %
                           </TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {items.map((row: any, index: any) => (
+                        {items
+                        .filter((row:any) => {
+                          if(
+                            row.B !== "" && row.B !== "2" && row.B !== 'URAIAN'
+                          ){
+                            return row;
+                          }
+                        })
+                        .map((row: any, index: any) => (
                           <TableRow
                             key={index}
                             sx={{
                               "&:last-child td, &:last-child th": { border: 0 },
                             }}
                           >
+                            <TableCell align="center" width={2}>
+                              {row.A}
+                            </TableCell>
                             <TableCell component="th" scope="row" align="left">
                               {/* {row.A.replace(/\s/g, "&nbsp;")} */}
-                              <pre>{row.A}</pre>
+                              <pre>{row.B}</pre>
                             </TableCell>
                             <TableCell align="center" width={2}>
-                              {row.KDWILAYAH}
+                              {row.D}
                             </TableCell>
                             <TableCell align="right">{row.E}</TableCell>
+                            <TableCell align="right">{row.F}</TableCell>
                             <TableCell align="right">{row.G}</TableCell>
-                            <TableCell align="right">{row.I}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
