@@ -92,6 +92,25 @@ const dataNeraca = atom({
   default: [],
 });
 
+const periodeRealisasi = atom<PeriodeLpeType>({
+  key: "periode-real",
+  default: {
+    bulan: "",
+    dariTh: "",
+    sampaiTh: "",
+  },
+});
+
+const dataRealisasi = atom({
+  key: "data-real",
+  default: [],
+});
+
+const fileNameRealisasi = atom<string>({
+  key: "filename-real",
+  default: "",
+});
+
 export {
   activeStepRec,
   ereconPendapatanRec,
@@ -110,4 +129,7 @@ export {
   fileNameNeraca,
   periodeNeraca,
   dataNeraca,
+  dataRealisasi,
+  periodeRealisasi,
+  fileNameRealisasi,
 };

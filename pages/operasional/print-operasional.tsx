@@ -1,22 +1,22 @@
-import { Button } from "@mui/material";
+ import { Button } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import SaldoText from "../../components/Atom/SaldoText";
 import { dataOp, periodeOp } from "../../store";
 import { PeriodeLpeType } from "../../store/types";
 
 export default function PrintLpe() {
-  const [data, setData] = useRecoilState(dataOp);
-  const [periode, setPeriode] = useRecoilState(periodeOp);
+  // const [data, setData] = useState([]);
   // const [periode, setPeriode] = useState<PeriodeLpeType>({
-  //   bulan: "",
-  //   dariTh: "",
-  //   sampaiTh: "",
-  // });
-
-  // const periode = useRecoilValue(periodLPE);
+    //   bulan: "",
+    //   dariTh: "",
+    //   sampaiTh: "",
+    // });
+    
+  const data = useRecoilValue(dataOp);
+  const periode = useRecoilValue(periodeOp);
 
   useEffect(() => {
     // const item: any = JSON.parse(localStorage.getItem("upDataLocal") || "[]");
@@ -29,7 +29,7 @@ export default function PrintLpe() {
   return (
     <>
       <Head>
-        <title>Laporan Arus Kas - DPK Amikom</title>
+        <title>Laporan Operasional - Kementrian Pertahanan RI</title>
         <meta
           name="description"
           content="Meta description untuk Laporan Arus kas"
@@ -38,7 +38,7 @@ export default function PrintLpe() {
       <div className="wrapper h-100">
         <div className="content-wrapper">
           <div className="text-center">
-            <h4 className="text-bold">LAPORAN OPERASIONAL</h4>
+            <h4 className="text-bold">LAPORAN PERUBAHAN EKUITAS</h4>
             <h5 className="text-bold">{`Untuk Periode Yang Berakhir Pada 31 ${periode.bulan} ${periode.dariTh} Hingga ${periode.sampaiTh}`}</h5>
             <p className="text-italic">(dalam rupiah)</p>
           </div>
@@ -68,16 +68,7 @@ export default function PrintLpe() {
                 </tr>
               </thead>
               <tbody>
-                {data
-                .filter((row: any) => {
-                  if (
-                    row.E !== "" &&
-                    row.I !== "KENAIKAN/ PENURUNAN"
-                  ) {
-                    return row;
-                  }
-                })
-                .map((item: any, index: any) => (
+                {data.map((item: any, index: any) => (
                   <tr key={index}>
                     {/* <pre> */}
                     <td className="text-start">
@@ -86,15 +77,21 @@ export default function PrintLpe() {
                     </td>
                     {/* </pre> */}
                     <td className="text-center">-</td>
-                    <td className="text-end">
+                    {item.E < 0 ? <td className="text-end">
+                      (<SaldoText value={item.E * -1} />)
+                    </td> : <td className="text-end">
                       <SaldoText value={item.E} />
-                    </td>
-                    <td className="text-end">
+                    </td>}
+                    {item.G < 0 ? <td className="text-end">
+                      (<SaldoText value={item.G * -1} />)
+                    </td> : <td className="text-end">
                       <SaldoText value={item.G} />
-                    </td>
-                    <td className="text-end">
+                    </td>}
+                    {item.I < 0 ? <td className="text-end">
+                      (<SaldoText value={item.I * -1} />)
+                    </td> : <td className="text-end">
                       <SaldoText value={item.I} />
-                    </td>
+                    </td>}              
                   </tr>
                 ))}
               </tbody>

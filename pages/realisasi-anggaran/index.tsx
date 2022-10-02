@@ -19,19 +19,28 @@ import ModalPeriode from "../../components/ModalPeriode";
 import { useRecoilState, useRecoilValue } from "recoil";
 import Link from "next/link";
 import { PeriodeLpeType } from "../../store/types";
-import { dataNeraca, fileNameNeraca, periodeNeraca, periodeOp } from "../../store";
+import {
+  dataNeraca,
+  dataRealisasi,
+  fileNameNeraca,
+  fileNameRealisasi,
+  periodeNeraca,
+  periodeOp,
+  periodeRealisasi,
+} from "../../store";
 import ModalOperasional from "../../components/ModalOperasional";
+import SaldoText from "../../components/Atom/SaldoText";
 
 export default function RealisasiAnggaran() {
-
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [items, setItems] = useRecoilState(dataNeraca);
-  const [periode, setPeriode] = useRecoilState<PeriodeLpeType>(periodeNeraca);
-  const [fileName, setFileName] = useRecoilState(fileNameNeraca);
+  const [items, setItems] = useRecoilState(dataRealisasi);
+  const [periode, setPeriode] =
+    useRecoilState<PeriodeLpeType>(periodeRealisasi);
+  const [fileName, setFileName] = useRecoilState(fileNameRealisasi);
 
   const readExcel = (file: any) => {
     const fileReader = new FileReader();
@@ -63,7 +72,13 @@ export default function RealisasiAnggaran() {
     promise.then((d: any) => {
       // setItems(d);
       // localStorage.setItem("upDataOperasional", JSON.stringify(d));
-      setItems(d);
+      setItems(
+        d.filter((row: any) => {
+          if (row.B !== "" && row.B !== "2" && row.B !== "URAIAN") {
+            return row;
+          }
+        })
+      );
       console.log(d);
     });
   };
@@ -153,8 +168,8 @@ export default function RealisasiAnggaran() {
                                 handleClose();
                               }}
                               handleReload={() => {}}
-                              dataPeriode={(periodeNer : PeriodeLpeType) => {
-                                setPeriode(periodeNer)
+                              dataPeriode={(periodeNer: PeriodeLpeType) => {
+                                setPeriode(periodeNer);
                               }}
                             />
                           </Modal.Body>
@@ -231,7 +246,9 @@ export default function RealisasiAnggaran() {
                       </button> */}
                       <Button
                         variant="contained"
-                        onClick={() => {}}
+                        onClick={() => {
+                          setItems([]);
+                        }}
                         sx={{
                           backgroundColor: "#303f9f",
                           textTransform: "capitalize",
@@ -243,12 +260,11 @@ export default function RealisasiAnggaran() {
                         Reset Data
                       </Button>
                       {
-                        <Link href="/print-lpe">
+                        <Link href="/realisasi-anggaran/print-realisasi">
                           <a
                             type="button"
-                            onClick={() => {setItems([]);}}
+                            onClick={() => {}}
                             className="btn btn-primary ms-3"
-                            target="_blank"
                           >
                             Print
                           </a>
@@ -260,63 +276,88 @@ export default function RealisasiAnggaran() {
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                       <TableHead>
                         <TableRow>
-                          <TableCell align="center" rowSpan={2}>NO</TableCell>
-                          <TableCell align="center" rowSpan={2}>URAIAN</TableCell>
-                          <TableCell align="center" colSpan={4}>{periode?.dariTh !== '' ? periode?.dariTh : 'dari tahun'}</TableCell>
+                          <TableCell align="center" rowSpan={2}>
+                            NO
+                          </TableCell>
+                          <TableCell align="center" rowSpan={2}>
+                            URAIAN
+                          </TableCell>
+                          <TableCell align="center" colSpan={3}>
+                            {periode?.dariTh !== ""
+                              ? periode?.dariTh
+                              : "dari tahun"}
+                          </TableCell>
+                          <TableCell align="center" rowSpan={2}>
+                            % thd Anggaran
+                          </TableCell>
                           <TableCell align="center" colSpan={4}>
-                            {periode?.sampaiTh !== '' ? periode?.sampaiTh : 'sampai tahun'}
+                            {periode?.sampaiTh !== ""
+                              ? periode?.sampaiTh
+                              : "sampai tahun"}
                           </TableCell>
                         </TableRow>
                         <TableRow>
                           <TableCell align="center">Anggaran</TableCell>
                           <TableCell align="center">Realisasi</TableCell>
-                          <TableCell align="center">Realisasi di atas (bawah) Anggaran</TableCell>
                           <TableCell align="center">
-                            %
+                            Realisasi di atas (bawah) Anggaran
                           </TableCell>
-                          <TableCell align="center">Anggaran</TableCell>
+
+                          {/* <TableCell align="center">Anggaran</TableCell> */}
                           <TableCell align="center">Realisasi</TableCell>
-                          <TableCell align="center">Realisasi di atas (bawah) Anggaran</TableCell>
+                          {/* <TableCell align="center">Realisasi di atas (bawah) Anggaran</TableCell>
                           <TableCell align="center">
                             %
-                          </TableCell>
+                          </TableCell> */}
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {items
-                        .filter((row:any) => {
-                          if(
-                            row.B !== "" && row.B !== "2" && row.B !== 'URAIAN'
-                          ){
-                            return row;
-                          }
-                        })
-                        .map((row : any, index: any) => (
+                        {items.map((row: any, index: any) => (
                           <TableRow
                             key={index}
                             sx={{
                               "&:last-child td, &:last-child th": { border: 0 },
                             }}
                           >
-                            <TableCell align="center" width={2}>
+                            <TableCell
+                              align="center"
+                              width={2}
+                              className="text-bold"
+                            >
                               {row.A}
                             </TableCell>
-                            <TableCell component="th" scope="row" align="left">
+                            <TableCell component="th" scope="row" align="left" sx={{verticalAlign : 'middle'}}>
                               {/* {row.A.replace(/\s/g, "&nbsp;")} */}
-                              <pre className={row.A !== '' || row.B === "JUMLAH" ? 'text-bold' : "" }>{row.B}</pre>                              
+                              <pre
+                                className={
+                                  row.A !== "" || row.B.match(/^JUMLAH.*$/)
+                                    ? "text-bold"
+                                    : ""
+                                }
+                              >
+                                {row.B}
+                              </pre>
                             </TableCell>
                             <TableCell align="right" width={2}>
-                              {row.D}
+                              <SaldoText value={row.D} />
                             </TableCell>
-                            <TableCell align="right">{row.E}</TableCell>
-                            <TableCell align="right">{row.F}</TableCell>
-                            <TableCell align="right">{row.G}</TableCell>
-                            <TableCell align="right" width={2}>
-                              {row.D}
+                            <TableCell align="right">
+                              <SaldoText value={row.E} />
                             </TableCell>
-                            <TableCell align="right">{row.E}</TableCell>
-                            <TableCell align="right">{row.F}</TableCell>
-                            <TableCell align="right">{row.G}</TableCell>
+                            <TableCell align="right">
+                              <SaldoText value={row.F} />
+                            </TableCell>
+                            <TableCell align="center">
+                              <SaldoText value={row.G} />
+                            </TableCell>
+                            {/* <TableCell align="right" width={2}>
+                              {row.D}
+                            </TableCell> */}
+                            <TableCell align="right">
+                              <SaldoText value={row.P} />
+                            </TableCell>
+                            {/* <TableCell align="right">{row.F}</TableCell>
+                            <TableCell align="right">{row.G}</TableCell> */}
                           </TableRow>
                         ))}
                       </TableBody>

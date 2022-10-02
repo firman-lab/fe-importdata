@@ -4,12 +4,12 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import SaldoText from "../../components/Atom/SaldoText";
-import { dataOp, periodeOp } from "../../store";
+import { dataNeraca, dataOp, periodeNeraca, periodeOp } from "../../store";
 import { PeriodeLpeType } from "../../store/types";
 
 export default function PrintLpe() {
-  const [data, setData] = useRecoilState(dataOp);
-  const [periode, setPeriode] = useRecoilState(periodeOp);
+  const [data, setData] = useRecoilState(dataNeraca);
+  const [periode, setPeriode] = useRecoilState(periodeNeraca);
   // const [periode, setPeriode] = useState<PeriodeLpeType>({
   //   bulan: "",
   //   dariTh: "",

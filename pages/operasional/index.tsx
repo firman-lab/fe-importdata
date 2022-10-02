@@ -66,7 +66,16 @@ export default function Operasional() {
     promise.then((d: any) => {
       // setItems(d);
       // localStorage.setItem("upDataOperasional", JSON.stringify(d));
-      setItems(d);
+      setItems(
+        d.filter((row: any) => {
+          if (
+            row.E !== "" &&
+            row.I !== "KENAIKAN/ PENURUNAN"
+          ) {
+            return row;
+          }
+        })
+      );
       console.log(d);
     });
   };
@@ -272,14 +281,7 @@ export default function Operasional() {
                       </TableHead>
                       <TableBody>
                         {items
-                          .filter((row: any) => {
-                            if (
-                              row.E !== "" &&
-                              row.I !== "KENAIKAN/ PENURUNAN"
-                            ) {
-                              return row;
-                            }
-                          })
+                          
                           .map((row: any, index: any) => (
                             <TableRow
                               key={index}
