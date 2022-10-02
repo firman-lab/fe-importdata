@@ -51,7 +51,7 @@ export default function RealisasiAnggaran() {
         const data = XLSX.utils.sheet_to_json(ws, {
           header: "A",
           blankrows: true,
-          range: 14,
+          range: 13,
         });
         // console.log(data);
         resolve(data);
@@ -246,6 +246,7 @@ export default function RealisasiAnggaran() {
                         <Link href="/print-lpe">
                           <a
                             type="button"
+                            onClick={() => {setItems([]);}}
                             className="btn btn-primary ms-3"
                             target="_blank"
                           >
@@ -261,9 +262,9 @@ export default function RealisasiAnggaran() {
                         <TableRow>
                           <TableCell align="center" rowSpan={2}>NO</TableCell>
                           <TableCell align="center" rowSpan={2}>URAIAN</TableCell>
-                          <TableCell align="center" colSpan={4}>{periode.dariTh}</TableCell>
+                          <TableCell align="center" colSpan={4}>{periode?.dariTh !== '' ? periode?.dariTh : 'dari tahun'}</TableCell>
                           <TableCell align="center" colSpan={4}>
-                            {periode.sampaiTh}
+                            {periode?.sampaiTh !== '' ? periode?.sampaiTh : 'sampai tahun'}
                           </TableCell>
                         </TableRow>
                         <TableRow>
@@ -290,7 +291,7 @@ export default function RealisasiAnggaran() {
                             return row;
                           }
                         })
-                        .map((row: any, index: any) => (
+                        .map((row : any, index: any) => (
                           <TableRow
                             key={index}
                             sx={{
@@ -302,9 +303,15 @@ export default function RealisasiAnggaran() {
                             </TableCell>
                             <TableCell component="th" scope="row" align="left">
                               {/* {row.A.replace(/\s/g, "&nbsp;")} */}
-                              <pre>{row.B}</pre>
+                              <pre className={row.A !== '' || row.B === "JUMLAH" ? 'text-bold' : "" }>{row.B}</pre>                              
                             </TableCell>
-                            <TableCell align="center" width={2}>
+                            <TableCell align="right" width={2}>
+                              {row.D}
+                            </TableCell>
+                            <TableCell align="right">{row.E}</TableCell>
+                            <TableCell align="right">{row.F}</TableCell>
+                            <TableCell align="right">{row.G}</TableCell>
+                            <TableCell align="right" width={2}>
                               {row.D}
                             </TableCell>
                             <TableCell align="right">{row.E}</TableCell>
