@@ -54,7 +54,7 @@ export default function Neraca() {
         const data = XLSX.utils.sheet_to_json(ws, {
           header: "A",
           blankrows: true,
-          range: 14,
+          range: 10,
         });
         // console.log(data);
         resolve(data);
@@ -66,10 +66,19 @@ export default function Neraca() {
     promise.then((d: any) => {
       // setItems(d);
       // localStorage.setItem("upDataOperasional", JSON.stringify(d));
-      setItems(d);
-      console.log(d);
+      setItems(
+        d.filter((row: any) => {
+          if (
+            row.F !== "" && row.A !== "NAMA PERKIRAAN" && row.A !== '1'
+          ) {
+            return row;
+          }
+        })
+      );
+      // console.log(d);
     });
   };
+
 
   return (
     <>
@@ -159,16 +168,17 @@ export default function Neraca() {
                             />
                           </Modal.Body>
                         </Modal>
-                        {periode.dariTh !== "" ? (
+                        {periode.dariTh !== "" && items.length === 0 ? (
                           <input
                             className="text-center mt-3 pt-3 pe-2 pb-3 ps-2 bg-white"
                             type="file"
                             accept=".xlsx"
                             onChange={(e: any) => {
-                              if (e.target != null) {
+                              if (e.target !== null) {
                                 const file = e.target.files[0]!;
                                 readExcel(file);
                                 setFileName(e.target.files[0].name);
+                                e.target.value =  null
                               } else {
                                 // eslint-disable-next-line no-alert
                                 alert("pilih file xlsx duls!");
@@ -227,7 +237,7 @@ export default function Neraca() {
                       <Button
                         variant="contained"
                         onClick={() => {
-                          console.log(periodeNeraca);
+                          setItems([]);
                         }}
                         sx={{
                           backgroundColor: "#303f9f",
@@ -240,7 +250,7 @@ export default function Neraca() {
                         Reset Data
                       </Button>
                       {
-                        <Link href="/operasional/print-operasional">
+                        <Link href="/neraca/print-neraca">
                           <Button
                             className="d-print-none m-3"
                             variant="contained"
@@ -252,7 +262,9 @@ export default function Neraca() {
                                 color: "#fff",
                               },
                             }}
-                          >Print!</Button>
+                          >
+                            Print!
+                          </Button>
                         </Link>
                       }
                     </div>
@@ -263,61 +275,53 @@ export default function Neraca() {
                         <TableRow>
                           {/* <TableCell align="center">No.</TableCell> */}
                           <TableCell align="center">Uraian</TableCell>
+                          <TableCell align="center">Cttn</TableCell>
                           <TableCell align="center">{periode.dariTh}</TableCell>
                           <TableCell align="center">
                             {periode.sampaiTh}
                           </TableCell>
-                          <TableCell align="center">
-                            Kenaikan/Penurunan
-                          </TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {items
-                          .filter((row: any) => {
-                            if (
-                              row.E !== "" &&
-                              row.I !== "KENAIKAN/ PENURUNAN"
-                            ) {
-                              return row;
-                            }
-                          })
-                          .map((row: any, index: any) => (
-                            <TableRow
-                              key={index}
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                              }}
-                            >
-                              {/* <TableCell align="center">
+                        {items.map((row: any, index: any) => (
+                          <TableRow
+                            key={index}
+                            sx={{
+                              "&:last-child td, &:last-child th": {
+                                border: 0,
+                              },
+                            }}
+                          >
+                            {/* <TableCell align="center">
                                 {(index + 1).toString()}
                               </TableCell> */}
-                              <TableCell
-                                component="th"
-                                scope="row"
-                                align="left"
-                              >
-                                <pre>{row.A}</pre>
-                              </TableCell>
+                            <TableCell component="th" scope="row" align="left">
+                              {row.A}
+                            </TableCell>
+                            <TableCell align="center">
+                              <SaldoText value={0} />
+                            </TableCell>
+                            {row.F < 0 ? (
                               <TableCell align="right">
-                                <SaldoText value={row.E} />
+                                (<SaldoText value={row.F * -1} />)
                               </TableCell>
+                            ) : (
                               <TableCell align="right">
-                                <SaldoText value={row.G} />
+                                <SaldoText value={row.F} />
                               </TableCell>
-                              {row.I < 0 ? (
-                                <TableCell align="right">
-                                  (<SaldoText value={row.I * -1} />)
-                                </TableCell>
-                              ) : (
-                                <TableCell align="right">
-                                  <SaldoText value={row.I} />
-                                </TableCell>
-                              )}
-                            </TableRow>
-                          ))}
+                            )}
+                            {row.H < 0 ? (
+                              <TableCell align="right">
+                                (<SaldoText value={row.H * -1} />)
+                              </TableCell>
+                            ) : (
+                              <TableCell align="right">
+                                <SaldoText value={row.H} />
+                              </TableCell>
+                              //Nama header masih masuk neraca
+                            )}
+                          </TableRow>
+                        ))}
                       </TableBody>
                     </Table>
                   </TableContainer>
