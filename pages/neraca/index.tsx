@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import * as XLSX from "xlsx";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import SaldoText from "../../components/Atom/SaldoText";
 import { PeriodeLpeType } from "../../store/types";
@@ -19,6 +19,16 @@ import { Modal } from "react-bootstrap";
 import ModalOperasional from "../../components/ModalOperasional";
 import { useRecoilState } from "recoil";
 import { dataNeraca, fileNameNeraca, periodeNeraca } from "../../store";
+
+const heads = [
+  'ASET',
+  'ASETTETAP',
+  'ASETLANCAR',
+  'KEWAJIBAN',
+  'KEWAJIBANJANGKAPANJANG',
+  'KEWAJIBANJANGKA',
+  'EKUITAS',
+]
 
 export default function Neraca() {
   // const [items, setItems] = useState([]);
@@ -35,6 +45,10 @@ export default function Neraca() {
   //   dariTh: "",
   //   sampaiTh: "",
   // });
+
+  useEffect(() => {
+    console.log("c", items);
+  }, [items]);
 
   const readExcel = (file: any) => {
     const fileReader = new FileReader();
@@ -66,19 +80,27 @@ export default function Neraca() {
     promise.then((d: any) => {
       // setItems(d);
       // localStorage.setItem("upDataOperasional", JSON.stringify(d));
-      setItems(
-        d.filter((row: any) => {
-          if (
-            row.F !== "" && row.A !== "NAMA PERKIRAAN" && row.A !== '1'
-          ) {
-            return row;
-          }
-        })
-      );
+      const d1 = d.filter(function (row: any, index: any) {
+        if (index < 39) {
+          return row;
+        }
+      });
+      const d2 = d.filter(function (row: any, index: any) {
+        if (index >= 50) {
+          return row;
+        }
+      });
+      setItems(d1.concat(d2));
       // console.log(d);
     });
   };
 
+  function filt(a : string) {
+     for(let i in heads){
+      if(a.replace(/ /g,'') === heads[i])
+        return true;
+     }
+    }
 
   return (
     <>
@@ -178,7 +200,7 @@ export default function Neraca() {
                                 const file = e.target.files[0]!;
                                 readExcel(file);
                                 setFileName(e.target.files[0].name);
-                                e.target.value =  null
+                                e.target.value = null;
                               } else {
                                 // eslint-disable-next-line no-alert
                                 alert("pilih file xlsx duls!");
@@ -238,6 +260,7 @@ export default function Neraca() {
                         variant="contained"
                         onClick={() => {
                           setItems([]);
+                          setFileName("");
                         }}
                         sx={{
                           backgroundColor: "#303f9f",
@@ -295,12 +318,13 @@ export default function Neraca() {
                             {/* <TableCell align="center">
                                 {(index + 1).toString()}
                               </TableCell> */}
-                            <TableCell component="th" scope="row" align="left">
+                            <TableCell component="th" scope="row" align="left" 
+                            className={row.A.match(/^JUMLAH.*$/) || filt(row.A) === true
+                            ? "text-bold"
+                            : ""}>
                               {row.A}
                             </TableCell>
-                            <TableCell align="center">
-                              <SaldoText value={0} />
-                            </TableCell>
+                            <TableCell align="center"></TableCell>
                             {row.F < 0 ? (
                               <TableCell align="right">
                                 (<SaldoText value={row.F * -1} />)
