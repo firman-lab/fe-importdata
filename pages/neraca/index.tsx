@@ -319,7 +319,7 @@ export default function Neraca() {
                                 {(index + 1).toString()}
                               </TableCell> */}
                             <TableCell component="th" scope="row" align="left" 
-                            className={row.A.match(/^JUMLAH.*$/) || filt(row.A) === true
+                            className={row.A.match(/^JUMLAH.*$/) || filt(row.A)
                             ? "text-bold"
                             : ""}>
                               {row.A}

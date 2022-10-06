@@ -248,6 +248,7 @@ export default function RealisasiAnggaran() {
                         variant="contained"
                         onClick={() => {
                           setItems([]);
+                          setFileName('');
                         }}
                         sx={{
                           backgroundColor: "#303f9f",

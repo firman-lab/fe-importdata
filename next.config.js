@@ -2,5 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
 }
-
-module.exports = nextConfig
+//menghilangkan loading next js
+const devIndicators = {
+  buildActivity: false,
+}
+module.exports = nextConfig, devIndicators

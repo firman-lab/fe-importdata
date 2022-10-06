@@ -168,7 +168,7 @@ export default function Operasional() {
                             />
                           </Modal.Body>
                         </Modal>
-                        {periode.dariTh !== "" ? (
+                        {periode.dariTh !== "" || items.length > 0 ? (
                           <input
                             className="text-center mt-3 pt-3 pe-2 pb-3 ps-2 bg-white"
                             type="file"
@@ -235,8 +235,10 @@ export default function Operasional() {
                       </button> */}
                       <Button
                         variant="contained"
+                        disabled= {items.length > 0 ? false : true}
                         onClick={() => {
-                          console.log(periodeOp);
+                          setItems([]);
+                          setFileName('');
                         }}
                         sx={{
                           backgroundColor: "#303f9f",
@@ -280,8 +282,7 @@ export default function Operasional() {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {items
-                          
+                        {items 
                           .map((row: any, index: any) => (
                             <TableRow
                               key={index}

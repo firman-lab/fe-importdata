@@ -5,14 +5,32 @@ import { useRecoilValue } from "recoil";
 import SaldoText from "../../components/Atom/SaldoText";
 import { dataNeraca, periodeNeraca} from "../../store";
 
+const heads = [
+  'ASET',
+  'ASETTETAP',
+  'ASETLANCAR',
+  'KEWAJIBAN',
+  'KEWAJIBANJANGKAPANJANG',
+  'KEWAJIBANJANGKA',
+  'EKUITAS',
+]
+
 export default function PrintLpe() {
   const data = useRecoilValue(dataNeraca);
   const periode = useRecoilValue(periodeNeraca);
 
+  function filt(a : string) {
+    for(let i in heads){
+     if(a.replace(/ /g,'') === heads[i])
+       return true;
+    }
+   }
+
+
   return (
     <>
       <Head>
-        <title>Laporan Arus Kas - DPK Amikom</title>
+        <title>Laporan Neraca - Kemenhan RI</title>
         <meta
           name="description"
           content="Meta description untuk Laporan Arus kas"
@@ -21,7 +39,7 @@ export default function PrintLpe() {
       <div className="wrapper h-100">
         <div className="content-wrapper">
           <div className="text-center">
-            <h4 className="text-bold">LAPORAN OPERASIONAL</h4>
+            <h4 className="text-bold">LAPORAN NERACA</h4>
             <h5 className="text-bold">{`Untuk Periode Yang Berakhir Pada 31 ${periode.bulan} ${periode.dariTh} Hingga ${periode.sampaiTh}`}</h5>
             <p className="text-italic">(dalam rupiah)</p>
           </div>
@@ -54,9 +72,10 @@ export default function PrintLpe() {
                 .map((item: any, index: any) => (
                   <tr key={index}>
                     {/* <pre> */}
-                    <td className="text-start">
-                      {/* {item.A.replace(/\s/g, "&nbsp;")} */}
-                      <pre>{item.A}</pre>
+                    <td
+                      className={item.A.match(/^JUMLAH.*$/) || filt(item.A)
+                            ? "text-bold"
+                            : "ps-5"}> {item.A}
                     </td>
                     {/* </pre> */}
                     <td className="text-center"></td>
