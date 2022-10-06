@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import Sidebar from "../components/Sidebar";
 
@@ -15,16 +16,17 @@ const Home: NextPage = () => {
             <div className="d-flex justify-content-between align-items-center w-100 mb-3 mb-md-0">
               <div className="d-flex justify-content-start align-items-center">
                 <button id="toggle-navbar" onClick={() => {}}>
-                  <img
-                    src="../assets/img/global/burger.svg"
-                    className="mb-2"
+                  <Image
+                    src="/assets/img/global/burger.svg"
                     alt=""
+                    height={24}
+                    width={24}
                   />
                 </button>
                 <h2 className="nav-title">Overview</h2>
               </div>
               <button className="btn-notif d-block d-md-none">
-                <img src="../assets/img/global/bell.svg" alt="" />
+                <Image src="/assets/img/global/bell.svg" alt="" height={24} width={24} />
               </button>
             </div>
             <div className="d-flex justify-content-between align-items-center nav-input-container">
@@ -46,7 +48,7 @@ const Home: NextPage = () => {
           <div className="content">
             <div className="row">
               <div className="col-12">
-                <Link href="/import-data">
+                {/* <Link href="/import-data">
                   <div className="col-12 col-md-12 col-lg-12">
                     <div className="statistics-card import-link">
                       <div className="d-flex justify-content-center align-items-center">
@@ -91,7 +93,7 @@ const Home: NextPage = () => {
                       </div>
                     </div>
                   </div>
-                </Link>
+                </Link> */}
               </div>
                 <h2 className="content-title">Statistics</h2>
                 <h5 className="content-desc mb-4">Your business growth</h5>

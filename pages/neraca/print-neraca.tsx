@@ -1,30 +1,13 @@
 import { Button } from "@mui/material";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import React from "react";
+import { useRecoilValue } from "recoil";
 import SaldoText from "../../components/Atom/SaldoText";
-import { dataNeraca, dataOp, periodeNeraca, periodeOp } from "../../store";
-import { PeriodeLpeType } from "../../store/types";
+import { dataNeraca, periodeNeraca} from "../../store";
 
 export default function PrintLpe() {
-  const [data, setData] = useRecoilState(dataNeraca);
-  const [periode, setPeriode] = useRecoilState(periodeNeraca);
-  // const [periode, setPeriode] = useState<PeriodeLpeType>({
-  //   bulan: "",
-  //   dariTh: "",
-  //   sampaiTh: "",
-  // });
-
-  // const periode = useRecoilValue(periodLPE);
-
-  useEffect(() => {
-    // const item: any = JSON.parse(localStorage.getItem("upDataLocal") || "[]");
-    // setData(item);
-    // const period = JSON.parse(localStorage.getItem("periodeLPE") || "{}");
-    // setPeriode(period);
-    // console.log(period);
-  }, []);
+  const data = useRecoilValue(dataNeraca);
+  const periode = useRecoilValue(periodeNeraca);
 
   return (
     <>
@@ -64,19 +47,10 @@ export default function PrintLpe() {
                   <th scope="col">Cttn</th>
                   <th scope="col">{periode.dariTh}</th>
                   <th scope="col">{periode.sampaiTh}</th>
-                  <th scope="col">Kenaikan/Penurunan</th>
                 </tr>
               </thead>
               <tbody>
                 {data
-                .filter((row: any) => {
-                  if (
-                    row.E !== "" &&
-                    row.I !== "KENAIKAN/ PENURUNAN"
-                  ) {
-                    return row;
-                  }
-                })
                 .map((item: any, index: any) => (
                   <tr key={index}>
                     {/* <pre> */}
@@ -85,16 +59,26 @@ export default function PrintLpe() {
                       <pre>{item.A}</pre>
                     </td>
                     {/* </pre> */}
-                    <td className="text-center">-</td>
-                    <td className="text-end">
-                      <SaldoText value={item.E} />
-                    </td>
-                    <td className="text-end">
-                      <SaldoText value={item.G} />
-                    </td>
-                    <td className="text-end">
-                      <SaldoText value={item.I} />
-                    </td>
+                    <td className="text-center"></td>
+                    {item.F < 0 ? 
+                      <td className="text-end">
+                        (<SaldoText value={item.F * -1} />)
+                      </td> 
+                        : 
+                      <td className="text-end">
+                        <SaldoText value={item.F} />
+                      </td> 
+                    }
+                   {item.H < 0 ? 
+                      <td className="text-end">
+                        (<SaldoText value={item.F * -1} />)
+                      </td> 
+                        : 
+                      <td className="text-end">
+                        <SaldoText value={item.H} />
+                      </td> 
+                    }
+                   
                   </tr>
                 ))}
               </tbody>
