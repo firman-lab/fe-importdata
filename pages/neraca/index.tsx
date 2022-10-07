@@ -306,7 +306,13 @@ export default function Neraca() {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {items.map((row: any, index: any) => (
+                        {items
+                        // .filter((row : any) => {
+                        //   if(row.F !== '0' && row.H !== '0'){
+                        //     return row;
+                        //   }
+                        // })
+                        .map((row: any, index: any) => (
                           <TableRow
                             key={index}
                             sx={{
