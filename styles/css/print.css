@@ -7,4 +7,21 @@
 pre{
     font-family: "Roboto";
     font-size: 0.875rem;
+    margin-bottom: 0 !important;
 }
+.header, .header-space,
+.footer, .footer-space {
+  height: 100px;
+}
+.header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+  }
+.footer {
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+  }
+
+  

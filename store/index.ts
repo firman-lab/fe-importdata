@@ -48,7 +48,10 @@ const periodLPE = atom<PeriodeLpeType>({
     sampaiTh: "",
   },
 });
-
+const dataLPE = atom({
+  key: "data-lpe",
+  default: [],
+});
 const fileNameLpe = atom<String>({
   key: "filename-lpe",
   default: "",
@@ -123,6 +126,7 @@ export {
   TransInOutBulananRec,
   periodLPE,
   fileNameLpe,
+  dataLPE,
   periodeOp,
   dataOp,
   fileNameOp,

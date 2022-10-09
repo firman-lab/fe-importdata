@@ -125,114 +125,121 @@ export default function RealisasiAnggaran() {
           </div>
           <div className="content">
             <div className="row">
-              <div className="col-12">
-                <div className="col-12 col-md-12 col-lg-12">
-                  <div className="statistics-card import-link">
-                    <div className="d-flex justify-content-center align-items-center">
-                      <div className="d-flex flex-column justify-content-between align-items-center">
-                        <h5 className="content-desc text-secondary">
-                          Import data Excel.xlsx
-                        </h5>
-                        <h3 className="statistics-value text-white">
-                          Laporan Realisasi Anggaran
-                        </h3>
-                        <Button
-                          onClick={handleShow}
-                          variant="contained"
-                          sx={{
-                            backgroundColor: "#4640DE",
-                            textTransform: "capitalize",
-                            "&:hover": {
-                              backgroundColor: " #2721c4",
-                            },
-                          }}
-                        >
-                          Set Periode Data
-                        </Button>
-                        {/* <button className="btn-primary" type="button" onClick={handleShow}>
-                          Tambah Data
-                        </button> */}
-                        <Modal
-                          show={show}
-                          onHide={handleClose}
-                          backdrop="static"
-                          size="lg"
-                          aria-labelledby="detail-modal"
-                        >
-                          <Modal.Header closeButton>
-                            <Modal.Title>Pilih Periode</Modal.Title>
-                          </Modal.Header>
-                          <Modal.Body>
-                            <ModalOperasional
-                              handleclose={() => {
-                                handleClose();
-                              }}
-                              handleReload={() => {}}
-                              dataPeriode={(periodeNer: PeriodeLpeType) => {
-                                setPeriode(periodeNer);
+              {items.length > 0 ? (
+                <div />
+              ) : (
+                <div className="col-12">
+                  <div className="col-12 col-md-12 col-lg-12">
+                    <div className="statistics-card import-link">
+                      <div className="d-flex justify-content-center align-items-center">
+                        <div className="d-flex flex-column justify-content-between align-items-center">
+                          <h5 className="content-desc text-secondary">
+                            Import data Excel.xlsx
+                          </h5>
+                          <h3 className="statistics-value text-white">
+                            Laporan Realisasi Anggaran
+                          </h3>
+                          <Button
+                            onClick={handleShow}
+                            variant="contained"
+                            sx={{
+                              backgroundColor: "#4640DE",
+                              textTransform: "capitalize",
+                              "&:hover": {
+                                backgroundColor: " #2721c4",
+                              },
+                              fontSize:24,
+                              width: 250,
+                              height: 65,
+                            }}
+                          >
+                            Set Periode
+                          </Button>
+                          {/* <button className="btn-primary" type="button" onClick={handleShow}>
+                            Tambah Data
+                          </button> */}
+                          <Modal
+                            show={show}
+                            onHide={handleClose}
+                            backdrop="static"
+                            size="lg"
+                            aria-labelledby="detail-modal"
+                          >
+                            <Modal.Header closeButton>
+                              <Modal.Title>Pilih Periode</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                              <ModalOperasional
+                                handleclose={() => {
+                                  handleClose();
+                                }}
+                                handleReload={() => {}}
+                                dataPeriode={(periodeNer: PeriodeLpeType) => {
+                                  setPeriode(periodeNer);
+                                }}
+                              />
+                            </Modal.Body>
+                          </Modal>
+                          {periode.dariTh === "" || items.length > 0 ? (
+                            <div />
+                          ) : (
+                            <input
+                              className="text-center mt-3 pt-3 pe-2 pb-3 ps-2 bg-white"
+                              type="file"
+                              accept=".xlsx"
+                              onChange={(e: any) => {
+                                if (e.target != null) {
+                                  const file = e.target.files[0]!;
+                                  readExcel(file);
+                                  setFileName(e.target.files[0].name);
+                                  // const namaFile = e.target.files[0].name;
+                                  localStorage.setItem(
+                                    "namaFileLpe",
+                                    JSON.stringify(e.target.files[0].name)
+                                  );
+                                } else {
+                                  // eslint-disable-next-line no-alert
+                                  alert("pilih file xlsx duls!");
+                                }
                               }}
                             />
-                          </Modal.Body>
-                        </Modal>
-                        {periode.dariTh === "" || items.length > 0 ? (
-                          <div />
-                        ) : (
-                          <input
-                            className="text-center mt-3 pt-3 pe-2 pb-3 ps-2 bg-white"
-                            type="file"
-                            accept=".xlsx"
-                            onChange={(e: any) => {
-                              if (e.target != null) {
-                                const file = e.target.files[0]!;
-                                readExcel(file);
-                                setFileName(e.target.files[0].name);
-                                // const namaFile = e.target.files[0].name;
-                                localStorage.setItem(
-                                  "namaFileLpe",
-                                  JSON.stringify(e.target.files[0].name)
-                                );
-                              } else {
-                                // eslint-disable-next-line no-alert
-                                alert("pilih file xlsx duls!");
-                              }
-                            }}
-                          />
-                        )}
+                          )}
+                        </div>
+                        <button className="ms-3 btn-statistics ">
+                          <img src="../assets/img/global/times.svg" alt="" />
+                        </button>
                       </div>
-                      <button className="ms-3 btn-statistics ">
-                        <img src="../assets/img/global/times.svg" alt="" />
-                      </button>
-                    </div>
-                    <div className="statistics-list">
-                      <img
-                        className="statistics-image"
-                        src="../assets/img/home/history/photo-4.png"
-                        alt=""
-                      />
-                      <img
-                        className="statistics-image"
-                        src="../assets/img/home/history/photo-3.png"
-                        alt=""
-                      />
-                      <img
-                        className="statistics-image"
-                        src="../assets/img/home/history/photo.png"
-                        alt=""
-                      />
-                      <img
-                        className="statistics-image"
-                        src="../assets/img/home/history/photo-1.png"
-                        alt=""
-                      />
-                      <img
-                        className="statistics-image"
-                        src="../assets/img/home/history/photo-2.png"
-                        alt=""
-                      />
+                      <div className="statistics-list">
+                        <img
+                          className="statistics-image"
+                          src="../assets/img/home/history/photo-4.png"
+                          alt=""
+                        />
+                        <img
+                          className="statistics-image"
+                          src="../assets/img/home/history/photo-3.png"
+                          alt=""
+                        />
+                        <img
+                          className="statistics-image"
+                          src="../assets/img/home/history/photo.png"
+                          alt=""
+                        />
+                        <img
+                          className="statistics-image"
+                          src="../assets/img/home/history/photo-1.png"
+                          alt=""
+                        />
+                        <img
+                          className="statistics-image"
+                          src="../assets/img/home/history/photo-2.png"
+                          alt=""
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
               <section className="mt-3">
                 <div className="card p-2">
                   <div className="d-flex justify-content-between p-2">
@@ -246,9 +253,10 @@ export default function RealisasiAnggaran() {
                       </button> */}
                       <Button
                         variant="contained"
+                        disabled={items.length > 0 ? false : true}
                         onClick={() => {
                           setItems([]);
-                          setFileName('');
+                          setFileName("");
                         }}
                         sx={{
                           backgroundColor: "#303f9f",
@@ -262,13 +270,20 @@ export default function RealisasiAnggaran() {
                       </Button>
                       {
                         <Link href="/realisasi-anggaran/print-realisasi">
-                          <a
-                            type="button"
-                            onClick={() => {}}
-                            className="btn btn-primary ms-3"
+                          <Button
+                            className="d-print-none m-3"
+                            variant="contained"
+                            sx={{
+                              backgroundColor: "#4640DE",
+                              textTransform: "capitalize",
+                              "&:hover": {
+                                backgroundColor: " #2721c4",
+                                color: "#fff",
+                              },
+                            }}
                           >
-                            Print
-                          </a>
+                            Print!
+                          </Button>
                         </Link>
                       }
                     </div>
@@ -313,7 +328,15 @@ export default function RealisasiAnggaran() {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {items.map((row: any, index: any) => (
+                        {items
+                        // .filter((row : any) => {
+                        //   if(row.D !== 0 && row.E !== 0 && row.P !== 0){
+                        //     return row;
+                        //   }else{
+                        //     return row;
+                        //   }
+                        // })
+                        .map((row: any, index: any) => (
                           <TableRow
                             key={index}
                             sx={{
@@ -327,7 +350,12 @@ export default function RealisasiAnggaran() {
                             >
                               {row.A}
                             </TableCell>
-                            <TableCell component="th" scope="row" align="left" sx={{verticalAlign : 'middle'}}>
+                            <TableCell
+                              component="th"
+                              scope="row"
+                              align="left"
+                              sx={{ verticalAlign: "middle" }}
+                            >
                               {/* {row.A.replace(/\s/g, "&nbsp;")} */}
                               <pre
                                 className={
@@ -339,26 +367,51 @@ export default function RealisasiAnggaran() {
                                 {row.B}
                               </pre>
                             </TableCell>
-                            <TableCell align="right" width={2}>
-                              <SaldoText value={row.D} />
-                            </TableCell>
-                            <TableCell align="right">
-                              <SaldoText value={row.E} />
-                            </TableCell>
-                            <TableCell align="right">
-                              <SaldoText value={row.F} />
-                            </TableCell>
-                            <TableCell align="center">
-                              <SaldoText value={row.G} />
-                            </TableCell>
-                            {/* <TableCell align="right" width={2}>
-                              {row.D}
-                            </TableCell> */}
-                            <TableCell align="right">
-                              <SaldoText value={row.P} />
-                            </TableCell>
-                            {/* <TableCell align="right">{row.F}</TableCell>
-                            <TableCell align="right">{row.G}</TableCell> */}
+                            {row.D < 0 ? (
+                                <TableCell align="right">
+                                  (<SaldoText value={row.D * -1} />)
+                                </TableCell>
+                              ) : (
+                                <TableCell align="right">
+                                  <SaldoText value={row.D} />
+                                </TableCell>
+                              )}
+                            {row.E < 0 ? (
+                                <TableCell align="right">
+                                  (<SaldoText value={row.E * -1} />)
+                                </TableCell>
+                              ) : (
+                                <TableCell align="right">
+                                  <SaldoText value={row.E} />
+                                </TableCell>
+                              )}
+                            {row.F < 0 ? (
+                                <TableCell align="right">
+                                  (<SaldoText value={row.F * -1} />)
+                                </TableCell>
+                              ) : (
+                                <TableCell align="right">
+                                  <SaldoText value={row.F} />
+                                </TableCell>
+                              )}
+                            {row.G < 0 ? (
+                                <TableCell align="right">
+                                  (<SaldoText value={row.G * -1} />)
+                                </TableCell>
+                              ) : (
+                                <TableCell align="right">
+                                  <SaldoText value={row.G} />
+                                </TableCell>
+                              )}
+                            {row.P < 0 ? (
+                                <TableCell align="right">
+                                  (<SaldoText value={row.P * -1} />)
+                                </TableCell>
+                              ) : (
+                                <TableCell align="right">
+                                  <SaldoText value={row.P} />
+                                </TableCell>
+                              )}
                           </TableRow>
                         ))}
                       </TableBody>
@@ -366,253 +419,6 @@ export default function RealisasiAnggaran() {
                   </TableContainer>
                 </div>
               </section>
-              <h2 className="content-title">Statistics</h2>
-              <h5 className="content-desc mb-4">Your business growth</h5>
-              <div className="col-12 col-md-6 col-lg-4">
-                <div className="statistics-card">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="d-flex flex-column justify-content-between align-items-start">
-                      <h5 className="content-desc">Data Uploaded</h5>
-                      <h3 className="statistics-value">18,500,000</h3>
-                    </div>
-                    <button
-                      className="btn-statistics"
-                      onClick={() => {
-                        console.log(periode.toString());
-                      }}
-                    >
-                      <img src="../assets/img/global/times.svg" alt="" />
-                    </button>
-                  </div>
-                  <div className="statistics-list">
-                    <img
-                      className="statistics-image"
-                      src="../assets/img/home/history/photo-4.png"
-                      alt=""
-                    />
-                    <img
-                      className="statistics-image"
-                      src="../assets/img/home/history/photo-3.png"
-                      alt=""
-                    />
-                    <img
-                      className="statistics-image"
-                      src="../assets/img/home/history/photo.png"
-                      alt=""
-                    />
-                    <img
-                      className="statistics-image"
-                      src="../assets/img/home/history/photo-1.png"
-                      alt=""
-                    />
-                    <img
-                      className="statistics-image"
-                      src="../assets/img/home/history/photo-2.png"
-                      alt=""
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="col-12 col-md-6 col-lg-4">
-                <div className="statistics-card">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="d-flex flex-column justify-content-between align-items-start">
-                      <h5 className="content-desc">Report Reserved</h5>
-                      <h3 className="statistics-value">122,000</h3>
-                    </div>
-                    <button className="btn-statistics">
-                      <img src="../assets/img/global/times.svg" alt="" />
-                    </button>
-                  </div>
-                  <div className="statistics-list">
-                    <div className="statistics-icon award">
-                      <img src="../assets/img/home/team/award.svg" alt="" />
-                    </div>
-                    <div className="statistics-icon globe">
-                      <img src="../assets/img/home/team/globe.svg" alt="" />
-                    </div>
-                    <div className="statistics-icon target">
-                      <img src="../assets/img/home/team/target.svg" alt="" />
-                    </div>
-                    <div className="statistics-icon box">
-                      <img src="../assets/img/home/team/box.svg" alt="" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-12 col-md-6 col-lg-4">
-                <div className="statistics-card">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="d-flex flex-column justify-content-between align-items-start">
-                      <h5 className="content-desc">Projects</h5>
-                      <h3 className="statistics-value">150,000,000</h3>
-                    </div>
-                    <button className="btn-statistics">
-                      <img src="../assets/img/global/times.svg" alt="" />
-                    </button>
-                  </div>
-                  <div className="statistics-list">
-                    <div className="statistics-icon one">
-                      <span>SK</span>
-                    </div>
-                    <div className="statistics-icon two">
-                      <span>DW</span>
-                    </div>
-                    <div className="statistics-icon three">
-                      <span>FJ</span>
-                    </div>
-                    <div className="statistics-icon four">
-                      <span>AP</span>
-                    </div>
-                    <div className="statistics-icon five">
-                      <span>ML</span>
-                    </div>
-                    {/* <img src="../assets/img/home/icon-1.png" alt=""><img src="../assets/img/home/icon-2.png" alt=""><img src="../assets/img/home/icon-3.png" alt=""><img src="../assets/img/home/icon-4.png" alt=""><img src="../assets/img/home/icon-5.png" alt=""> */}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row mt-5">
-              <div className="col-12 col-lg-6">
-                <h2 className="content-title">Documents</h2>
-                <h5 className="content-desc mb-4">Standard procedure</h5>
-                <div className="document-card">
-                  <div className="document-item">
-                    <div className="d-flex justify-content-start align-items-center">
-                      <div className="document-icon box">
-                        <img
-                          src="../assets/img/home/document/archive.svg"
-                          alt=""
-                        />
-                      </div>
-                      <div className="d-flex flex-column justify-content-between align-items-start">
-                        <h2 className="document-title">Customer Guide</h2>
-                        <span className="document-desc">180 MB • PDF</span>
-                      </div>
-                    </div>
-                    <button className="btn-statistics">
-                      <img src="../assets/img/global/download.svg" alt="" />
-                    </button>
-                  </div>
-                  <div className="document-item">
-                    <div className="d-flex justify-content-start align-items-center">
-                      <div className="document-icon globe">
-                        <img
-                          src="../assets/img/home/document/twitch.svg"
-                          alt=""
-                        />
-                      </div>
-                      <div className="d-flex flex-column justify-content-between align-items-start">
-                        <h2 className="document-title">Twitch Record</h2>
-                        <span className="document-desc">700 GB • MP4</span>
-                      </div>
-                    </div>
-                    <button className="btn-statistics">
-                      <img src="../assets/img/global/download.svg" alt="" />
-                    </button>
-                  </div>
-                  <div className="document-item">
-                    <div className="d-flex justify-content-start align-items-center">
-                      <div className="document-icon database">
-                        <img
-                          src="../assets/img/home/document/database.svg"
-                          alt=""
-                        />
-                      </div>
-                      <div className="d-flex flex-column justify-content-between align-items-start">
-                        <h2 className="document-title">Personas Datasets</h2>
-                        <span className="document-desc">11 MB • CSV</span>
-                      </div>
-                    </div>
-                    <button className="btn-statistics">
-                      <img src="../assets/img/global/download.svg" alt="" />
-                    </button>
-                  </div>
-                  <div className="document-item">
-                    <div className="d-flex justify-content-start align-items-center">
-                      <div className="document-icon target">
-                        <img
-                          src="../assets/img/home/document/book-open.svg"
-                          alt=""
-                        />
-                      </div>
-                      <div className="d-flex flex-column justify-content-between align-items-start">
-                        <h2 className="document-title">Marketing Book</h2>
-                        <span className="document-desc">891 MB • PDF</span>
-                      </div>
-                    </div>
-                    <button className="btn-statistics">
-                      <img src="../assets/img/global/download.svg" alt="" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="col-12 col-lg-6">
-                <h2 className="content-title">History</h2>
-                <h5 className="content-desc mb-4">Track the flow</h5>
-                <div className="document-card">
-                  <div className="document-item">
-                    <div className="d-flex justify-content-start align-items-center">
-                      <img
-                        className="document-icon"
-                        src="../assets/img/home/history/photo.png"
-                        alt=""
-                      />
-                      <div className="d-flex flex-column justify-content-between align-items-start">
-                        <h2 className="document-title">Amalia Syahrina</h2>
-                        <span className="document-desc">
-                          Promoted to Sr. Website Designer
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="document-item">
-                    <div className="d-flex justify-content-start align-items-center">
-                      <img
-                        className="document-icon"
-                        src="../assets/img/home/history/photo-1.png"
-                        alt=""
-                      />
-                      <div className="d-flex flex-column justify-content-between align-items-start">
-                        <h2 className="document-title">Ah Park Yo</h2>
-                        <span className="document-desc">
-                          Promoted to Front-End Developer
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="document-item">
-                    <div className="d-flex justify-content-start align-items-center">
-                      <img
-                        className="document-icon"
-                        src="../assets/img/home/history/photo-2.png"
-                        alt=""
-                      />
-                      <div className="d-flex flex-column justify-content-between align-items-start">
-                        <h2 className="document-title">Sintia Siny</h2>
-                        <span className="document-desc">
-                          Promoted to Accounting Executive
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="document-item">
-                    <div className="d-flex justify-content-start align-items-center">
-                      <img
-                        className="document-icon"
-                        src="../assets/img/home/history/photo-3.png"
-                        alt=""
-                      />
-                      <div className="d-flex flex-column justify-content-between align-items-start">
-                        <h2 className="document-title">Jerami Putu</h2>
-                        <span className="document-desc">
-                          Promoted to Quality Manager
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

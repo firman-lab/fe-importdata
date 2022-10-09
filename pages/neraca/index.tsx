@@ -144,120 +144,120 @@ export default function Neraca() {
           </div>
           <div className="content">
             <div className="row">
-              <div className="col-12">
-                <div className="col-12 col-md-12 col-lg-12">
-                  <div className="statistics-card import-link">
-                    <div className="d-flex justify-content-center align-items-center">
-                      <div className="d-flex flex-column justify-content-between align-items-center">
-                        <h5 className="content-desc text-secondary">
-                          Import data excel
-                        </h5>
-                        <h3 className="statistics-value text-white">
-                          Start Import
-                        </h3>
-                        <Button
-                          onClick={handleShow}
-                          variant="contained"
-                          sx={{
-                            backgroundColor: "#4640DE",
-                            textTransform: "capitalize",
-                            "&:hover": {
-                              backgroundColor: " #2721c4",
-                            },
-                          }}
-                        >
-                          Set Periode
-                        </Button>
-                        <Modal
-                          show={show}
-                          onHide={handleClose}
-                          backdrop="static"
-                          size="lg"
-                          aria-labelledby="detail-modal"
-                        >
-                          <Modal.Header closeButton>
-                            <Modal.Title>Pilih Periode</Modal.Title>
-                          </Modal.Header>
-                          <Modal.Body>
-                            <ModalOperasional
-                              handleclose={() => {
-                                handleClose();
-                              }}
-                              handleReload={() => {}}
-                              dataPeriode={(periodeOp: PeriodeLpeType) => {
-                                setPeriode(periodeOp);
+              {items.length > 0 ? (<div/>) : (
+                <div className="col-12">
+                  <div className="col-12 col-md-12 col-lg-12">
+                    <div className="statistics-card import-link">
+                      <div className="d-flex justify-content-center align-items-center">
+                        <div className="d-flex flex-column justify-content-between align-items-center">
+                          <h5 className="content-desc text-secondary">
+                            Import data excel
+                          </h5>
+                          <h3 className="statistics-value text-white">
+                            Import Data Neraca
+                          </h3>
+                          <Button
+                            onClick={handleShow}
+                            variant="contained"
+                            sx={{
+                              backgroundColor: "#4640DE",
+                              textTransform: "capitalize",
+                              "&:hover": {
+                                backgroundColor: " #2721c4",
+                              },
+                              fontSize:24,
+                              width: 250,
+                              height: 65,
+                            }}
+                          >
+                            Set Periode
+                          </Button>
+                          <Modal
+                            show={show}
+                            onHide={handleClose}
+                            backdrop="static"
+                            size="lg"
+                            aria-labelledby="detail-modal"
+                          >
+                            <Modal.Header closeButton>
+                              <Modal.Title>Pilih Periode</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                              <ModalOperasional
+                                handleclose={() => {
+                                  handleClose();
+                                }}
+                                handleReload={() => {}}
+                                dataPeriode={(periodeOp: PeriodeLpeType) => {
+                                  setPeriode(periodeOp);
+                                }}
+                              />
+                            </Modal.Body>
+                          </Modal>
+                          {periode.dariTh !== "" && items.length === 0 ? (
+                            <input
+                              className="text-center mt-3 pt-3 pe-2 pb-3 ps-2 bg-white"
+                              type="file"
+                              accept=".xlsx"
+                              onChange={(e: any) => {
+                                if (e.target !== null) {
+                                  const file = e.target.files[0]!;
+                                  readExcel(file);
+                                  setFileName(e.target.files[0].name);
+                                  e.target.value = null;
+                                } else {
+                                  // eslint-disable-next-line no-alert
+                                  alert("pilih file xlsx duls!");
+                                }
                               }}
                             />
-                          </Modal.Body>
-                        </Modal>
-                        {periode.dariTh !== "" && items.length === 0 ? (
-                          <input
-                            className="text-center mt-3 pt-3 pe-2 pb-3 ps-2 bg-white"
-                            type="file"
-                            accept=".xlsx"
-                            onChange={(e: any) => {
-                              if (e.target !== null) {
-                                const file = e.target.files[0]!;
-                                readExcel(file);
-                                setFileName(e.target.files[0].name);
-                                e.target.value = null;
-                              } else {
-                                // eslint-disable-next-line no-alert
-                                alert("pilih file xlsx duls!");
-                              }
-                            }}
-                          />
-                        ) : (
-                          <div />
-                        )}
+                          ) : (
+                            <div />
+                          )}
+                        </div>
+                        {/* <button className="ms-3 btn-statistics">
+                              <img src="../assets/img/global/times.svg" alt="" />
+                            </button>  */}
                       </div>
-                      {/* <button className="ms-3 btn-statistics">
-                            <img src="../assets/img/global/times.svg" alt="" />
-                          </button>  */}
-                    </div>
-                    <div className="statistics-list">
-                      <img
-                        className="statistics-image"
-                        src="../assets/img/home/history/photo-4.png"
-                        alt=""
-                      />
-                      <img
-                        className="statistics-image"
-                        src="../assets/img/home/history/photo-3.png"
-                        alt=""
-                      />
-                      <img
-                        className="statistics-image"
-                        src="../assets/img/home/history/photo.png"
-                        alt=""
-                      />
-                      <img
-                        className="statistics-image"
-                        src="../assets/img/home/history/photo-1.png"
-                        alt=""
-                      />
-                      <img
-                        className="statistics-image"
-                        src="../assets/img/home/history/photo-2.png"
-                        alt=""
-                      />
+                      <div className="statistics-list">
+                        <img
+                          className="statistics-image"
+                          src="../assets/img/home/history/photo-4.png"
+                          alt=""
+                        />
+                        <img
+                          className="statistics-image"
+                          src="../assets/img/home/history/photo-3.png"
+                          alt=""
+                        />
+                        <img
+                          className="statistics-image"
+                          src="../assets/img/home/history/photo.png"
+                          alt=""
+                        />
+                        <img
+                          className="statistics-image"
+                          src="../assets/img/home/history/photo-1.png"
+                          alt=""
+                        />
+                        <img
+                          className="statistics-image"
+                          src="../assets/img/home/history/photo-2.png"
+                          alt=""
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
               <section className="mt-3">
                 <div className="card p-2">
                   <div className="d-flex justify-content-between p-2">
                     <h4>{fileName}</h4>
                     <div className="p-2">
-                      {/* <button
-                          className="btn btn-danger me-2"
-                          onClick={removeData}
-                        >
-                          Reset Data
-                        </button> */}
                       <Button
                         variant="contained"
+                        disabled={items.length > 0 ? false : true}
                         onClick={() => {
                           setItems([]);
                           setFileName("");
@@ -307,11 +307,13 @@ export default function Neraca() {
                       </TableHead>
                       <TableBody>
                         {items
-                        // .filter((row : any) => {
-                        //   if(row.F !== '0' && row.H !== '0'){
-                        //     return row;
-                        //   }
-                        // })
+                        .filter((row : any) => {
+                          if(row.F > 0 && row.H > 0){
+                            return row;
+                          }else{
+                            return row;
+                          }
+                        })
                         .map((row: any, index: any) => (
                           <TableRow
                             key={index}
@@ -357,7 +359,7 @@ export default function Neraca() {
                   </TableContainer>
                 </div>
               </section>
-              <h2 className="content-title">Statistics</h2>
+              {/* <h2 className="content-title">Statistics</h2>
               <h5 className="content-desc mb-4">Your business growth</h5>
               <div className="col-12 col-md-6 col-lg-4">
                 <div className="statistics-card">
@@ -425,8 +427,8 @@ export default function Neraca() {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-12 col-md-6 col-lg-4">
+              </div> */}
+              {/* <div className="col-12 col-md-6 col-lg-4">
                 <div className="statistics-card">
                   <div className="d-flex justify-content-between align-items-center">
                     <div className="d-flex flex-column justify-content-between align-items-start">
@@ -453,12 +455,11 @@ export default function Neraca() {
                     <div className="statistics-icon five">
                       <span>ML</span>
                     </div>
-                    {/* <img src="../assets/img/home/icon-1.png" alt=""><img src="../assets/img/home/icon-2.png" alt=""><img src="../assets/img/home/icon-3.png" alt=""><img src="../assets/img/home/icon-4.png" alt=""><img src="../assets/img/home/icon-5.png" alt=""> */}
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
-            <div className="row mt-5">
+            {/* <div className="row mt-5">
               <div className="col-12 col-lg-6">
                 <h2 className="content-title">Documents</h2>
                 <h5 className="content-desc mb-4">Standard procedure</h5>
@@ -599,7 +600,7 @@ export default function Neraca() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
