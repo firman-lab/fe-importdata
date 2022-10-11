@@ -25,7 +25,7 @@ export default function PrintRealisasi() {
               <thead className="text-center ">
               <tr className="hide-br-top hide-br-left hide-br-right">
                   <th colSpan={6}>
-                    <h4 className="text-bold">LAPORAN PERUBAHAN EKUITAS</h4>
+                    <h4 className="text-bold">LAPORAN REALISASI ANGGARAN</h4>
                     <h5 className="text-bold">{`Untuk Periode Yang Berakhir Pada 31 ${periode.bulan} ${periode.dariTh} Hingga ${periode.sampaiTh}`}</h5>
                     <p className="text-italic">(dalam rupiah)</p>
                   </th>

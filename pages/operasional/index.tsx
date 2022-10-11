@@ -119,109 +119,113 @@ export default function Operasional() {
           </div>
           <div className="content">
             <div className="row">
-              <div className="col-12">
-                <div className="col-12 col-md-12 col-lg-12">
-                  <div className="statistics-card import-link">
-                    <div className="d-flex justify-content-center align-items-center">
-                      <div className="d-flex flex-column justify-content-between align-items-center">
-                        <h5 className="content-desc text-secondary">
-                          Import data excel
-                        </h5>
-                        <h3 className="statistics-value text-white">
-                          Start Import
-                        </h3>
-                        <Button
-                          onClick={handleShow}
-                          variant="contained"
-                          sx={{
-                            backgroundColor: "#4640DE",
-                            textTransform: "capitalize",
-                            "&:hover": {
-                              backgroundColor: " #2721c4",
-                            },
-                            fontSize: 24,
-                            width: 250,
-                            height: 65,
-                          }}
-                        >
-                          Set Periode
-                        </Button>
-                        <Modal
-                          show={show}
-                          onHide={handleClose}
-                          backdrop="static"
-                          size="lg"
-                          aria-labelledby="detail-modal"
-                        >
-                          <Modal.Header closeButton>
-                            <Modal.Title>Pilih Periode</Modal.Title>
-                          </Modal.Header>
-                          <Modal.Body>
-                            <ModalOperasional
-                              handleclose={() => {
-                                handleClose();
-                              }}
-                              handleReload={() => {}}
-                              dataPeriode={(periodeOp: PeriodeLpeType) => {
-                                setPeriode(periodeOp);
+              {items.length > 0 ? (
+                <div />
+              ) : (
+                <div className="col-12">
+                  <div className="col-12 col-md-12 col-lg-12">
+                    <div className="statistics-card import-link">
+                      <div className="d-flex justify-content-center align-items-center">
+                        <div className="d-flex flex-column justify-content-between align-items-center">
+                          <h5 className="content-desc text-secondary">
+                            Import data excel .xlsx
+                          </h5>
+                          <h3 className="statistics-value text-white">
+                            Laporan Operasional     
+                          </h3>
+                          <Button
+                            onClick={handleShow}
+                            variant="contained"
+                            sx={{
+                              backgroundColor: "#4640DE",
+                              textTransform: "capitalize",
+                              "&:hover": {
+                                backgroundColor: " #2721c4",
+                              },
+                              fontSize: 24,
+                              width: 250,
+                              height: 65,
+                            }}
+                          >
+                            Set Periode
+                          </Button>
+                          <Modal
+                            show={show}
+                            onHide={handleClose}
+                            backdrop="static"
+                            size="lg"
+                            aria-labelledby="detail-modal"
+                          >
+                            <Modal.Header closeButton>
+                              <Modal.Title>Pilih Periode</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                              <ModalOperasional
+                                handleclose={() => {
+                                  handleClose();
+                                }}
+                                handleReload={() => {}}
+                                dataPeriode={(periodeOp: PeriodeLpeType) => {
+                                  setPeriode(periodeOp);
+                                }}
+                              />
+                            </Modal.Body>
+                          </Modal>
+                          {periode.dariTh !== "" || items.length > 0 ? (
+                            <input
+                              className="text-center mt-3 pt-3 pe-2 pb-3 ps-2 bg-white"
+                              type="file"
+                              accept=".xlsx"
+                              onChange={(e: any) => {
+                                if (e.target != null) {
+                                  const file = e.target.files[0]!;
+                                  readExcel(file);
+                                  setFileName(e.target.files[0].name);
+                                } else {
+                                  // eslint-disable-next-line no-alert
+                                  alert("pilih file xlsx duls!");
+                                }
                               }}
                             />
-                          </Modal.Body>
-                        </Modal>
-                        {periode.dariTh !== "" || items.length > 0 ? (
-                          <input
-                            className="text-center mt-3 pt-3 pe-2 pb-3 ps-2 bg-white"
-                            type="file"
-                            accept=".xlsx"
-                            onChange={(e: any) => {
-                              if (e.target != null) {
-                                const file = e.target.files[0]!;
-                                readExcel(file);
-                                setFileName(e.target.files[0].name);
-                              } else {
-                                // eslint-disable-next-line no-alert
-                                alert("pilih file xlsx duls!");
-                              }
-                            }}
-                          />
-                        ) : (
-                          <div />
-                        )}
-                      </div>
-                      {/* <button className="ms-3 btn-statistics">
+                          ) : (
+                            <div />
+                          )}
+                        </div>
+                        {/* <button className="ms-3 btn-statistics">
                           <img src="../assets/img/global/times.svg" alt="" />
                         </button>  */}
-                    </div>
-                    <div className="statistics-list">
-                      <img
-                        className="statistics-image"
-                        src="../assets/img/home/history/photo-4.png"
-                        alt=""
-                      />
-                      <img
-                        className="statistics-image"
-                        src="../assets/img/home/history/photo-3.png"
-                        alt=""
-                      />
-                      <img
-                        className="statistics-image"
-                        src="../assets/img/home/history/photo.png"
-                        alt=""
-                      />
-                      <img
-                        className="statistics-image"
-                        src="../assets/img/home/history/photo-1.png"
-                        alt=""
-                      />
-                      <img
-                        className="statistics-image"
-                        src="../assets/img/home/history/photo-2.png"
-                        alt=""
-                      />
+                      </div>
+                      <div className="statistics-list">
+                        <img
+                          className="statistics-image"
+                          src="../assets/img/home/history/photo-4.png"
+                          alt=""
+                        />
+                        <img
+                          className="statistics-image"
+                          src="../assets/img/home/history/photo-3.png"
+                          alt=""
+                        />
+                        <img
+                          className="statistics-image"
+                          src="../assets/img/home/history/photo.png"
+                          alt=""
+                        />
+                        <img
+                          className="statistics-image"
+                          src="../assets/img/home/history/photo-1.png"
+                          alt=""
+                        />
+                        <img
+                          className="statistics-image"
+                          src="../assets/img/home/history/photo-2.png"
+                          alt=""
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
               <section className="mt-3 mb-3">
                 <div className="card p-2">
                   <div className="d-flex justify-content-between p-2">
@@ -252,14 +256,20 @@ export default function Operasional() {
                       </Button>
                       {
                         <Link href="/operasional/print-operasional">
-                          <a
-                            type="button"
-                            className="btn btn-primary ms-3"
-                            onClick={() => {}}
-                            // target="_blank"
+                          <Button
+                            className="d-print-none m-3"
+                            variant="contained"
+                            sx={{
+                              backgroundColor: "#4640DE",
+                              textTransform: "capitalize",
+                              "&:hover": {
+                                backgroundColor: " #2721c4",
+                                color: "#fff",
+                              },
+                            }}
                           >
-                            Print
-                          </a>
+                            Print!
+                          </Button>
                         </Link>
                       }
                     </div>
@@ -281,53 +291,57 @@ export default function Operasional() {
                       </TableHead>
                       <TableBody>
                         {items
-                        // .filter((row:any) => {
-                        //   return row.E > 0 && row.G > 0;
-                        // })
-                        .map((row: any, index: any) => (
-                          <TableRow
-                            key={index}
-                            sx={{
-                              "&:last-child td, &:last-child th": {
-                                border: 0,
-                              },
-                            }}
-                          >
-                            {/* <TableCell align="center">
+                          // .filter((row:any) => {
+                          //   return row.E > 0 && row.G > 0;
+                          // })
+                          .map((row: any, index: any) => (
+                            <TableRow
+                              key={index}
+                              sx={{
+                                "&:last-child td, &:last-child th": {
+                                  border: 0,
+                                },
+                              }}
+                            >
+                              {/* <TableCell align="center">
                               {(index + 1).toString()}
                             </TableCell> */}
-                            <TableCell component="th" scope="row" align="left">
-                              <pre>{row.A}</pre>
-                            </TableCell>
-                            {row.E < 0 ? (
-                              <TableCell align="right">
-                                (<SaldoText value={row.E * -1} />)
+                              <TableCell
+                                component="th"
+                                scope="row"
+                                align="left"
+                              >
+                                <pre>{row.A}</pre>
                               </TableCell>
-                            ) : (
-                              <TableCell align="right">
-                                <SaldoText value={row.E} />
-                              </TableCell>
-                            )}
-                            {row.G < 0 ? (
-                              <TableCell align="right">
-                                (<SaldoText value={row.G * -1} />)
-                              </TableCell>
-                            ) : (
-                              <TableCell align="right">
-                                <SaldoText value={row.G} />
-                              </TableCell>
-                            )}
-                            {row.I < 0 ? (
-                              <TableCell align="right">
-                                (<SaldoText value={row.I * -1} />)
-                              </TableCell>
-                            ) : (
-                              <TableCell align="right">
-                                <SaldoText value={row.I} />
-                              </TableCell>
-                            )}
-                          </TableRow>
-                        ))}
+                              {row.E < 0 ? (
+                                <TableCell align="right">
+                                  (<SaldoText value={row.E * -1} />)
+                                </TableCell>
+                              ) : (
+                                <TableCell align="right">
+                                  <SaldoText value={row.E} />
+                                </TableCell>
+                              )}
+                              {row.G < 0 ? (
+                                <TableCell align="right">
+                                  (<SaldoText value={row.G * -1} />)
+                                </TableCell>
+                              ) : (
+                                <TableCell align="right">
+                                  <SaldoText value={row.G} />
+                                </TableCell>
+                              )}
+                              {row.I < 0 ? (
+                                <TableCell align="right">
+                                  (<SaldoText value={row.I * -1} />)
+                                </TableCell>
+                              ) : (
+                                <TableCell align="right">
+                                  <SaldoText value={row.I} />
+                                </TableCell>
+                              )}
+                            </TableRow>
+                          ))}
                       </TableBody>
                     </Table>
                   </TableContainer>
