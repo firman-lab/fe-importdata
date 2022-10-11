@@ -23,5 +23,16 @@ pre{
     bottom: 0;
     text-align: center;
   }
-
+  .hide-br-btm{
+    border-bottom: hidden;
+  }
+  .hide-br-top{
+    border-top: hidden;
+  }
+  .hide-br-right{
+    border-right: hidden;
+  }
+  .hide-br-left{
+    border-left: hidden;
+  }
   

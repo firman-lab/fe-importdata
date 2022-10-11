@@ -74,7 +74,7 @@ export default function RealisasiAnggaran() {
       // localStorage.setItem("upDataOperasional", JSON.stringify(d));
       setItems(
         d.filter((row: any) => {
-          if (row.B !== "" && row.B !== "2" && row.B !== "URAIAN") {
+          if (row.B !== "" && row.B !== "2" && row.B !== "URAIAN" && row.B !== "PEMBIAYAAN") {
             return row;
           }
         })
@@ -329,13 +329,13 @@ export default function RealisasiAnggaran() {
                       </TableHead>
                       <TableBody>
                         {items
-                        // .filter((row : any) => {
-                        //   if(row.D !== 0 && row.E !== 0 && row.P !== 0){
-                        //     return row;
-                        //   }else{
-                        //     return row;
-                        //   }
-                        // })
+                        .filter((row : any) => {
+                          if(row.D !== 0 && row.E !== 0 && row.P !== 0){
+                            return row;
+                          }else{
+                            return row;
+                          }
+                        })
                         .map((row: any, index: any) => (
                           <TableRow
                             key={index}

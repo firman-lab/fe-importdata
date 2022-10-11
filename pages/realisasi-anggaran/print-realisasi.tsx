@@ -20,14 +20,16 @@ export default function PrintRealisasi() {
       </Head>
       <div className="wrapper h-100">
         <div className="content-wrapper">
-          <div className="text-center">
-            <h4 className="text-bold">LAPORAN Realisasi Anggaran</h4>
-            <h5 className="text-bold">{`Untuk Periode Yang Berakhir Pada 31 ${periode.bulan} ${periode.dariTh} Hingga ${periode.sampaiTh}`}</h5>
-            <p className="text-italic">(dalam rupiah)</p>
-          </div>
-          <div className="mt-5">
+          <div className="m-1">
             <table className="table table-bordered table-sm">
               <thead className="text-center ">
+              <tr className="hide-br-top hide-br-left hide-br-right">
+                  <th colSpan={6}>
+                    <h4 className="text-bold">LAPORAN PERUBAHAN EKUITAS</h4>
+                    <h5 className="text-bold">{`Untuk Periode Yang Berakhir Pada 31 ${periode.bulan} ${periode.dariTh} Hingga ${periode.sampaiTh}`}</h5>
+                    <p className="text-italic">(dalam rupiah)</p>
+                  </th>
+                </tr>
                 <tr>
                   <th scope="col" className="align-middle" rowSpan={2}>NO</th>
                   <th scope="col" className="align-middle" rowSpan={2}>Uraian</th>
@@ -42,7 +44,8 @@ export default function PrintRealisasi() {
                 </tr>
               </thead>
               <tbody>
-                {data.map((row : any, index: any) => (
+                {data
+                .map((row : any, index: any) => (
                   <tr key={index} className="align-middle">
                     {/* <pre> */}
                     <td className="text-center">{row.A}</td>

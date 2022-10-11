@@ -36,22 +36,17 @@ export default function PrintLpe() {
       </Head>
       <div className="wrapper h-100">
         <div className="content-wrapper">
-          {/* <div className="text-center">
-              <h4 className="text-bold">LAPORAN NERACA</h4>
-              <h5 className="text-bold">{`Untuk Periode Yang Berakhir Pada 31 ${periode.bulan} ${periode.dariTh} Hingga ${periode.sampaiTh}`}</h5>
-              <p className="text-italic">(dalam rupiah)</p>
-          </div> */}
           <div className="m-1">
             <table className="table">
               <thead className="text-center">
-                <tr className="">  
+                <tr className="hide-br-btm">  
                   <th colSpan={5}>
                     <h4 className="text-bold">LAPORAN NERACA</h4>
                     <h5 className="text-bold">{`Untuk Periode Yang Berakhir Pada 31 ${periode.bulan} ${periode.dariTh} Hingga ${periode.sampaiTh}`}</h5>
                     <p className="text-italic">(dalam rupiah)</p>
                   </th>
                 </tr>
-                <tr>
+                <tr className="mt-5">
                   <th scope="col">Uraian</th>
                   <th scope="col">Cttn</th>
                   <th scope="col">{periode.dariTh}</th>
