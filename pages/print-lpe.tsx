@@ -2,27 +2,31 @@ import { Button, ListItem } from "@mui/material";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import SaldoText from "../components/Atom/SaldoText";
+import { dataLPE, periodLPE } from "../store";
 import { PeriodeLpeType } from "../store/types";
 
 export default function PrintLpe() {
-  const [data, setData] = useState([]);
-  const [periode, setPeriode] = useState<PeriodeLpeType>({
-    bulan: "",
-    dariTh: "",
-    sampaiTh: "",
-  });
+  // const [data, setData] = useState([]);
+  // const [periode, setPeriode] = useState<PeriodeLpeType>({
+  //   bulan: "",
+  //   dariTh: "",
+  //   sampaiTh: "",
+  // });
 
   // const periode = useRecoilValue(periodLPE);
 
-  useEffect(() => {
-    const item: any = JSON.parse(localStorage.getItem("upDataLocal") || "[]");
-    setData(item);
-    const period = JSON.parse(localStorage.getItem("periodeLPE") || "{}");
-    setPeriode(period);
-    console.log(period);
-  }, []);
+  // useEffect(() => {
+  //   const item: any = JSON.parse(localStorage.getItem("upDataLocal") || "[]");
+  //   setData(item);
+  //   const period = JSON.parse(localStorage.getItem("periodeLPE") || "{}");
+  //   setPeriode(period);
+  //   console.log(period);
+  // }, []);
+
+  const data = useRecoilValue(dataLPE);
+  const periode = useRecoilValue(periodLPE);
 
   return (
     <>
@@ -63,15 +67,33 @@ export default function PrintLpe() {
                     </td>
                     {/* </pre> */}
                     <td className="text-center">-</td>
-                    <td className="text-end">
-                      <SaldoText value={item.E} />
-                    </td>
-                    <td className="text-end">
-                      <SaldoText value={item.G} />
-                    </td>
-                    <td className="text-end">
-                      <SaldoText value={item.I} />
-                    </td>
+                    {item.E < 0 ? (
+                      <td className="text-end">
+                        (<SaldoText value={item.E * -1} />)
+                      </td>
+                    ) : (
+                      <td className="text-end">
+                        <SaldoText value={item.E} />
+                      </td>
+                    )}
+                    {item.G < 0 ? (
+                      <td className="text-end">
+                        (<SaldoText value={item.G * -1} />)
+                      </td>
+                    ) : (
+                      <td className="text-end">
+                        <SaldoText value={item.G} />
+                      </td>
+                    )}
+                   {item.I < 0 ? (
+                      <td className="text-end">
+                        (<SaldoText value={item.I * -1} />)
+                      </td>
+                    ) : (
+                      <td className="text-end">
+                        <SaldoText value={item.I} />
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

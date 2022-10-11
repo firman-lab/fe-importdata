@@ -45,30 +45,54 @@ export default function PrintRealisasi() {
               </thead>
               <tbody>
                 {data
-                .map((row : any, index: any) => (
+                .map((item : any, index: any) => (
                   <tr key={index} className="align-middle">
                     {/* <pre> */}
-                    <td className="text-center">{row.A}</td>
+                    <td className="text-center">{item.A}</td>
                     <td className="text-start">
                       {/* {item.A.replace(/\s/g, "&nbsp;")} */}
-                      <pre className={row.A !== '' || row.B.match(/^JUMLAH.*$/) ? 'text-bold align-middle' : "align-middle" }>{row.B}</pre>                              
+                      <pre className={item.A !== '' || item.B.match(/^JUMLAH.*$/) ? 'text-bold align-middle' : "align-middle" }>{item.B}</pre>                              
                     </td>
                     {/* </pre> */}
-                    <td className="text-end">
-                      <SaldoText value={row.D} />
-                    </td>
-                    <td className="text-end">
-                      <SaldoText value={row.E} />
-                    </td>
+                    {item.D < 0 ? (
+                      <td className="text-end">
+                        (<SaldoText value={item.D * -1} />)
+                      </td>
+                    ) : (
+                      <td className="text-end">
+                        <SaldoText value={item.D} />
+                      </td>
+                    )}
+                    {item.E < 0 ? (
+                      <td className="text-end">
+                        (<SaldoText value={item.E * -1} />)
+                      </td>
+                    ) : (
+                      <td className="text-end">
+                        <SaldoText value={item.E} />
+                      </td>
+                    )}
                     {/* <td className="text-end">
                       <SaldoText value={row.F} />
                     </td> */}
-                    <td className="text-center">
-                      <SaldoText value={row.G} />
-                    </td>
-                    <td className="text-end">
-                      <SaldoText value={row.P} />
-                    </td>
+                    {item.G < 0 ? (
+                      <td className="text-end">
+                        (<SaldoText value={item.G * -1} />)
+                      </td>
+                    ) : (
+                      <td className="text-end">
+                        <SaldoText value={item.G} />
+                      </td>
+                    )}
+                    {item.P < 0 ? (
+                      <td className="text-end">
+                        (<SaldoText value={item.P * -1} />)
+                      </td>
+                    ) : (
+                      <td className="text-end">
+                        <SaldoText value={item.P} />
+                      </td>
+                    )}
                     
                   </tr>
                 ))}

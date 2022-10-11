@@ -1,30 +1,57 @@
- import { Button } from "@mui/material";
+import { Button } from "@mui/material";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import SaldoText from "../../components/Atom/SaldoText";
 import { dataOp, periodeOp } from "../../store";
-import { PeriodeLpeType } from "../../store/types";
+
+const headsOp = [
+  "PENDAPATANOPERASIONAL",
+  "PENDAPATANPERPAJAKAN",
+  "PENDAPATANNEGARABUKANPAJAK",
+  "PENDAPATANHIBAH",
+  "BEBANOPERASIONAL",
+  "KEGIATANNONOPERASIONAL",
+  // "POSLUARBIASA",
+];
+
+const jumlah = [
+  "JumlahPendapatanPerpajakan",
+  "JumlahPendapatanNegaraBukanPajak",
+  "JUMLAHBEBAN",
+  "JumlahPendapatanHibah",
+  "JumlahPendapatan",
+]
 
 export default function PrintLpe() {
   // const [data, setData] = useState([]);
   // const [periode, setPeriode] = useState<PeriodeLpeType>({
-    //   bulan: "",
-    //   dariTh: "",
-    //   sampaiTh: "",
-    // });
-    
+  //   bulan: "",
+  //   dariTh: "",
+  //   sampaiTh: "",
+  // });
+
+  // useEffect(() => {
+  // const item: any = JSON.parse(localStorage.getItem("upDataLocal") || "[]");
+  // setData(item);
+  // const period = JSON.parse(localStorage.getItem("periodeLPE") || "{}");
+  // setPeriode(period);
+  // console.log(period);
+  // }, []);
+
   const data = useRecoilValue(dataOp);
   const periode = useRecoilValue(periodeOp);
 
-  useEffect(() => {
-    // const item: any = JSON.parse(localStorage.getItem("upDataLocal") || "[]");
-    // setData(item);
-    // const period = JSON.parse(localStorage.getItem("periodeLPE") || "{}");
-    // setPeriode(period);
-    // console.log(period);
-  }, []);
+  function filt(a: string) {
+    for (let i in headsOp) {
+      if (a.replace(/ /g, "") == headsOp[i]) return true;
+    }
+  }
+  function filt2(a: string) {
+    for (let i in jumlah) {
+      if (a.replace(/ /g, "") == jumlah[i]) return true;
+    }
+  }
 
   return (
     <>
@@ -40,7 +67,7 @@ export default function PrintLpe() {
           <div className="m-1">
             <table className="table">
               <thead className="text-center">
-                <tr className="hide-br-btm">  
+                <tr className="hide-br-btm">
                   <th colSpan={5}>
                     <h4 className="text-bold">LAPORAN OPERASIONAL</h4>
                     <h5 className="text-bold">{`Untuk Periode Yang Berakhir Pada 31 ${periode.bulan} ${periode.dariTh} Hingga ${periode.sampaiTh}`}</h5>
@@ -59,27 +86,38 @@ export default function PrintLpe() {
                 {data.map((item: any, index: any) => (
                   <tr key={index}>
                     {/* <pre> */}
-                    <td className="text-start">
-                      {/* {item.A.replace(/\s/g, "&nbsp;")} */}
+                    <td className={item.A.match(/^JUMLAH.*$/) || item.A.match(/^SURPLUS.*$/) || filt(item.A) || filt2(item.A) ? "text-start text-bold" : "ps-5"}>
                       <pre>{item.A}</pre>
                     </td>
                     {/* </pre> */}
-                    <td className="text-center">-</td>
-                    {item.E < 0 ? <td className="text-end">
-                      (<SaldoText value={item.E * -1} />)
-                    </td> : <td className="text-end">
-                      <SaldoText value={item.E} />
-                    </td>}
-                    {item.G < 0 ? <td className="text-end">
-                      (<SaldoText value={item.G * -1} />)
-                    </td> : <td className="text-end">
-                      <SaldoText value={item.G} />
-                    </td>}
-                    {item.I < 0 ? <td className="text-end">
-                      (<SaldoText value={item.I * -1} />)
-                    </td> : <td className="text-end">
-                      <SaldoText value={item.I} />
-                    </td>}              
+                    <td className="text-center"></td>
+                    {item.E < 0 ? (
+                      <td className="text-end">
+                        (<SaldoText value={item.E * -1} />)
+                      </td>
+                    ) : filt(item.A) ? ( <td></td>) : (
+                      <td className="text-end">
+                        <SaldoText value={item.E} />
+                      </td>
+                    )}
+                    {item.G < 0 ? (
+                      <td className="text-end">
+                        (<SaldoText value={item.G * -1} />)
+                      </td>
+                    ) : filt(item.A) ? ( <td></td>) : (
+                      <td className="text-end">
+                        <SaldoText value={item.G} />
+                      </td>
+                    )}
+                    {item.I < 0 ? (
+                      <td className="text-end">
+                        (<SaldoText value={item.I * -1} />)
+                      </td>
+                    ) : filt(item.A) ? ( <td></td>) : (
+                      <td className="text-end">
+                        <SaldoText value={item.I} />
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
