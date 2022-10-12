@@ -7,6 +7,16 @@ import SaldoText from "../components/Atom/SaldoText";
 import { dataLPE, periodLPE } from "../store";
 import { PeriodeLpeType } from "../store/types";
 
+const headsLPE = [
+  "EKUITASAWAL",
+  "SURPLUS/DEFISIT-LO",
+  "DAMPAKKUMULATIFPERUBAHANKEBIJAKANAKUNTANSI",
+  "KOREKSIYANGMENAMBAH/MENGURANGIEKUITAS",
+  "TRANSAKSIANTARENTITAS",
+  "KENAIKAN/PENURUNANEKUITAS",
+  "EKUITASAKHIR",
+];
+
 export default function PrintLpe() {
   // const [data, setData] = useState([]);
   // const [periode, setPeriode] = useState<PeriodeLpeType>({
@@ -27,6 +37,12 @@ export default function PrintLpe() {
 
   const data = useRecoilValue(dataLPE);
   const periode = useRecoilValue(periodLPE);
+
+  function filt(a: string) {
+    for (let i in headsLPE) {
+      if (a.replace(/ /g, "") === headsLPE[i]) return true;
+    }
+  }
 
   return (
     <>
@@ -61,9 +77,11 @@ export default function PrintLpe() {
                 {data.map((item: any, index: any) => (
                   <tr key={index}>
                     {/* <pre> */}
-                    <td className="text-start">
+                    <td className={filt(item.A) ? "text-bold" : "ps-5"}>
                       {/* {item.A.replace(/\s/g, "&nbsp;")} */}
-                      <pre>{item.A}</pre>
+                      {/* <pre> */}
+                        {item.A}
+                      {/* </pre> */}
                     </td>
                     {/* </pre> */}
                     <td className="text-center">-</td>
