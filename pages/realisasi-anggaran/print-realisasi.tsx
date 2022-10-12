@@ -72,15 +72,12 @@ export default function PrintRealisasi() {
                         <SaldoText value={item.E} />
                       </td>
                     )}
-                    {/* <td className="text-end">
-                      <SaldoText value={row.F} />
-                    </td> */}
                     {item.G < 0 ? (
-                      <td className="text-end">
+                      <td className="text-center">
                         (<SaldoText value={item.G * -1} />)
                       </td>
                     ) : (
-                      <td className="text-end">
+                      <td className="text-center">
                         <SaldoText value={item.G} />
                       </td>
                     )}

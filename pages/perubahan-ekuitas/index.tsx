@@ -22,6 +22,16 @@ import SaldoText from "../../components/Atom/SaldoText";
 import { dataLPE, fileNameLpe, periodLPE } from "../../store";
 import ModalOperasional from "../../components/ModalOperasional";
 
+const headsLPE = [
+  "EKUITASAWAL",
+  "SURPLUS/DEFISIT-LO",
+  "DAMPAKKUMULATIFPERUBAHANKEBIJAKANAKUNTANSI",
+  "KOREKSIYANGMENAMBAH/MENGURANGIEKUITAS",
+  "TRANSAKSIANTARENTITAS",
+  "KENAIKAN/PENURUNANEKUITAS",
+  "EKUITASAKHIR",
+];
+
 export default function PerubahanEkuitas() {
   const [show, setShow] = useState(false);
 
@@ -69,6 +79,12 @@ export default function PerubahanEkuitas() {
       localStorage.setItem("upDataLocal", JSON.stringify(d));
       // console.log(d);
     });
+  };
+
+  function filt(a: string) {
+    for (let i in headsLPE) {
+      if (a.replace(/ /g, "") === headsLPE[i]) return true;
+    }
   };
 
   return (
@@ -292,9 +308,9 @@ export default function PerubahanEkuitas() {
                               "&:last-child td, &:last-child th": { border: 0 },
                             }}
                           >
-                            <TableCell component="th" scope="row" align="left">
+                            <TableCell component="th" scope="row" align="left" sx={filt(row.A) ? {fontWeight: 500} : {paddingLeft: 7}}>
                               {/* {row.A.replace(/\s/g, "&nbsp;")} */}
-                              <pre>{row.A}</pre>
+                              {row.A}
                             </TableCell>
                             <TableCell align="center" width={2}>
                               {row.KDWILAYAH}
