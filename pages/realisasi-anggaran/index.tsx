@@ -332,8 +332,6 @@ export default function RealisasiAnggaran() {
                         .filter((row : any) => {
                           if(row.D !== 0 && row.E !== 0 && row.P !== 0){
                             return row;
-                          }else{
-                            return row;
                           }
                         })
                         .map((row: any, index: any) => (

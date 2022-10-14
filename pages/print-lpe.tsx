@@ -42,7 +42,7 @@ export default function PrintLpe() {
     for (let i in headsLPE) {
       if (a.toLowerCase().replace(/ /g, "") === headsLPE[i]) return true;
     }
-  }
+  };
 
   return (
     <>
