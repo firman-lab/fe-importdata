@@ -20,6 +20,24 @@ import ModalOperasional from "../../components/ModalOperasional";
 import { useRecoilState } from "recoil";
 import { dataOp, fileNameOp, periodeOp } from "../../store";
 
+const headsOp = [
+  "PENDAPATANOPERASIONAL",
+  "PENDAPATANPERPAJAKAN",
+  "PENDAPATANNEGARABUKANPAJAK",
+  "PENDAPATANHIBAH",
+  "BEBANOPERASIONAL",
+  "KEGIATANNONOPERASIONAL",
+  // "POSLUARBIASA",
+];
+
+const jumlah = [
+  "jumlahpendapatanperpajakan",
+  "jumlahpendapatannegarabukanpajak",
+  "jumlahbeban",
+  "jumlahpendapatanhibah",
+  "jumlahpendapatan",
+]
+
 export default function Operasional() {
   // const [items, setItems] = useState([]);
 
@@ -77,6 +95,17 @@ export default function Operasional() {
     });
   };
 
+  function filt(a: string) {
+    for (let i in headsOp) {
+      if (a.replace(/ /g, "") == headsOp[i]) return true;
+    }
+  }
+  function filt2(a: string) {
+    for (let i in jumlah) {
+      if (a.toLowerCase().replace(/ /g, "") == jumlah[i]) return true;
+    }
+  }
+  
   return (
     <>
       <div className="screen-cover d-none d-xl-none" />
@@ -311,7 +340,7 @@ export default function Operasional() {
                                 scope="row"
                                 align="left"
                               >
-                                <pre>{row.A}</pre>
+                                <pre className={row.A.match(/^JUMLAH.*$/) || row.A.match(/^SURPLUS.*$/) || filt(row.A) || filt2(row.A) ? "text-start text-bold" : "ps-5"}>{row.A}</pre>
                               </TableCell>
                               {row.E < 0 ? (
                                 <TableCell align="right">

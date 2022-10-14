@@ -22,13 +22,27 @@ import { dataNeraca, fileNameNeraca, periodeNeraca } from "../../store";
 
 const heads = [
   'ASET',
-  'ASETTETAP',
-  'ASETLANCAR',
+  "JUMLAHASET",
   'KEWAJIBAN',
-  'KEWAJIBANJANGKAPANJANG',
-  'KEWAJIBANJANGKA',
+  "JUMLAHKEWAJIBAN",
   'EKUITAS',
-]
+  "JUMLAHKEWAJIBANDANEKUITAS"
+];
+
+const subHead = [
+  'ASETTETAP',
+  "ASETLAINNYA",
+  'ASETLANCAR',
+  'KEWAJIBANJANGKAPANJANG',
+  'JUMLAHKEWAJIBANJANGKAPANJANG',
+  'KEWAJIBANJANGKAPENDEK',
+  'JUMLAHKEWAJIBANJANGKA',
+  "JUMLAHASETLANCAR",
+  "JUMLAHASETTETAP",
+  "JUMLAHASETLAINNYA",
+  "EKUITAS",
+  "JUMLAHEKUITAS",
+];
 
 export default function Neraca() {
   // const [items, setItems] = useState([]);
@@ -95,9 +109,16 @@ export default function Neraca() {
     });
   };
 
-  function filt(a : string) {
+  function filterHead(a : string) {
      for(let i in heads){
       if(a.replace(/ /g,'') === heads[i])
+        return true;
+     }
+    }
+
+  function filterSub(a : string) {
+     for(let i in subHead){
+      if(a.replace(/ /g,'') === subHead[i])
         return true;
      }
     }
@@ -326,10 +347,9 @@ export default function Neraca() {
                             {/* <TableCell align="center">
                                 {(index + 1).toString()}
                               </TableCell> */}
-                            <TableCell component="th" scope="row" align="left" 
-                            className={row.A.match(/^JUMLAH.*$/) || filt(row.A)
-                            ? "text-bold"
-                            : ""}>
+                            <TableCell component="th" scope="row" align="left" sx={filterHead(row.A)
+                            ? {fontWeight: 600} : filterSub(row.A) ? {fontWeight : 600, paddingLeft: 4}
+                            : {paddingLeft: 8}}>
                               {row.A}
                             </TableCell>
                             <TableCell align="center"></TableCell>

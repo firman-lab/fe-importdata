@@ -22,6 +22,16 @@ import SaldoText from "../../components/Atom/SaldoText";
 import { dataLPE, fileNameLpe, periodLPE } from "../../store";
 import ModalOperasional from "../../components/ModalOperasional";
 
+const headsLPE = [
+  "ekuitasawal",
+  "surplus/defisit-lo",
+  "dampakkumulatifperubahankebijakanakuntansi",
+  "koreksiyangmenambah/mengurangiekuitas",
+  "transaksiantarentitas",
+  "kenaikan/penurunanekuitas",
+  "ekuitasakhir",
+]; 
+
 export default function PerubahanEkuitas() {
   const [show, setShow] = useState(false);
 
@@ -70,6 +80,12 @@ export default function PerubahanEkuitas() {
       // console.log(d);
     });
   };
+
+  function filt(a: string) {
+    for (let i in headsLPE) {
+      if (a.toLowerCase().replace(/ /g, "") === headsLPE[i]) return true;
+    }
+  }
 
   return (
     <>

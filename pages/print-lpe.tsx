@@ -8,13 +8,13 @@ import { dataLPE, periodLPE } from "../store";
 import { PeriodeLpeType } from "../store/types";
 
 const headsLPE = [
-  "EKUITASAWAL",
-  "SURPLUS/DEFISIT-LO",
-  "DAMPAKKUMULATIFPERUBAHANKEBIJAKANAKUNTANSI",
-  "KOREKSIYANGMENAMBAH/MENGURANGIEKUITAS",
-  "TRANSAKSIANTARENTITAS",
-  "KENAIKAN/PENURUNANEKUITAS",
-  "EKUITASAKHIR",
+  "ekuitasawal",
+  "surplus/defisit-lo",
+  "dampakkumulatifperubahankebijakanakuntansi",
+  "koreksiyangmenambah/mengurangiekuitas",
+  "transaksiantarentitas",
+  "kenaikan/penurunanekuitas",
+  "ekuitasakhir",
 ];
 
 export default function PrintLpe() {
@@ -40,7 +40,7 @@ export default function PrintLpe() {
 
   function filt(a: string) {
     for (let i in headsLPE) {
-      if (a.replace(/ /g, "") === headsLPE[i]) return true;
+      if (a.toLowerCase().replace(/ /g, "") === headsLPE[i]) return true;
     }
   }
 

@@ -16,11 +16,11 @@ const headsOp = [
 ];
 
 const jumlah = [
-  "JumlahPendapatanPerpajakan",
-  "JumlahPendapatanNegaraBukanPajak",
-  "JUMLAHBEBAN",
-  "JumlahPendapatanHibah",
-  "JumlahPendapatan",
+  "jumlahpendapatanperpajakan",
+  "jumlahpendapatannegarabukanpajak",
+  "jumlahbeban",
+  "jumlahpendapatanhibah",
+  "jumlahpendapatan",
 ]
 
 export default function PrintLpe() {
@@ -49,7 +49,7 @@ export default function PrintLpe() {
   }
   function filt2(a: string) {
     for (let i in jumlah) {
-      if (a.replace(/ /g, "") == jumlah[i]) return true;
+      if (a.toLowerCase().replace(/ /g, "") == jumlah[i]) return true;
     }
   }
 

@@ -6,24 +6,47 @@ import SaldoText from "../../components/Atom/SaldoText";
 import { dataNeraca, periodeNeraca } from "../../store";
 
 const heads = [
-  "ASET",
-  "ASETTETAP",
-  "ASETLANCAR",
-  "KEWAJIBAN",
-  "KEWAJIBANJANGKAPANJANG",
-  "KEWAJIBANJANGKA",
-  "EKUITAS",
+  'ASET',
+  "JUMLAHASET",
+  'KEWAJIBAN',
+  "JUMLAHKEWAJIBAN",
+  'EKUITAS',
+  "JUMLAHKEWAJIBANDANEKUITAS"
 ];
+
+const subHead = [
+  'ASETTETAP',
+  "ASETLAINNYA",
+  'ASETLANCAR',
+  'KEWAJIBANJANGKAPANJANG',
+  'JUMLAHKEWAJIBANJANGKAPANJANG',
+  'KEWAJIBANJANGKAPENDEK',
+  'JUMLAHKEWAJIBANJANGKA',
+  "JUMLAHASETLANCAR",
+  "JUMLAHASETTETAP",
+  "JUMLAHASETLAINNYA",
+  "EKUITAS",
+  "JUMLAHEKUITAS",
+];
+
 
 export default function PrintLpe() {
   const data = useRecoilValue(dataNeraca);
   const periode = useRecoilValue(periodeNeraca);
 
-  function filt(a: string) {
-    for (let i in heads) {
-      if (a.replace(/ /g, "") === heads[i]) return true;
+  function filterHead(a : string) {
+    for(let i in heads){
+     if(a.replace(/ /g,'') === heads[i])
+       return true;
     }
-  }
+   }
+
+ function filterSub(a : string) {
+    for(let i in subHead){
+     if(a.replace(/ /g,'') === subHead[i])
+       return true;
+    }
+   }
 
   return (
     <>
@@ -59,8 +82,8 @@ export default function PrintLpe() {
                     {/* <pre> */}
                     <td
                       className={
-                        item.A.match(/^JUMLAH.*$/) || filt(item.A)
-                          ? "text-bold"
+                        filterHead(item.A)
+                          ? "text-bold" : filterSub(item.A) ? "text-bold ps-4"
                           : "ps-5"
                       }
                     >
