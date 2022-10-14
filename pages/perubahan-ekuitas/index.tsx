@@ -32,6 +32,7 @@ const headsLPE = [
   "ekuitasakhir",
 ]; 
 
+
 export default function PerubahanEkuitas() {
   const [show, setShow] = useState(false);
 
@@ -308,9 +309,9 @@ export default function PerubahanEkuitas() {
                               "&:last-child td, &:last-child th": { border: 0 },
                             }}
                           >
-                            <TableCell component="th" scope="row" align="left">
+                            <TableCell component="th" scope="row" align="left" sx={filt(row.A) ? {fontWeight: 500} : {paddingLeft: 7}}>
                               {/* {row.A.replace(/\s/g, "&nbsp;")} */}
-                              <pre>{row.A}</pre>
+                              {row.A}
                             </TableCell>
                             <TableCell align="center" width={2}>
                               {row.KDWILAYAH}
