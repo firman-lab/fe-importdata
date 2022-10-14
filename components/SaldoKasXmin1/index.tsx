@@ -103,7 +103,7 @@ export default function SaldoKasX(prop : ActiveStepProps) {
                   />
                 </div>
                 <div className="ms-3">
-                  <ButtonInsert onclick={load} />
+                  <ButtonInsert onclick={load} title={""} />
                 </div>
               </div>
               <section className="mt-3">
