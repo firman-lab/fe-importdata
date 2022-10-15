@@ -8,10 +8,10 @@ const Home: NextPage = () => {
     <>
       <div className="screen-cover d-none d-xl-none" />
       <div className="row">
-        <div className="col-12 col-lg-3 col-navbar d-none d-xl-block">
+        <div className="col-lg-3 col-navbar d-none d-xl-block">
           <Sidebar activeMenu="dash"/>
         </div>
-        <div className="col-12 col-xl-9">
+        <div className="col-lg-9">
           <div className="nav">
             <div className="d-flex justify-content-between align-items-center w-100 mb-3 mb-md-0">
               <div className="d-flex justify-content-start align-items-center">
