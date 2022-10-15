@@ -1,25 +1,36 @@
-import Image from 'next/image';
-import React from 'react';
-import MenuItem from './MenuItem';
-interface SidebarProps{
-  activeMenu :
-  | "dash"
-  | "lo"
-  | "lpe"
-  | "ln"
-  | "lra"
-  | "setting";
+import Image from "next/image";
+import React from "react";
+import { useRecoilState } from "recoil";
+import { sidebarShow } from "../../store";
+import MenuItem from "./MenuItem";
+interface SidebarProps {
+  activeMenu: "dash" | "lo" | "lpe" | "ln" | "lra" | "setting";
 }
 
-export default function Sidebar(props:SidebarProps) {
+export default function Sidebar(props: SidebarProps) {
   const { activeMenu } = props;
+
+  const [show, setShow] = useRecoilState(sidebarShow);
 
   return (
     <aside className="sidebar">
       <a href="#" className="sidebar-logo">
         <div className="d-flex justify-content-start align-items-center">
-          <Image src="/assets/icon/kemenhan.png" alt="logo" width={100} height={100} />
+          <Image
+            src="/assets/icon/kemenhan.png"
+            alt="logo"
+            width={100}
+            height={100}
+          />
           <span>FAST</span>
+          <button id="toggle-navbar" onClick={() => {setShow(false);}}>
+            <Image
+              src="/assets/img/global/navbar-times.svg"
+              alt=""
+              height={24}
+              width={24}
+            />
+          </button>
         </div>
       </a>
       <h5 className="sidebar-title">Dashboard</h5>

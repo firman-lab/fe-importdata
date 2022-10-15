@@ -39,6 +39,12 @@ const TransInOutBulananRec = atom({
   key: "trans-input-bulanan",
   default: [],
 });
+
+const sidebarShow = atom({
+  key: "sideShow",
+  default: false,
+});
+
 //state untuk lpe
 const periodLPE = atom<PeriodeLpeType>({
   key: "periode-lpe",
@@ -136,4 +142,5 @@ export {
   dataRealisasi,
   periodeRealisasi,
   fileNameRealisasi,
+  sidebarShow,
 };

@@ -18,7 +18,7 @@ import { PeriodeLpeType } from "../../store/types";
 import { Modal } from "react-bootstrap";
 import ModalOperasional from "../../components/ModalOperasional";
 import { useRecoilState } from "recoil";
-import { dataOp, fileNameOp, periodeOp } from "../../store";
+import { dataOp, fileNameOp, periodeOp, sidebarShow } from "../../store";
 
 const headsOp = [
   "PENDAPATANOPERASIONAL",
@@ -44,6 +44,9 @@ export default function Operasional() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [sideShow, setSideShow] = useRecoilState(sidebarShow);
+
 
   const [items, setItems] = useRecoilState(dataOp);
   const [periode, setPeriode] = useRecoilState<PeriodeLpeType>(periodeOp);
@@ -108,16 +111,16 @@ export default function Operasional() {
   
   return (
     <>
-      <div className="screen-cover d-none d-xl-none" />
+      <div className={`screen-cover ${sideShow === false ? "d-none" : ""} d-xl-none`} />
       <div className="row">
-        <div className="col-12 col-lg-3 col-navbar d-none d-xl-block">
+        <div className={`col-12 col-lg-3 col-navbar ${sideShow === false ? "d-none" : ""} d-xl-block`}>
           <Sidebar activeMenu="lo" />
         </div>
         <div className="col-12 col-xl-9">
           <div className="nav">
             <div className="d-flex justify-content-between align-items-center w-100 mb-3 mb-md-0">
               <div className="d-flex justify-content-start align-items-center">
-                <button id="toggle-navbar" onClick={() => {}}>
+                <button id="toggle-navbar" onClick={() => {setSideShow(true);}}>
                   <img
                     src="../assets/img/global/burger.svg"
                     className="mb-2"

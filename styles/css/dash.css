@@ -20,6 +20,7 @@ html, body {
   right: 0;
   background-color: rgba(0, 0, 0, 0.4);
   display: block;
+  z-index: 2000;
 }
 
 #toggle-navbar {
@@ -42,7 +43,7 @@ aside {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 2;
+  z-index: 2001;
   width: 270px;
 }
 aside #toggle-navbar {

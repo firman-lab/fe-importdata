@@ -1,21 +1,26 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import { useRecoilState } from "recoil";
 import Sidebar from "../components/Sidebar";
+import { sidebarShow } from "../store";
 
 const Home: NextPage = () => {
+
+  const [show, setShow] = useRecoilState(sidebarShow);
   return (
     <>
-      <div className="screen-cover d-none d-xl-none" />
+      <div className={show === false ? "screen-cover d-none d-xl-none" : "screen-cover d-xl-none"} />
       <div className="row">
-        <div className="col-lg-3 col-navbar d-none d-xl-block">
-          <Sidebar activeMenu="dash"/>
+        <div className={show == false ? "col-12 col-lg-3 col-navbar d-none d-xl-block" : "col-12 col-lg-3 col-navbar d-xl-block" }>
+          <Sidebar activeMenu="dash" />
         </div>
-        <div className="col-lg-9">
+        <div className="col-12 col-xl-9">
           <div className="nav">
             <div className="d-flex justify-content-between align-items-center w-100 mb-3 mb-md-0">
               <div className="d-flex justify-content-start align-items-center">
-                <button id="toggle-navbar" onClick={() => {}}>
+                <button id="toggle-navbar" onClick={() => {setShow(true)}}>
                   <Image
                     src="/assets/img/global/burger.svg"
                     alt=""
@@ -26,7 +31,12 @@ const Home: NextPage = () => {
                 <h2 className="nav-title">Overview</h2>
               </div>
               <button className="btn-notif d-block d-md-none">
-                <Image src="/assets/img/global/bell.svg" alt="" height={24} width={24} />
+                <Image
+                  src="/assets/img/global/bell.svg"
+                  alt=""
+                  height={24}
+                  width={24}
+                />
               </button>
             </div>
             <div className="d-flex justify-content-between align-items-center nav-input-container">
@@ -95,8 +105,8 @@ const Home: NextPage = () => {
                   </div>
                 </Link> */}
               </div>
-                <h2 className="content-title">Statistics</h2>
-                <h5 className="content-desc mb-4">Your business growth</h5>
+              <h2 className="content-title">Statistics</h2>
+              <h5 className="content-desc mb-4">Your business growth</h5>
               <div className="col-12 col-md-6 col-lg-4">
                 <div className="statistics-card">
                   <div className="d-flex justify-content-between align-items-center">
