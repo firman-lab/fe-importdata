@@ -27,6 +27,7 @@ import {
   periodeNeraca,
   periodeOp,
   periodeRealisasi,
+  sidebarShow,
 } from "../../store";
 import ModalOperasional from "../../components/ModalOperasional";
 import SaldoText from "../../components/Atom/SaldoText";
@@ -36,6 +37,9 @@ export default function RealisasiAnggaran() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [sideShow, setSideShow] = useRecoilState(sidebarShow);
+
 
   const [items, setItems] = useRecoilState(dataRealisasi);
   const [periode, setPeriode] =
@@ -85,16 +89,16 @@ export default function RealisasiAnggaran() {
 
   return (
     <>
-      <div className="screen-cover d-none d-xl-none" />
+      <div className={`screen-cover ${sideShow === false ? "d-none" : ""} d-xl-none`}/>
       <div className="row">
-        <div className="col-12 col-lg-3 col-navbar d-none d-xl-block">
+        <div className={`col-12 col-lg-3 col-navbar ${sideShow === false ? "d-none" : ""} d-xl-block`}>
           <Sidebar activeMenu="lra" />
         </div>
         <div className="col-12 col-xl-9">
           <div className="nav">
             <div className="d-flex justify-content-between align-items-center w-100 mb-3 mb-md-0">
               <div className="d-flex justify-content-start align-items-center">
-                <button id="toggle-navbar" onClick={() => {}}>
+                <button id="toggle-navbar" onClick={() => {setSideShow(true);}}>
                   <img
                     src="../assets/img/global/burger.svg"
                     className="mb-2"
