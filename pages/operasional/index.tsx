@@ -19,6 +19,7 @@ import { Modal } from "react-bootstrap";
 import ModalOperasional from "../../components/ModalOperasional";
 import { useRecoilState } from "recoil";
 import { dataOp, fileNameOp, periodeOp, sidebarShow } from "../../store";
+import Heads from "../../components/Atom/Head";
 
 const headsOp = [
   "PENDAPATANOPERASIONAL",
@@ -111,6 +112,7 @@ export default function Operasional() {
   
   return (
     <>
+    <Heads title="Laporan Operasional"/>
       <div className={`screen-cover ${sideShow === false ? "d-none" : ""} d-xl-none`} />
       <div className="row">
         <div className={`col-12 col-lg-3 col-navbar ${sideShow === false ? "d-none" : ""} d-xl-block`}>
