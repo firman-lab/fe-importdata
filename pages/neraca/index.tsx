@@ -240,7 +240,7 @@ export default function Neraca() {
                               <img src="../assets/img/global/times.svg" alt="" />
                             </button>  */}
                       </div>
-                      <div className="statistics-list">
+                      {/* <div className="statistics-list">
                         <img
                           className="statistics-image"
                           src="../assets/img/home/history/photo-4.png"
@@ -266,7 +266,7 @@ export default function Neraca() {
                           src="../assets/img/home/history/photo-2.png"
                           alt=""
                         />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

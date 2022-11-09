@@ -14,16 +14,16 @@ export default function Sidebar(props: SidebarProps) {
 
   return (
     <aside className="sidebar">
-      <a href="#" className="sidebar-logo">
-        <div className="d-flex justify-content-start align-items-center">
+      {/* <a href="#" className="sidebar-logo"> */}
+        <div className="d-flex justify-content-center align-items-center">
           <Image
-            src="/assets/icon/kemenhan.png"
+            src="/assets/icon/tni-al.png"
             alt="logo"
             width={100}
             height={100}
           />
-          <span>FAST</span>
-          <button id="toggle-navbar" onClick={() => {setShow(false);}}>
+          {/* <span>FAST</span> */}
+          <button id="toggle-navbar" className="ps-2" onClick={() => {setShow(false);}}>
             <Image
               src="/assets/img/global/navbar-times.svg"
               alt=""
@@ -32,7 +32,7 @@ export default function Sidebar(props: SidebarProps) {
             />
           </button>
         </div>
-      </a>
+      {/* </a> */}
       <h5 className="sidebar-title">Dashboard</h5>
       <MenuItem
         title="Main"
@@ -69,7 +69,7 @@ export default function Sidebar(props: SidebarProps) {
       <MenuItem
         title="Setting"
         active={activeMenu === "setting"}
-        href="/classified"
+        href="#"
         icon="bxs-cube-alt"
       />
     </aside>

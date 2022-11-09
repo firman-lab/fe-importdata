@@ -163,7 +163,7 @@ export default function Operasional() {
                             Import data excel .xlsx
                           </h5>
                           <h3 className="statistics-value text-white">
-                            Laporan Operasional     
+                            Import Data Operasional     
                           </h3>
                           <Button
                             onClick={handleShow}
@@ -227,7 +227,7 @@ export default function Operasional() {
                           <img src="../assets/img/global/times.svg" alt="" />
                         </button>  */}
                       </div>
-                      <div className="statistics-list">
+                      {/* <div className="statistics-list">
                         <img
                           className="statistics-image"
                           src="../assets/img/home/history/photo-4.png"
@@ -253,7 +253,7 @@ export default function Operasional() {
                           src="../assets/img/home/history/photo-2.png"
                           alt=""
                         />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

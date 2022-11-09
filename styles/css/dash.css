@@ -1,5 +1,5 @@
 html, body {
-  font-family: "Poppins";
+  font-family: "Roboto";
   font-style: normal;
   background-color: #F8F8FA;
   overflow-x: hidden;
@@ -20,7 +20,7 @@ html, body {
   right: 0;
   background-color: rgba(0, 0, 0, 0.4);
   display: block;
-  z-index: 2000;
+  z-index: 1000;
 }
 
 #toggle-navbar {
@@ -43,7 +43,7 @@ aside {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 2001;
+  z-index: 1001;
   width: 270px;
 }
 aside #toggle-navbar {
@@ -51,7 +51,7 @@ aside #toggle-navbar {
 }
 .sidebar-logo {
   display: flex;
-  justify-content: space-between;
+  justify-content:space-around;
   align-items: center;
   text-decoration: none;
 }

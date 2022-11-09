@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import ERekonPendapatan from "../../components/ERekonPendapatan";
 import ERekonBelanja from "../../components/ERekonBelanja";
 import { useRecoilState } from "recoil";
-import { activeStepRec, TransInOutBulananRec } from "../../store";
+// import { activeStepRec, TransInOutBulananRec } from "../../store";
 import SaldoKasX from "../../components/SaldoKasX";
 import SaldoKasXmin1 from "../../components/SaldoKasXmin1";
 import ListTransBulanan from "../../components/ListingTransBulanan";
@@ -29,7 +29,7 @@ const steps = [
 ];
 
 export default function ImportData() {
-  const [activeStep, setActiveStep] = useRecoilState(activeStepRec);
+  // const [activeStep, setActiveStep] = useRecoilState(activeStepRec);
 
   // const [skipped, setSkipped] = React.useState(new Set<number>());
 
@@ -70,9 +70,9 @@ export default function ImportData() {
   //   });
   // };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
+  // const handleReset = () => {
+  //   setActiveStep(0);
+  // };
 
   return (
     <div className="vh-100">
@@ -84,7 +84,7 @@ export default function ImportData() {
         }}
       >
         <div className="p-2">
-          <Stepper activeStep={activeStep}>
+          {/* <Stepper activeStep={activeStep}>
             {steps.map((label, index) => {
               const stepProps: { completed?: boolean } = {};
               const labelProps: {
@@ -104,9 +104,9 @@ export default function ImportData() {
                 </Step>
               );
             })}
-          </Stepper>
+          </Stepper> */}
         </div>
-        {activeStep === steps.length ? (
+        {/* {activeStep === steps.length ? (
           <React.Fragment>
             <div className="text-center m-5">
               All steps completed - you&apos;re finished
@@ -137,7 +137,7 @@ export default function ImportData() {
               <ListTransBulanan steplength={steps.length} />
             ) : (<TransInOutBulanan steplength={steps.length}/>)}
           </React.Fragment>
-        )}
+        )} */}
       </Box>
     </div>
   );

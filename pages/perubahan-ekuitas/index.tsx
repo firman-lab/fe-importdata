@@ -21,6 +21,7 @@ import { PeriodeLpeType } from "../../store/types";
 import SaldoText from "../../components/Atom/SaldoText";
 import { dataLPE, fileNameLpe, periodLPE } from "../../store";
 import ModalOperasional from "../../components/ModalOperasional";
+import Heads from "../../components/Atom/Head";
 
 const headsLPE = [
   "ekuitasawal",
@@ -30,8 +31,7 @@ const headsLPE = [
   "transaksiantarentitas",
   "kenaikan/penurunanekuitas",
   "ekuitasakhir",
-]; 
-
+];
 
 export default function PerubahanEkuitas() {
   const [show, setShow] = useState(false);
@@ -90,6 +90,7 @@ export default function PerubahanEkuitas() {
 
   return (
     <>
+      <Heads title="Fist - Laporan Perubahan Ekuitas" />
       <div className="screen-cover d-none d-xl-none" />
       <div className="row">
         <div className="col-12 col-lg-3 col-navbar d-none d-xl-block">
@@ -142,7 +143,7 @@ export default function PerubahanEkuitas() {
                             Import data Excel.xlsx
                           </h5>
                           <h3 className="statistics-value text-white">
-                            Laporan Perubahan Ekuitas
+                            Import Data Perubahan Ekuitas
                           </h3>
                           <Button
                             onClick={handleShow}
@@ -153,7 +154,7 @@ export default function PerubahanEkuitas() {
                               "&:hover": {
                                 backgroundColor: " #2721c4",
                               },
-                              fontSize:24,
+                              fontSize: 24,
                               width: 250,
                               height: 65,
                             }}
@@ -211,7 +212,7 @@ export default function PerubahanEkuitas() {
                           )}
                         </div>
                       </div>
-                      <div className="statistics-list">
+                      {/* <div className="statistics-list">
                         <img
                           className="statistics-image"
                           src="../assets/img/home/history/photo-4.png"
@@ -237,7 +238,7 @@ export default function PerubahanEkuitas() {
                           src="../assets/img/home/history/photo-2.png"
                           alt=""
                         />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -249,7 +250,7 @@ export default function PerubahanEkuitas() {
                     <div className="p-2">
                       <Button
                         variant="contained"
-                        disabled={items.length > 0 ? false : true}                       
+                        disabled={items.length > 0 ? false : true}
                         onClick={() => {
                           setItems([]);
                           setFileName("");
@@ -309,7 +310,16 @@ export default function PerubahanEkuitas() {
                               "&:last-child td, &:last-child th": { border: 0 },
                             }}
                           >
-                            <TableCell component="th" scope="row" align="left" sx={filt(row.A) ? {fontWeight: 500} : {paddingLeft: 7}}>
+                            <TableCell
+                              component="th"
+                              scope="row"
+                              align="left"
+                              sx={
+                                filt(row.A)
+                                  ? { fontWeight: 500 }
+                                  : { paddingLeft: 7 }
+                              }
+                            >
                               {/* {row.A.replace(/\s/g, "&nbsp;")} */}
                               {row.A}
                             </TableCell>

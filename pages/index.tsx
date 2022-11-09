@@ -3,24 +3,42 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
+import Heads from "../components/Atom/Head";
 import Sidebar from "../components/Sidebar";
 import { sidebarShow } from "../store";
 
 const Home: NextPage = () => {
-
   const [show, setShow] = useRecoilState(sidebarShow);
   return (
     <>
-      <div className={show === false ? "screen-cover d-none d-xl-none" : "screen-cover d-xl-none"} />
+      <Heads title="Fist" />
+      <div
+        className={
+          show === false
+            ? "screen-cover d-none d-xl-none"
+            : "screen-cover d-xl-none"
+        }
+      />
       <div className="row">
-        <div className={show == false ? "col-12 col-lg-3 col-navbar d-none d-xl-block" : "col-12 col-lg-3 col-navbar d-xl-block" }>
+        <div
+          className={
+            show == false
+              ? "col-12 col-lg-3 col-navbar d-none d-xl-block"
+              : "col-12 col-lg-3 col-navbar d-xl-block"
+          }
+        >
           <Sidebar activeMenu="dash" />
         </div>
         <div className="col-12 col-xl-9">
           <div className="nav">
             <div className="d-flex justify-content-between align-items-center w-100 mb-3 mb-md-0">
               <div className="d-flex justify-content-start align-items-center">
-                <button id="toggle-navbar" onClick={() => {setShow(true)}}>
+                <button
+                  id="toggle-navbar"
+                  onClick={() => {
+                    setShow(true);
+                  }}
+                >
                   <Image
                     src="/assets/img/global/burger.svg"
                     alt=""

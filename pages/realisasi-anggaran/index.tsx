@@ -74,7 +74,12 @@ export default function RealisasiAnggaran() {
       // localStorage.setItem("upDataOperasional", JSON.stringify(d));
       setItems(
         d.filter((row: any) => {
-          if (row.B !== "" && row.B !== "2" && row.B !== "URAIAN" && row.B !== "PEMBIAYAAN") {
+          if (
+            row.B !== "" &&
+            row.B !== "2" &&
+            row.B !== "URAIAN" &&
+            row.B !== "PEMBIAYAAN"
+          ) {
             return row;
           }
         })
@@ -137,7 +142,7 @@ export default function RealisasiAnggaran() {
                             Import data Excel.xlsx
                           </h5>
                           <h3 className="statistics-value text-white">
-                            Laporan Realisasi Anggaran
+                            Import Data Realisasi Anggaran
                           </h3>
                           <Button
                             onClick={handleShow}
@@ -148,7 +153,7 @@ export default function RealisasiAnggaran() {
                               "&:hover": {
                                 backgroundColor: " #2721c4",
                               },
-                              fontSize:24,
+                              fontSize: 24,
                               width: 250,
                               height: 65,
                             }}
@@ -209,7 +214,7 @@ export default function RealisasiAnggaran() {
                           <img src="../assets/img/global/times.svg" alt="" />
                         </button>
                       </div>
-                      <div className="statistics-list">
+                      {/* <div className="statistics-list">
                         <img
                           className="statistics-image"
                           src="../assets/img/home/history/photo-4.png"
@@ -235,7 +240,7 @@ export default function RealisasiAnggaran() {
                           src="../assets/img/home/history/photo-2.png"
                           alt=""
                         />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -329,43 +334,45 @@ export default function RealisasiAnggaran() {
                       </TableHead>
                       <TableBody>
                         {items
-                        .filter((row : any) => {
-                          if(row.D !== 0 && row.E !== 0 && row.P !== 0){
-                            return row;
-                          }
-                        })
-                        .map((row: any, index: any) => (
-                          <TableRow
-                            key={index}
-                            sx={{
-                              "&:last-child td, &:last-child th": { border: 0 },
-                            }}
-                          >
-                            <TableCell
-                              align="center"
-                              width={2}
-                              className="text-bold"
+                          .filter((row: any) => {
+                            if (row.D !== 0 && row.E !== 0 && row.P !== 0) {
+                              return row;
+                            }
+                          })
+                          .map((row: any, index: any) => (
+                            <TableRow
+                              key={index}
+                              sx={{
+                                "&:last-child td, &:last-child th": {
+                                  border: 0,
+                                },
+                              }}
                             >
-                              {row.A}
-                            </TableCell>
-                            <TableCell
-                              component="th"
-                              scope="row"
-                              align="left"
-                              sx={{ verticalAlign: "middle" }}
-                            >
-                              {/* {row.A.replace(/\s/g, "&nbsp;")} */}
-                              <pre
-                                className={
-                                  row.A !== "" || row.B.match(/^JUMLAH.*$/)
-                                    ? "text-bold"
-                                    : ""
-                                }
+                              <TableCell
+                                align="center"
+                                width={2}
+                                className="text-bold"
                               >
-                                {row.B}
-                              </pre>
-                            </TableCell>
-                            {row.D < 0 ? (
+                                {row.A}
+                              </TableCell>
+                              <TableCell
+                                component="th"
+                                scope="row"
+                                align="left"
+                                sx={{ verticalAlign: "middle" }}
+                              >
+                                {/* {row.A.replace(/\s/g, "&nbsp;")} */}
+                                <pre
+                                  className={
+                                    row.A !== "" || row.B.match(/^JUMLAH.*$/)
+                                      ? "text-bold"
+                                      : ""
+                                  }
+                                >
+                                  {row.B}
+                                </pre>
+                              </TableCell>
+                              {row.D < 0 ? (
                                 <TableCell align="right">
                                   (<SaldoText value={row.D * -1} />)
                                 </TableCell>
@@ -374,7 +381,7 @@ export default function RealisasiAnggaran() {
                                   <SaldoText value={row.D} />
                                 </TableCell>
                               )}
-                            {row.E < 0 ? (
+                              {row.E < 0 ? (
                                 <TableCell align="right">
                                   (<SaldoText value={row.E * -1} />)
                                 </TableCell>
@@ -383,7 +390,7 @@ export default function RealisasiAnggaran() {
                                   <SaldoText value={row.E} />
                                 </TableCell>
                               )}
-                            {row.F < 0 ? (
+                              {row.F < 0 ? (
                                 <TableCell align="right">
                                   (<SaldoText value={row.F * -1} />)
                                 </TableCell>
@@ -392,7 +399,7 @@ export default function RealisasiAnggaran() {
                                   <SaldoText value={row.F} />
                                 </TableCell>
                               )}
-                            {row.G < 0 ? (
+                              {row.G < 0 ? (
                                 <TableCell align="right">
                                   (<SaldoText value={row.G * -1} />)
                                 </TableCell>
@@ -401,7 +408,7 @@ export default function RealisasiAnggaran() {
                                   <SaldoText value={row.G} />
                                 </TableCell>
                               )}
-                            {row.P < 0 ? (
+                              {row.P < 0 ? (
                                 <TableCell align="right">
                                   (<SaldoText value={row.P * -1} />)
                                 </TableCell>
@@ -410,8 +417,8 @@ export default function RealisasiAnggaran() {
                                   <SaldoText value={row.P} />
                                 </TableCell>
                               )}
-                          </TableRow>
-                        ))}
+                            </TableRow>
+                          ))}
                       </TableBody>
                     </Table>
                   </TableContainer>
